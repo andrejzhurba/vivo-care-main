@@ -1,1 +1,4 @@
 /* /index.html 200
+/admin/* /index.html 200
+/admin/diapers /index.html 200
+/admin/underpads /index.html 200
