@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 
 export const Route = createFileRoute("/admin/diapers")({
   head: () => ({
@@ -9,6 +9,8 @@ export const Route = createFileRoute("/admin/diapers")({
   }),
   component: AdminDiapersPage,
 });
+
+const ADMIN_PASSWORD = "vivo2025";
 
 interface DiaperSize {
   id: string;
@@ -19,6 +21,8 @@ interface DiaperSize {
   drops: number;
   price: string;
   qty: string;
+  image?: string;
+  buyLink?: string;
 }
 
 const defaultSizes: DiaperSize[] = [
@@ -75,6 +79,8 @@ const defaultSizes: DiaperSize[] = [
 ];
 
 function AdminDiapersPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
   const [sizes, setSizes] = useState<DiaperSize[]>(defaultSizes);
   const [newSize, setNewSize] = useState({
     size: "",
@@ -84,18 +90,65 @@ function AdminDiapersPage() {
     drops: 3,
     price: "",
     qty: "30 шт",
+    image: "",
+    buyLink: "",
   });
 
   const handleAdd = () => {
     if (!newSize.size || !newSize.price) return;
     const id = Date.now().toString();
     setSizes([...sizes, { ...newSize, id } as DiaperSize]);
-    setNewSize({ size: "", label: "", waist: "", weight: "", drops: 3, price: "", qty: "30 шт" });
+    setNewSize({
+      size: "",
+      label: "",
+      waist: "",
+      weight: "",
+      drops: 3,
+      price: "",
+      qty: "30 шт",
+      image: "",
+      buyLink: "",
+    });
   };
 
   const handleDelete = (id: string) => {
     setSizes(sizes.filter((s) => s.id !== id));
   };
+
+  const handleLogin = (e: FormEvent) => {
+    e.preventDefault();
+    if (password === ADMIN_PASSWORD) {
+      setIsAuthenticated(true);
+    } else {
+      alert("Невірний пароль!");
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <Header />
+        <section className="py-20 px-4">
+          <div className="mx-auto max-w-md">
+            <h1 className="text-2xl font-bold text-center mb-8">Вхід до адмін-панелі</h1>
+            <form onSubmit={handleLogin} className="card-product p-6">
+              <input
+                type="password"
+                placeholder="Введіть пароль"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full border rounded px-3 py-2 mb-4"
+              />
+              <button type="submit" className="btn-buy w-full">
+                Увійти
+              </button>
+            </form>
+          </div>
+        </section>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -103,7 +156,15 @@ function AdminDiapersPage() {
 
       <section className="py-12 px-4">
         <div className="mx-auto max-w-4xl">
-          <h1 className="text-3xl font-bold mb-8">Адмін-панель: Підгузки-труси</h1>
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-3xl font-bold">Адмін-панель: Підгузки-труси</h1>
+            <button
+              onClick={() => setIsAuthenticated(false)}
+              className="text-sm text-muted-foreground hover:text-foreground"
+            >
+              Вийти
+            </button>
+          </div>
 
           <div className="card-product p-6 mb-8">
             <h2 className="text-xl font-bold mb-4">Додати новий розмір</h2>
@@ -148,6 +209,20 @@ function AdminDiapersPage() {
                 placeholder="Ціна (560 ₴)"
                 value={newSize.price}
                 onChange={(e) => setNewSize({ ...newSize, price: e.target.value })}
+                className="border rounded px-3 py-2"
+              />
+              <input
+                type="text"
+                placeholder="URL картинки"
+                value={newSize.image}
+                onChange={(e) => setNewSize({ ...newSize, image: e.target.value })}
+                className="border rounded px-3 py-2"
+              />
+              <input
+                type="text"
+                placeholder="Посилання для покупки"
+                value={newSize.buyLink}
+                onChange={(e) => setNewSize({ ...newSize, buyLink: e.target.value })}
                 className="border rounded px-3 py-2"
               />
               <button onClick={handleAdd} className="btn-buy sm:col-span-3">
