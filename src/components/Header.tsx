@@ -15,9 +15,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
       <div className="mx-auto max-w-5xl flex items-center justify-between px-4 py-3">
-        <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="VIVO Care" width={40} height={40} className="h-10 w-10 object-contain" />
-          <span className="text-lg font-bold text-foreground tracking-tight">VIVO Care</span>
+        <Link to="/" className="flex items-center">
+          <img src={logo} alt="VIVO Care" width={40} height={40} className="h-10 w-auto object-contain" />
         </Link>
 
         {/* Desktop nav */}
