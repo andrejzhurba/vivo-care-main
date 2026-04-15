@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhereToBuy } from "@/components/WhereToBuy";
-import underpadsImg from "@/assets/underpads-product.png";
 
 export const Route = createFileRoute("/underpads")({
   head: () => ({
@@ -102,15 +101,17 @@ function UnderpadsPage() {
               Купити на Капітошка →
             </a>
           </div>
-          <div className="flex-shrink-0">
-            <img
-              src={underpadsImg}
-              alt="Пелюшки поглинаючі VIVO Care 60×90 см"
-              width={320}
-              height={400}
-              className="w-56 md:w-72 object-contain drop-shadow-2xl"
-            />
-          </div>
+        </div>
+      </section>
+
+      {/* Hero Image */}
+      <section className="py-8 px-4 bg-white">
+        <div className="mx-auto max-w-4xl">
+          <img
+            src="/src/assets/underpads-product.png"
+            alt="Пелюшки поглинаючі VIVO Care 60×90 см"
+            className="w-full max-w-2xl mx-auto object-contain drop-shadow-2xl"
+          />
         </div>
       </section>
 

@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhereToBuy } from "@/components/WhereToBuy";
-import diapersHero5 from "@/assets/diapers-hero5.jpg";
 import diapersS from "@/assets/diapers-S.png";
 import diapersM from "@/assets/diapers-M.png";
 import diapersL from "@/assets/diapers-L.png";
@@ -141,7 +140,13 @@ function DropsIndicator({ count }: { count: number }) {
 }
 
 function DiapersPage() {
-  const heroImages = [diapersS, diapersM, diapersL, diapersXL, diapersXXL, diapersHero5];
+  const heroImages = [
+    "/src/assets/diapers-hero1.jpg",
+    "/src/assets/diapers-hero2.jpg",
+    "/src/assets/diapers-hero3.jpg",
+    "/src/assets/diapers-hero4.jpg",
+    "/src/assets/diapers-hero5.jpg",
+  ];
   const [currentHero, setCurrentHero] = useState(0);
 
   const nextHero = () => setCurrentHero((prev) => (prev + 1) % heroImages.length);
@@ -172,35 +177,37 @@ function DiapersPage() {
               Обрати розмір ↓
             </a>
           </div>
-          <div className="flex-shrink-0 relative">
-            <button
-              onClick={prevHero}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg text-violet-accent font-bold"
-            >
-              ‹
-            </button>
-            <img
-              src={heroImages[currentHero]}
-              alt="Підгузки-трусики VIVO Care"
-              width={320}
-              height={320}
-              className="w-64 h-64 md:w-80 md:h-80 object-contain drop-shadow-2xl"
-            />
-            <button
-              onClick={nextHero}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg text-violet-accent font-bold"
-            >
-              ›
-            </button>
-            <div className="flex justify-center gap-2 mt-4">
-              {heroImages.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentHero(i)}
-                  className={`w-2 h-2 rounded-full ${i === currentHero ? "bg-violet-accent" : "bg-white/50"}`}
-                />
-              ))}
-            </div>
+        </div>
+      </section>
+
+      {/* Hero Image */}
+      <section className="py-8 px-4 bg-white">
+        <div className="mx-auto max-w-4xl relative">
+          <button
+            onClick={prevHero}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-violet-100 hover:bg-violet-200 rounded-full p-3 shadow-lg text-violet-600 font-bold"
+          >
+            ‹
+          </button>
+          <img
+            src={heroImages[currentHero]}
+            alt="Підгузки-трусики VIVO Care"
+            className="w-full max-w-2xl mx-auto object-contain drop-shadow-2xl"
+          />
+          <button
+            onClick={nextHero}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-violet-100 hover:bg-violet-200 rounded-full p-3 shadow-lg text-violet-600 font-bold"
+          >
+            ›
+          </button>
+          <div className="flex justify-center gap-2 mt-6">
+            {heroImages.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentHero(i)}
+                className={`w-3 h-3 rounded-full ${i === currentHero ? "bg-violet-600" : "bg-gray-300"}`}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -243,32 +250,30 @@ function DiapersPage() {
       </section>
 
       {/* Size cards */}
-      <section id="sizes" className="py-12 px-4">
+      <section id="sizes" className="py-14 md:py-20 px-4">
         <div className="mx-auto max-w-5xl">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground mb-2">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground text-center mb-2">
             Оберіть свій розмір
           </h2>
-          <p className="text-sm text-muted-foreground mb-6">
+          <p className="text-base text-muted-foreground text-center mb-8 max-w-2xl mx-auto">
             Якщо ваші параметри між двома розмірами — обирайте більший для кращого комфорту.
           </p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {sizes.map((s) => (
-              <div key={s.size} className="card-product flex flex-col">
-                <div className="flex items-center gap-3 mb-3">
+              <div key={s.size} className="card-product flex flex-col p-6">
+                <div className="flex flex-col items-center mb-4">
                   <img
                     src={s.img}
                     alt={`VIVO Care ${s.size}`}
-                    className="w-20 h-20 object-contain rounded"
+                    className="w-40 h-40 md:w-48 md:h-48 object-contain rounded-lg mb-4"
                   />
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="badge-size text-lg">{s.size}</span>
-                      <span className="text-muted-foreground text-xs">{s.label}</span>
-                    </div>
-                    <DropsIndicator count={s.drops} />
+                  <div className="flex items-center gap-2">
+                    <span className="badge-size text-xl px-3 py-1">{s.size}</span>
+                    <span className="text-muted-foreground text-sm">{s.label}</span>
                   </div>
+                  <DropsIndicator count={s.drops} />
                 </div>
-                <dl className="text-sm space-y-1.5 flex-1">
+                <dl className="text-base space-y-2 flex-1">
                   <div className="flex justify-between">
                     <dt className="text-muted-foreground">Обхват талії</dt>
                     <dd className="text-foreground font-medium">{s.waist}</dd>
@@ -283,14 +288,14 @@ function DiapersPage() {
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-muted-foreground">Ціна</dt>
-                    <dd className="text-foreground font-bold">{s.price}</dd>
+                    <dd className="text-foreground font-bold text-lg">{s.price}</dd>
                   </div>
                 </dl>
                 <a
                   href={s.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-buy mt-4 text-center text-sm justify-center"
+                  className="btn-buy mt-6 text-center justify-center py-3 text-base"
                 >
                   Купити на Капітошка →
                 </a>
