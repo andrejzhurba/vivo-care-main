@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhereToBuy } from "@/components/WhereToBuy";
@@ -21,6 +22,10 @@ export const Route = createFileRoute("/underpads")({
   }),
   component: UnderpadsPage,
 });
+
+const underpadsSizes = [
+  { id: "1", size: "Standard", dimensions: "60×90 см", qty: 30, price: "529 ₴", drops: 5 },
+];
 
 const specs = [
   { label: "Розмір", value: "60 × 90 см" },
@@ -79,6 +84,27 @@ const useCases = [
 ];
 
 function UnderpadsPage() {
+  const [sizes, setSizes] = useState(underpadsSizes);
+  const [showAdmin, setShowAdmin] = useState(false);
+  const [newSize, setNewSize] = useState({
+    size: "",
+    dimensions: "",
+    qty: 30,
+    price: "",
+    drops: 3,
+  });
+
+  const handleAddSize = () => {
+    if (!newSize.size || !newSize.dimensions || !newSize.price) return;
+    const id = Date.now().toString();
+    setSizes([...sizes, { ...newSize, id } as (typeof underpadsSizes)[0]]);
+    setNewSize({ size: "", dimensions: "", qty: 30, price: "", drops: 3 });
+  };
+
+  const handleDeleteSize = (id: string) => {
+    setSizes(sizes.filter((s) => s.id !== id));
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -181,6 +207,119 @@ function UnderpadsPage() {
           },
         ]}
       />
+
+      {/* Sizes Section */}
+      <section id="sizes" className="py-12 px-4">
+        <div className="mx-auto max-w-4xl">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-8">
+            Оберіть розмір
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sizes.map((s) => (
+              <div key={s.id} className="card-product p-6 text-center">
+                <h3 className="text-xl font-bold mb-2">{s.size}</h3>
+                <p className="text-muted-foreground mb-2">{s.dimensions}</p>
+                <p className="text-2xl font-bold text-violet-accent mb-2">{s.price}</p>
+                <p className="text-sm text-muted-foreground mb-4">{s.qty} шт</p>
+                <div className="flex justify-center gap-1 mb-4">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <span
+                      key={i}
+                      className={`text-xs ${i < s.drops ? "text-violet-accent" : "text-muted-foreground/30"}`}
+                    >
+                      💧
+                    </span>
+                  ))}
+                </div>
+                <a
+                  href="https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-buy"
+                >
+                  Купити →
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Admin Panel Toggle */}
+      <section className="py-8 px-4 bg-muted/30">
+        <div className="mx-auto max-w-4xl text-center">
+          <button
+            onClick={() => setShowAdmin(!showAdmin)}
+            className="text-sm text-muted-foreground hover:text-violet-accent"
+          >
+            {showAdmin ? "Сховати адмін-панель" : "Показати адмін-панель"}
+          </button>
+
+          {showAdmin && (
+            <div className="mt-6 card-product p-6">
+              <h3 className="text-lg font-bold mb-4">Додати новий розмір</h3>
+              <div className="grid sm:grid-cols-2 gap-4 mb-4">
+                <input
+                  type="text"
+                  placeholder="Назва (Standard, Plus)"
+                  value={newSize.size}
+                  onChange={(e) => setNewSize({ ...newSize, size: e.target.value })}
+                  className="border rounded px-3 py-2"
+                />
+                <input
+                  type="text"
+                  placeholder="Розміри (60×90 см)"
+                  value={newSize.dimensions}
+                  onChange={(e) => setNewSize({ ...newSize, dimensions: e.target.value })}
+                  className="border rounded px-3 py-2"
+                />
+                <input
+                  type="number"
+                  placeholder="Кількість"
+                  value={newSize.qty}
+                  onChange={(e) => setNewSize({ ...newSize, qty: Number(e.target.value) })}
+                  className="border rounded px-3 py-2"
+                />
+                <input
+                  type="text"
+                  placeholder="Ціна (529 ₴)"
+                  value={newSize.price}
+                  onChange={(e) => setNewSize({ ...newSize, price: e.target.value })}
+                  className="border rounded px-3 py-2"
+                />
+                <select
+                  value={newSize.drops}
+                  onChange={(e) => setNewSize({ ...newSize, drops: Number(e.target.value) })}
+                  className="border rounded px-3 py-2"
+                >
+                  <option value={3}>3 краплі</option>
+                  <option value={5}>5 крапель</option>
+                  <option value={7}>7 крапель</option>
+                  <option value={9}>9 крапель</option>
+                </select>
+                <button onClick={handleAddSize} className="btn-buy">
+                  Додати
+                </button>
+              </div>
+
+              <h4 className="font-bold mb-2">Поточні розміри:</h4>
+              <div className="space-y-2">
+                {sizes.map((s) => (
+                  <div key={s.id} className="flex justify-between items-center text-sm">
+                    <span>
+                      {s.size} ({s.dimensions}) - {s.price}
+                    </span>
+                    <button onClick={() => handleDeleteSize(s.id)} className="text-red-500 text-sm">
+                      Видалити
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
