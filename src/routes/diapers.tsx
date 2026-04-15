@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhereToBuy } from "@/components/WhereToBuy";
-import diapersHero from "@/assets/diapers-hero.jpg";
+import diapersHero5 from "@/assets/diapers-hero5.jpg";
 import diapersS from "@/assets/diapers-S.png";
 import diapersM from "@/assets/diapers-M.png";
 import diapersL from "@/assets/diapers-L.png";
@@ -140,6 +141,13 @@ function DropsIndicator({ count }: { count: number }) {
 }
 
 function DiapersPage() {
+  const heroImages = [diapersS, diapersM, diapersL, diapersXL, diapersXXL, diapersHero5];
+  const [currentHero, setCurrentHero] = useState(0);
+
+  const nextHero = () => setCurrentHero((prev) => (prev + 1) % heroImages.length);
+  const prevHero = () =>
+    setCurrentHero((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -164,14 +172,35 @@ function DiapersPage() {
               Обрати розмір ↓
             </a>
           </div>
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 relative">
+            <button
+              onClick={prevHero}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg text-violet-accent font-bold"
+            >
+              ‹
+            </button>
             <img
-              src={diapersHero}
+              src={heroImages[currentHero]}
               alt="Підгузки-трусики VIVO Care"
               width={320}
               height={320}
               className="w-64 h-64 md:w-80 md:h-80 object-contain drop-shadow-2xl"
             />
+            <button
+              onClick={nextHero}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg text-violet-accent font-bold"
+            >
+              ›
+            </button>
+            <div className="flex justify-center gap-2 mt-4">
+              {heroImages.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentHero(i)}
+                  className={`w-2 h-2 rounded-full ${i === currentHero ? "bg-violet-accent" : "bg-white/50"}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
