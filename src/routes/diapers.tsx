@@ -39,6 +39,8 @@ const sizes = [
     qty: "30 шт",
     img: diapersS,
     url: "https://kapitoshka.kiev.ua/ua/p2905451595-podguzniki-trusy-dlya.html",
+    description:
+      "Підгузки-трусики для дорослих розміру S (Small), 30 шт. VivoCare — комфортні підгузки-трусики з еластичним поясом 360°, які сидять зручно, як звичайна білизна. Вони забезпечують надійне поглинання, захист від протікань і комфорт упродовж дня та ночі. Підходять для активних людей, щоденного використання та догляду за лежачими пацієнтами.",
   },
   {
     size: "M",
@@ -50,6 +52,8 @@ const sizes = [
     qty: "30 шт",
     img: diapersM,
     url: "https://kapitoshka.kiev.ua/ua/p2905451614-podguzniki-trusy-dlya.html",
+    description:
+      "Підгузки-трусики для дорослих розміру M (Medium), 30 шт. Підходять для щоденного використання та догляду. Еластичний пояс 360° забезпечує комфортну посадку та свободу рухів.",
   },
   {
     size: "L",
@@ -61,6 +65,8 @@ const sizes = [
     qty: "30 шт",
     img: diapersL,
     url: "https://kapitoshka.kiev.ua/ua/p2905451581-podguzniki-trusy-dlya.html",
+    description:
+      "Підгузки-трусики для дорослих розміру L (Large), 30 шт. Зручні для щоденного використання. Еластичний пояс 360° та м'які манжети зменшують ризик протікань.",
   },
   {
     size: "XL",
@@ -72,6 +78,45 @@ const sizes = [
     qty: "30 шт",
     img: diapersXL,
     url: "https://kapitoshka.kiev.ua/ua/p2905451613-podguzniki-trusy-dlya.html",
+    description:
+      "Підгузки-трусики для дорослих розміру XL (Extra Large), 30 шт. Для більшої фігури. Незалежно від будови тіла, зросту та індивідуальних особливостей посадки вибирайте найбільший розмір для більшого комфорту.",
+  },
+  {
+    size: "M",
+    label: "Medium",
+    waist: "75–100 см",
+    weight: "55–85 кг",
+    drops: 9,
+    price: "610 ₴",
+    qty: "30 шт",
+    img: diapersM,
+    url: "https://kapitoshka.kiev.ua/ua/p2905451614-podguzniki-trusy-dlya.html",
+    description: "Підгузки-трусики розміру M для талії 75-100 см. Найпопулярніший розмір.",
+  },
+  {
+    size: "L",
+    label: "Large",
+    waist: "90–120 см",
+    weight: "80–125 кг",
+    drops: 9,
+    price: "680 ₴",
+    qty: "30 шт",
+    img: diapersL,
+    url: "https://kapitoshka.kiev.ua/ua/p2905451581-podguzniki-trusy-dlya.html",
+    description:
+      "Підгузки-трусики розміру L для талії 90-120 см. Зручні для щоденного використання.",
+  },
+  {
+    size: "XL",
+    label: "Extra Large",
+    waist: "120–145 см",
+    weight: "110–150 кг",
+    drops: 9,
+    price: "700 ₴",
+    qty: "30 шт",
+    img: diapersXL,
+    url: "https://kapitoshka.kiev.ua/ua/p2905451613-podguzniki-trusy-dlya.html",
+    description: "Підгузки-трусики розміру XL для талії 120-145 см. Для більшої фігури.",
   },
   {
     size: "XXL",
@@ -83,6 +128,8 @@ const sizes = [
     qty: "30 шт",
     img: diapersXXL,
     url: "https://kapitoshka.kiev.ua/ua/p2905451660-podguzniki-trusy-dlya.html",
+    description:
+      "Підгузки-трусики для дорослих розміру XXL (Extra Extra Large), 30 шт. Максимальний комфорт для людей з вагою 120-170 кг. З усіма перевагами бренду Vivo Care - еластичний пояс 360°, висока поглинальна здатність, захист від протікань та нейтралізація запаху.",
   },
 ];
 
@@ -272,6 +319,7 @@ function DiapersPage() {
                     <span className="text-muted-foreground text-sm">{s.label}</span>
                   </div>
                   <DropsIndicator count={s.drops} />
+                  <p className="text-sm text-muted-foreground mt-3 mb-3">{s.description}</p>
                 </div>
                 <dl className="text-base space-y-2 mt-2">
                   <div className="flex justify-between">
@@ -337,6 +385,28 @@ function DiapersPage() {
           },
         ]}
       />
+
+      {/* Contacts */}
+      <section className="py-12 px-4 bg-muted/30">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">Контакти</h2>
+          <div className="space-y-4">
+            <p className="text-muted-foreground">
+              <strong>VIVO Care</strong> — український бренд якісних гігієнічних засобів.
+            </p>
+            <p className="text-muted-foreground">
+              Для запитань пишіть:{" "}
+              <a href="mailto:info@vivocare.ua" className="text-violet-accent hover:underline">
+                info@vivocare.ua
+              </a>
+            </p>
+            <p className="text-sm text-muted-foreground mt-4">
+              © {new Date().getFullYear()} VIVO Care. Всі права захищені.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { WhereToBuy } from "@/components/WhereToBuy";
 import logo from "@/assets/logo.png";
 
 export const Route = createFileRoute("/")({
@@ -167,6 +168,30 @@ function HomePage() {
               <p className="text-muted-foreground mb-4">Поглинаючі пелюшки 60×90 см</p>
               <span className="btn-buy inline-flex">Переглянути →</span>
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Where to Buy */}
+      <WhereToBuy />
+
+      {/* Contacts */}
+      <section className="py-12 px-4 bg-muted/30">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">Контакти</h2>
+          <div className="space-y-4">
+            <p className="text-muted-foreground">
+              <strong>VIVO Care</strong> — український бренд якісних гігієнічних засобів.
+            </p>
+            <p className="text-muted-foreground">
+              Для запитань пишіть:{" "}
+              <a href="mailto:info@vivocare.ua" className="text-violet-accent hover:underline">
+                info@vivocare.ua
+              </a>
+            </p>
+            <p className="text-sm text-muted-foreground mt-4">
+              © {new Date().getFullYear()} VIVO Care. Всі права захищені.
+            </p>
           </div>
         </div>
       </section>
