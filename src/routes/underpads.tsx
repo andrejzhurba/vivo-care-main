@@ -8,9 +8,16 @@ export const Route = createFileRoute("/underpads")({
   head: () => ({
     meta: [
       { title: "Пелюшки поглинаючі VIVO Care 60×90 см — 30 шт" },
-      { name: "description", content: "Поглинаючі пелюшки VivoCare 60×90 см, 30 шт. 5 шарів поглинання, вологонепроникний нижній шар. Для дорослих, дітей та домашніх тварин." },
+      {
+        name: "description",
+        content:
+          "Поглинаючі пелюшки VivoCare 60×90 см, 30 шт. 5 шарів поглинання, вологонепроникний нижній шар. Для дорослих, дітей та домашніх тварин.",
+      },
       { property: "og:title", content: "Пелюшки поглинаючі VIVO Care 60×90 см" },
-      { property: "og:description", content: "Поглинаючі пелюшки 60×90 см, 30 шт. 5 шарів захисту. Ціна 529 ₴." },
+      {
+        property: "og:description",
+        content: "Поглинаючі пелюшки 60×90 см, 30 шт. 5 шарів захисту. Ціна 529 ₴.",
+      },
     ],
   }),
   component: UnderpadsPage,
@@ -30,16 +37,34 @@ const specs = [
 ];
 
 const advantages = [
-  { icon: "💧", title: "Висока поглинаюча здатність", desc: "Швидко вбирає рідину та утримує її всередині" },
-  { icon: "🛡️", title: "Вологонепроникний нижній шар", desc: "Зменшує ризик протікання на поверхні" },
+  {
+    icon: "💧",
+    title: "Висока поглинаюча здатність",
+    desc: "Швидко вбирає рідину та утримує її всередині",
+  },
+  {
+    icon: "🛡️",
+    title: "Вологонепроникний нижній шар",
+    desc: "Зменшує ризик протікання на поверхні",
+  },
   { icon: "🤍", title: "М'яка поверхня", desc: "Приємна на дотик, комфортна для шкіри" },
-  { icon: "⚖️", title: "Рівномірний розподіл рідини", desc: "Антиковзна поверхня для стабільного положення" },
+  {
+    icon: "⚖️",
+    title: "Рівномірний розподіл рідини",
+    desc: "Антиковзна поверхня для стабільного положення",
+  },
   { icon: "🏥", title: "Гіпоалергенність", desc: "Підходять для чутливої шкіри" },
 ];
 
 const useCases = [
-  { title: "Догляд за лежачими пацієнтами", desc: "Надійний захист постільної білизни під час щоденного догляду" },
-  { title: "Післяопераційний період", desc: "Ідеально підходять для використання у лікарнях та вдома" },
+  {
+    title: "Догляд за лежачими пацієнтами",
+    desc: "Надійний захист постільної білизни під час щоденного догляду",
+  },
+  {
+    title: "Післяопераційний період",
+    desc: "Ідеально підходять для використання у лікарнях та вдома",
+  },
   { title: "Догляд за дітьми", desc: "Зручний захист поверхонь під час пеленання та годування" },
   { title: "Захист меблів", desc: "Для ліжка, матраца, дивана, крісла та автомобільних сидінь" },
   { title: "Домашні тварини", desc: "Захист підлоги та меблів від вологи та забруднень" },
@@ -55,12 +80,17 @@ function UnderpadsPage() {
       <section className="gradient-hero">
         <div className="mx-auto max-w-5xl px-4 py-14 md:py-20 flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1 text-center md:text-left">
-            <p className="text-sky-accent-light text-sm font-semibold tracking-widest uppercase mb-3">VIVO Care</p>
+            <p className="text-violet-accent-light text-sm font-semibold tracking-widest uppercase mb-3">
+              VIVO Care
+            </p>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight mb-4">
-              Пелюшки<br />поглинаючі
+              Пелюшки
+              <br />
+              поглинаючі
             </h1>
             <p className="text-primary-foreground/80 text-base max-w-md mb-6 leading-relaxed">
-              Одноразові поглинаючі пелюшки 60×90 см із 5-шаровою структурою. Підходять для дорослих, дітей та домашніх тварин.
+              Одноразові поглинаючі пелюшки 60×90 см із 5-шаровою структурою. Підходять для
+              дорослих, дітей та домашніх тварин.
             </p>
             <p className="text-primary-foreground font-bold text-2xl mb-4">529 ₴</p>
             <a
@@ -73,7 +103,13 @@ function UnderpadsPage() {
             </a>
           </div>
           <div className="flex-shrink-0">
-            <img src={underpadsImg} alt="Пелюшки поглинаючі VIVO Care 60×90 см" width={320} height={400} className="w-56 md:w-72 object-contain drop-shadow-2xl" />
+            <img
+              src={underpadsImg}
+              alt="Пелюшки поглинаючі VIVO Care 60×90 см"
+              width={320}
+              height={400}
+              className="w-56 md:w-72 object-contain drop-shadow-2xl"
+            />
           </div>
         </div>
       </section>
@@ -114,7 +150,9 @@ function UnderpadsPage() {
       {/* Use cases */}
       <section className="py-12 px-4">
         <div className="mx-auto max-w-5xl">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">Де використовувати?</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
+            Де використовувати?
+          </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {useCases.map((u) => (
               <div key={u.title} className="card-product">
@@ -126,7 +164,14 @@ function UnderpadsPage() {
         </div>
       </section>
 
-      <WhereToBuy links={[{ name: "Капітошка", url: "https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html" }]} />
+      <WhereToBuy
+        links={[
+          {
+            name: "Капітошка",
+            url: "https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html",
+          },
+        ]}
+      />
       <Footer />
     </div>
   );
