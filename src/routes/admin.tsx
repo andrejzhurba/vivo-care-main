@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
@@ -19,20 +19,20 @@ function AdminPage() {
           <h1 className="text-3xl font-bold mb-8">Адмін-панель VIVO Care</h1>
 
           <div className="grid sm:grid-cols-2 gap-6">
-            <a
-              href="/admin/diapers"
+            <Link
+              to="/admin/diapers"
               className="card-product p-8 text-center hover:shadow-lg transition-shadow"
             >
               <h2 className="text-2xl font-bold mb-2">Підгузки-труси</h2>
               <p className="text-muted-foreground">Управління розмірами</p>
-            </a>
-            <a
-              href="/admin/underpads"
+            </Link>
+            <Link
+              to="/admin/underpads"
               className="card-product p-8 text-center hover:shadow-lg transition-shadow"
             >
               <h2 className="text-2xl font-bold mb-2">Пелюшки</h2>
               <p className="text-muted-foreground">Управління розмірами</p>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
