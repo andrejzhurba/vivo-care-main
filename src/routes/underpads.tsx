@@ -37,22 +37,30 @@ const specs = [
 
 const advantages = [
   {
-    icon: "💧",
+    icon: <img src="/1.png" alt="water" className="w-8 h-8" />,
     title: "Висока поглинаюча здатність",
     desc: "Швидко вбирає рідину та утримує її всередині",
   },
   {
-    icon: "🛡️",
+    icon: <img src="/2.png" alt="waterproof" className="w-8 h-8" />,
     title: "Вологонепроникний нижній шар",
     desc: "Зменшує ризик протікання на поверхні",
   },
-  { icon: "🤍", title: "М'яка поверхня", desc: "Приємна на дотик, комфортна для шкіри" },
   {
-    icon: "⚖️",
+    icon: <img src="/3.png" alt="soft" className="w-8 h-8" />,
+    title: "М'яка поверхня",
+    desc: "Приємна на дотик, комфортна для шкіри",
+  },
+  {
+    icon: <img src="/4.png" alt="distribution" className="w-8 h-8" />,
     title: "Рівномірний розподіл рідини",
     desc: "Антиковзна поверхня для стабільного положення",
   },
-  { icon: "🏥", title: "Гіпоалергенність", desc: "Підходять для чутливої шкіри" },
+  {
+    icon: <img src="/5.png" alt="hypoallergenic" className="w-8 h-8" />,
+    title: "Гіпоалергенність",
+    desc: "Підходять для чутливої шкіри",
+  },
 ];
 
 const useCases = [

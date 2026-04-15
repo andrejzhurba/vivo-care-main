@@ -93,7 +93,7 @@ const features = [
     desc: "Комфортна посадка та свобода рухів, як звичайна білизна",
   },
   {
-    icon: "💧",
+    icon: <img src="/1.png" alt="water" className="w-8 h-8" />,
     title: "Висока поглинальна здатність",
     desc: "Сухість і впевненість упродовж дня та ночі",
   },
@@ -128,11 +128,8 @@ function DropsIndicator({ count }: { count: number }) {
   return (
     <div className="flex items-center gap-0.5" title={`Рівень поглинання: ${count} крапель`}>
       {Array.from({ length: 10 }).map((_, i) => (
-        <span
-          key={i}
-          className={`text-xs ${i < count ? "text-sky-accent" : "text-muted-foreground/30"}`}
-        >
-          💧
+        <span key={i} className={i < count ? "" : "opacity-30"}>
+          <img src="/1.png" alt="drop" className="w-4 h-4" />
         </span>
       ))}
     </div>
