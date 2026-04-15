@@ -17,6 +17,63 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
+const features = [
+  {
+    icon: "🔄",
+    title: "Еластичний пояс 360°",
+    desc: "Комфортна посадка та свобода рухів, як звичайна білизна",
+  },
+  {
+    icon: <img src="/1.png" alt="water" className="w-8 h-8" />,
+    title: "Висока поглинальна здатність",
+    desc: "Сухість і впевненість упродовж дня та ночі",
+  },
+  {
+    icon: "🛡️",
+    title: "Захист від протікань",
+    desc: "Еластичні бар'єри та гідрофобні манжети з боків",
+  },
+  {
+    icon: "🌬️",
+    title: "Дихаючий матеріал",
+    desc: "Зменшує ризик подразнень, комфорт для чутливої шкіри",
+  },
+  { icon: "📊", title: "Індикатор вологості", desc: "Зручний контроль для своєчасної заміни" },
+  {
+    icon: "🚫",
+    title: "Нейтралізація запаху",
+    desc: "Система Odour Stop ефективно блокує неприємні запахи",
+  },
+];
+
+const advantages = [
+  {
+    icon: <img src="/1.png" alt="water" className="w-8 h-8" />,
+    title: "Висока поглинаюча здатність",
+    desc: "Швидко вбирає рідину та утримує її всередині",
+  },
+  {
+    icon: <img src="/2.png" alt="waterproof" className="w-8 h-8" />,
+    title: "Вологонепроникний нижній шар",
+    desc: "Зменшує ризик протікання на поверхні",
+  },
+  {
+    icon: <img src="/3.png" alt="soft" className="w-8 h-8" />,
+    title: "М'яка поверхня",
+    desc: "Приємна на дотик, комфортна для шкіри",
+  },
+  {
+    icon: <img src="/4.png" alt="distribution" className="w-8 h-8" />,
+    title: "Рівномірний розподіл рідини",
+    desc: "Антиковзна поверхня для стабільного положення",
+  },
+  {
+    icon: <img src="/5.png" alt="hypoallergenic" className="w-8 h-8" />,
+    title: "Гіпоалергенність",
+    desc: "Підходять для чутливої шкіри",
+  },
+];
+
 function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -54,8 +111,65 @@ function HomePage() {
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2"></div>
       </section>
 
-      {/* Future sections will go here */}
-      <div id="products"></div>
+      {/* Features - Підгузки-труси */}
+      <section className="py-14 md:py-20 px-4">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground text-center mb-8">
+            Переваги підгузків-трусиків
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((f) => (
+              <div key={f.title} className="card-product p-6 text-center">
+                <div className="text-3xl mb-4 flex justify-center">{f.icon}</div>
+                <h3 className="font-semibold text-foreground text-lg mb-2">{f.title}</h3>
+                <p className="text-sm text-muted-foreground">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Advantages - Пелюшки */}
+      <section className="py-14 md:py-20 px-4 bg-muted/30">
+        <div className="mx-auto max-w-5xl">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground text-center mb-8">
+            Переваги пелюшок
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {advantages.map((a) => (
+              <div key={a.title} className="card-product p-6 text-center">
+                <div className="flex justify-center mb-4">{a.icon}</div>
+                <h3 className="font-semibold text-foreground text-lg mb-2">{a.title}</h3>
+                <p className="text-sm text-muted-foreground">{a.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Product Links */}
+      <section className="py-14 md:py-20 px-4">
+        <div className="mx-auto max-w-5xl">
+          <div className="grid sm:grid-cols-2 gap-6">
+            <a
+              href="/diapers"
+              className="card-product p-8 text-center hover:shadow-lg transition-shadow"
+            >
+              <h3 className="font-bold text-2xl text-foreground mb-2">Підгузки-труси</h3>
+              <p className="text-muted-foreground mb-4">Комфортні підгузки для дорослих</p>
+              <span className="btn-buy inline-flex">Переглянути →</span>
+            </a>
+            <a
+              href="/underpads"
+              className="card-product p-8 text-center hover:shadow-lg transition-shadow"
+            >
+              <h3 className="font-bold text-2xl text-foreground mb-2">Пелюшки</h3>
+              <p className="text-muted-foreground mb-4">Поглинаючі пелюшки 60×90 см</p>
+              <span className="btn-buy inline-flex">Переглянути →</span>
+            </a>
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </div>

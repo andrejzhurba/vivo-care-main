@@ -260,20 +260,20 @@ function DiapersPage() {
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {sizes.map((s) => (
-              <div key={s.size} className="card-product flex flex-col p-6">
-                <div className="flex flex-col items-center mb-4">
+              <div key={s.size} className="card-product flex flex-col p-4">
+                <div className="flex flex-col flex-1">
                   <img
                     src={s.img}
                     alt={`VIVO Care ${s.size}`}
-                    className="w-40 h-40 md:w-48 md:h-48 object-contain rounded-lg mb-4"
+                    className="w-full h-48 object-contain rounded-lg mb-4"
                   />
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 mb-2">
                     <span className="badge-size text-xl px-3 py-1">{s.size}</span>
                     <span className="text-muted-foreground text-sm">{s.label}</span>
                   </div>
                   <DropsIndicator count={s.drops} />
                 </div>
-                <dl className="text-base space-y-2 flex-1">
+                <dl className="text-base space-y-2 mt-2">
                   <div className="flex justify-between">
                     <dt className="text-muted-foreground">Обхват талії</dt>
                     <dd className="text-foreground font-medium">{s.waist}</dd>
