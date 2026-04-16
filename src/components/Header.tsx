@@ -11,7 +11,8 @@ export function Header() {
     { to: "/diapers", label: "Підгузки-труси" },
     { to: "/underpads", label: "Пелюшки" },
     { to: "/where-to-buy", label: "Де купити" },
-  ] as const;
+    { to: "/", hash: "contacts", label: "Контакти" },
+  ] as any[];
 
   return (
     <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
@@ -30,10 +31,11 @@ export function Header() {
         <nav className="hidden md:flex items-center gap-1">
           {links.map((link) => (
             <Link
-              key={link.to}
+              key={link.label}
               to={link.to}
+              hash={link.hash}
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                location.pathname === link.to
+                location.pathname === link.to && !link.hash
                   ? "bg-secondary text-foreground"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}
@@ -79,11 +81,12 @@ export function Header() {
         <nav className="md:hidden border-t border-border bg-card px-4 py-3 flex flex-col gap-1">
           {links.map((link) => (
             <Link
-              key={link.to}
+              key={link.label}
               to={link.to}
+              hash={link.hash}
               onClick={() => setMenuOpen(false)}
               className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                location.pathname === link.to
+                location.pathname === link.to && !link.hash
                   ? "bg-secondary text-foreground"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}
