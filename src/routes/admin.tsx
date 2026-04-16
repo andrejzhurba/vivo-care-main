@@ -2,12 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useState, useEffect } from "react";
-import { getSettings, saveSettings, type CMSSettings } from "@/lib/cms";
+import { getSettings, saveSettings, type CMSSettings, type StoreLink } from "@/lib/cms";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { Save, Plus, Trash2, LogOut } from "lucide-react";
+import { Save, Plus, Trash2, LogOut, ExternalLink } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -22,9 +23,15 @@ function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [settings, setSettings] = useState<CMSSettings | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setSettings(getSettings());
+    async function load() {
+      const data = await getSettings();
+      setSettings(data);
+      setLoading(false);
+    }
+    load();
   }, []);
 
   const handleLogin = (e: React.FormEvent) => {
@@ -36,41 +43,50 @@ function AdminPage() {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (settings) {
-      saveSettings(settings);
+      await saveSettings(settings);
       toast.success("Налаштування збережено!");
     }
   };
 
-  const addStore = () => {
-    if (settings) {
-      setSettings({
-        ...settings,
-        stores: [...settings.stores, { name: "", url: "", description: "" }],
-      });
-    }
+  // Generic store management
+  const updateGeneralStore = (index: number, field: keyof CMSSettings["stores"][0], value: string) => {
+    if (!settings) return;
+    const newStores = [...settings.stores];
+    newStores[index] = { ...newStores[index], [field]: value };
+    setSettings({ ...settings, stores: newStores });
   };
 
-  const removeStore = (index: number) => {
-    if (settings) {
-      const newStores = [...settings.stores];
-      newStores.splice(index, 1);
-      setSettings({ ...settings, stores: newStores });
-    }
+  // Diaper store management
+  const updateDiaperStore = (size: string, index: number, field: keyof StoreLink, value: string) => {
+    if (!settings) return;
+    const newDiaperStores = { ...settings.diaperStores };
+    const sizeStores = [...newDiaperStores[size]];
+    sizeStores[index] = { ...sizeStores[index], [field]: value };
+    newDiaperStores[size] = sizeStores;
+    setSettings({ ...settings, diaperStores: newDiaperStores });
   };
 
-  const updateStore = (index: number, field: keyof CMSSettings["stores"][0], value: string) => {
-    if (settings) {
-      const newStores = [...settings.stores];
-      newStores[index] = { ...newStores[index], [field]: value };
-      setSettings({ ...settings, stores: newStores });
-    }
+  const addDiaperStore = (size: string) => {
+    if (!settings) return;
+    const newDiaperStores = { ...settings.diaperStores };
+    newDiaperStores[size] = [...newDiaperStores[size], { name: "", url: "" }];
+    setSettings({ ...settings, diaperStores: newDiaperStores });
+  };
+
+  const removeDiaperStore = (size: string, index: number) => {
+    if (!settings) return;
+    const newDiaperStores = { ...settings.diaperStores };
+    const sizeStores = [...newDiaperStores[size]];
+    sizeStores.splice(index, 1);
+    newDiaperStores[size] = sizeStores;
+    setSettings({ ...settings, diaperStores: newDiaperStores });
   };
 
   if (!isAuthenticated) {
     return (
-      <div className="flex flex-col min-h-screen bg-slate-50">
+      <div className="flex flex-col min-h-screen bg-slate-50 font-sans">
         <Header />
         <section className="flex-grow flex items-center justify-center py-20 px-4">
           <div className="w-full max-w-md bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-100">
@@ -94,23 +110,23 @@ function AdminPage() {
     );
   }
 
-  if (!settings) return null;
+  if (loading || !settings) return <div className="p-20 text-center">Завантаження...</div>;
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50">
+    <div className="flex flex-col min-h-screen bg-slate-50 font-sans">
       <Header />
 
       <section className="py-12 px-4">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">Керування контентом</h1>
-              <p className="text-slate-500">Зміна текстів та посилань на сайті</p>
+              <h1 className="text-3xl font-bold text-slate-900">Адмін-панель VIVO Care</h1>
+              <p className="text-slate-500 italic font-light">Керування контентом та посиланнями</p>
             </div>
             <div className="flex gap-3">
-              <Button onClick={handleSave} className="bg-green-600 hover:bg-green-700 rounded-xl px-6">
+              <Button onClick={handleSave} className="bg-green-600 hover:bg-green-700 rounded-xl px-6 font-bold">
                 <Save className="w-4 h-4 mr-2" />
-                Зберегти всі зміни
+                Зберегти все
               </Button>
               <Button variant="outline" onClick={() => setIsAuthenticated(false)} className="rounded-xl">
                 <LogOut className="w-4 h-4 mr-2" />
@@ -119,94 +135,150 @@ function AdminPage() {
             </div>
           </div>
 
-          <div className="grid gap-8">
-            {/* HERO SECTION SETTINGS */}
-            <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
-              <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                <span className="w-2 h-6 bg-blue-500 rounded-full" />
-                Головний екран (Hero)
-              </h2>
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-400 uppercase tracking-widest">Слоган</label>
-                  <Input
-                    value={settings.heroSlogan}
-                    onChange={(e) => setSettings({ ...settings, heroSlogan: e.target.value })}
-                    className="rounded-xl p-6 text-lg"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-400 uppercase tracking-widest">Опис</label>
-                  <Textarea
-                    value={settings.heroDescription}
-                    onChange={(e) => setSettings({ ...settings, heroDescription: e.target.value })}
-                    className="rounded-xl p-6 min-h-[120px]"
-                  />
-                </div>
-              </div>
-            </div>
+          <Tabs defaultValue="general" className="space-y-8">
+            <TabsList className="bg-white p-1 rounded-2xl border border-slate-100 h-auto">
+              <TabsTrigger value="general" className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600">Загальні</TabsTrigger>
+              <TabsTrigger value="diapers" className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600">Підгузки-труси</TabsTrigger>
+              <TabsTrigger value="underpads" className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600">Пелюшки</TabsTrigger>
+            </TabsList>
 
-            {/* STORES SETTINGS */}
-            <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold flex items-center gap-2">
-                  <span className="w-2 h-6 bg-blue-500 rounded-full" />
-                  Магазини (Де купити)
+            <TabsContent value="general" className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+                <h2 className="text-xl font-bold mb-6 flex items-center gap-3">
+                  <div className="w-2 h-6 bg-blue-500 rounded-full" />
+                  Головний екран (Hero)
                 </h2>
-                <Button variant="outline" size="sm" onClick={addStore} className="rounded-full">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Додати магазин
-                </Button>
-              </div>
-              
-              <div className="space-y-4">
-                {settings.stores.map((store, index) => (
-                  <div key={index} className="p-6 bg-slate-50 rounded-2xl border border-slate-100 relative group">
-                    <button 
-                      onClick={() => removeStore(index)}
-                      className="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition-colors"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Назва магазину</label>
-                        <Input
-                          value={store.name}
-                          onChange={(e) => updateStore(index, "name", e.target.value)}
-                          className="bg-white rounded-lg"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Опис/Тип</label>
-                        <Input
-                          value={store.description}
-                          onChange={(e) => updateStore(index, "description", e.target.value)}
-                          className="bg-white rounded-lg"
-                          placeholder="Наприклад: Офіційний партнер"
-                        />
-                      </div>
-                      <div className="md:col-span-2 space-y-2">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">URL посилання</label>
-                        <Input
-                          value={store.url}
-                          onChange={(e) => updateStore(index, "url", e.target.value)}
-                          className="bg-white rounded-lg"
-                        />
-                      </div>
-                    </div>
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">Слоган</label>
+                    <Input
+                      value={settings.heroSlogan}
+                      onChange={(e) => setSettings({ ...settings, heroSlogan: e.target.value })}
+                      className="rounded-xl p-6 text-lg"
+                    />
                   </div>
-                ))}
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">Опис</label>
+                    <Textarea
+                      value={settings.heroDescription}
+                      onChange={(e) => setSettings({ ...settings, heroDescription: e.target.value })}
+                      className="rounded-xl p-6 min-h-[120px]"
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
+            </TabsContent>
 
-            {/* PRODUCT LINKS NOTICE */}
-            <div className="bg-blue-50 p-6 rounded-2xl border border-blue-100">
-              <p className="text-blue-700 text-sm">
-                <strong>Примітка:</strong> Посилання на конкретні розміри підгузків налаштовуються у файлі конфігурації <code>src/lib/stores.ts</code> для забезпечення точності переходів на відповідні товарні позиції.
-              </p>
-            </div>
-          </div>
+            <TabsContent value="diapers" className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+              {Object.keys(settings.diaperStores).map((size) => (
+                <div key={size} className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-bold flex items-center gap-3">
+                      <div className="w-8 h-8 bg-blue-600 text-white rounded-xl flex items-center justify-center text-sm">{size}</div>
+                      Розмір {size}
+                    </h2>
+                    <Button variant="ghost" size="sm" onClick={() => addDiaperStore(size)} className="text-blue-600 hover:bg-blue-50">
+                      <Plus className="w-4 h-4 mr-1" /> Додати магазин
+                    </Button>
+                  </div>
+                  <div className="grid gap-4">
+                    {settings.diaperStores[size].map((store, index) => (
+                      <div key={index} className="flex gap-4 items-end p-4 bg-slate-50 rounded-2xl border border-slate-100 relative group">
+                        <div className="flex-1 space-y-2">
+                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Магазин</label>
+                          <Input 
+                            value={store.name} 
+                            onChange={(e) => updateDiaperStore(size, index, "name", e.target.value)}
+                            className="bg-white rounded-lg border-slate-200"
+                            placeholder="Назва"
+                          />
+                        </div>
+                        <div className="flex-[3] space-y-2">
+                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">URL посилання</label>
+                          <div className="relative">
+                            <Input 
+                              value={store.url} 
+                              onChange={(e) => updateDiaperStore(size, index, "url", e.target.value)}
+                              className="bg-white rounded-lg border-slate-200 pr-10"
+                              placeholder="https://..."
+                            />
+                            <a href={store.url} target="_blank" className="absolute right-3 top-2.5 text-slate-300 hover:text-blue-500"><ExternalLink className="w-4 h-4" /></a>
+                          </div>
+                        </div>
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          onClick={() => removeDiaperStore(size, index)}
+                          className="text-slate-300 hover:text-red-500"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </TabsContent>
+
+            <TabsContent value="underpads" className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+               <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-bold flex items-center gap-3">
+                      <div className="w-2 h-6 bg-blue-500 rounded-full" />
+                      Магазини для пелюшок
+                    </h2>
+                    <Button variant="ghost" size="sm" onClick={() => {
+                        const newStores = [...settings.underpadStores, { name: "", url: "" }];
+                        setSettings({ ...settings, underpadStores: newStores });
+                    }} className="text-blue-600 hover:bg-blue-50">
+                      <Plus className="w-4 h-4 mr-1" /> Додати магазин
+                    </Button>
+                  </div>
+                  <div className="grid gap-4">
+                    {settings.underpadStores.map((store, index) => (
+                      <div key={index} className="flex gap-4 items-end p-4 bg-slate-50 rounded-2xl border border-slate-100 relative group">
+                        <div className="flex-1 space-y-2">
+                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Магазин</label>
+                          <Input 
+                            value={store.name} 
+                            onChange={(e) => {
+                                const newStores = [...settings.underpadStores];
+                                newStores[index] = { ...newStores[index], name: e.target.value };
+                                setSettings({ ...settings, underpadStores: newStores });
+                            }}
+                            className="bg-white rounded-lg border-slate-200"
+                          />
+                        </div>
+                        <div className="flex-[3] space-y-2">
+                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">URL посилання</label>
+                          <Input 
+                            value={store.url} 
+                            onChange={(e) => {
+                                const newStores = [...settings.underpadStores];
+                                newStores[index] = { ...newStores[index], url: e.target.value };
+                                setSettings({ ...settings, underpadStores: newStores });
+                            }}
+                            className="bg-white rounded-lg border-slate-200"
+                          />
+                        </div>
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          onClick={() => {
+                              const newStores = [...settings.underpadStores];
+                              newStores.splice(index, 1);
+                              setSettings({ ...settings, underpadStores: newStores });
+                          }}
+                          className="text-slate-300 hover:text-red-500"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+               </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </section>
 

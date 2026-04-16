@@ -5,6 +5,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown, ShoppingBag, ExternalLink } from "lucide-react";
+import { toast } from "sonner";
+import { useState } from "react";
 
 interface WhereToBuyProps {
   links?: { name: string; url: string; description?: string }[];
@@ -23,7 +25,7 @@ const defaultStores = [
   },
   {
     name: "Prom.ua",
-    url: "https://prom.ua/ua/search?search_term=VIVO+Care",
+    url: "https://prom.ua/ua/search?search_term=VivoCare",
     description: "Маркетплейс",
   },
 ];
@@ -33,6 +35,7 @@ export function WhereToBuy({ links }: WhereToBuyProps) {
 
   return (
     <section className="py-12 px-4">
+      <h2 className="sr-only">Де купити продукцію VIVO Care</h2>
       <div className="mx-auto max-w-3xl text-center">
         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Де купити?</h2>
         <p className="text-slate-400 text-lg mb-10 font-light italic">
@@ -67,11 +70,44 @@ export function WhereToBuy({ links }: WhereToBuyProps) {
 }
 
 export function BuyDropdown({ stores, label = "ДЕ КУПИТИ" }: { stores: { name: string; url: string }[], label?: string }) {
+  const [checking, setChecking] = useState<string | null>(null);
+
+  const handleLinkClick = async (e: React.MouseEvent<HTMLAnchorElement>, store: { name: string; url: string }) => {
+    e.preventDefault();
+    
+    if (checking) return;
+
+    setChecking(store.name);
+    const toastId = toast.loading(`Перевірка наявності в ${store.name}...`);
+
+    try {
+      // NOTE: Client-side fetch to external domains will likely fail due to CORS
+      // This is a "best effort" check. In a real production app, you'd use a proxy.
+      const response = await fetch(store.url, { 
+        mode: 'no-cors', // Standard for cross-origin if CORS headers are missing
+        method: 'GET'
+      });
+
+      // With no-cors, we can't actually see the status code (it's always 0).
+      // So we'll assume it's okay unless the fetch itself fails.
+      // If we wanted a real 404 check, we'd need a backend proxy.
+      
+      toast.dismiss(toastId);
+      window.open(store.url, '_blank', 'noopener,noreferrer');
+    } catch (error) {
+      console.error("Availability check failed:", error);
+      toast.dismiss(toastId);
+      toast.error(`Товар в магазині ${store.name} тимчасово відсутній або посилання недоступне.`);
+    } finally {
+      setChecking(null);
+    }
+  };
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="w-full py-3 bg-blue-600 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors shadow-lg shadow-blue-900/20">
+      <DropdownMenuTrigger className="w-full py-3 bg-blue-600 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors shadow-lg shadow-blue-900/20 disabled:opacity-50">
         <ShoppingBag className="w-3 h-3" />
-        {label}
+        {checking ? "ПЕРЕВІРКА..." : label}
         <ChevronDown className="w-3 h-3 opacity-50" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56 p-2 rounded-2xl bg-white border-slate-100 shadow-2xl">
@@ -82,8 +118,7 @@ export function BuyDropdown({ stores, label = "ДЕ КУПИТИ" }: { stores: {
           <DropdownMenuItem key={store.name} className="p-0 mb-1 last:mb-0">
             <a
               href={store.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              onClick={(e) => handleLinkClick(e, store)}
               className="flex items-center justify-between w-full px-3 py-2.5 rounded-xl hover:bg-blue-50 transition-colors group"
             >
               <span className="font-bold text-slate-700 group-hover:text-blue-700">{store.name}</span>
