@@ -17,13 +17,12 @@ export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
-const ADMIN_PASSWORD = "vivo2025";
-
 function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [settings, setSettings] = useState<CMSSettings | null>(null);
   const [loading, setLoading] = useState(true);
+  const [newPassword, setNewPassword] = useState("");
 
   useEffect(() => {
     async function load() {
@@ -36,7 +35,7 @@ function AdminPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === ADMIN_PASSWORD) {
+    if (password === (settings?.adminPassword || "vivo2025")) {
       setIsAuthenticated(true);
     } else {
       toast.error("Невірний пароль!");
@@ -50,18 +49,17 @@ function AdminPage() {
     }
   };
 
-  // Generic store management
-  const updateGeneralStore = (index: number, field: keyof CMSSettings["stores"][0], value: string) => {
-    if (!settings) return;
-    const newStores = [...settings.stores];
-    newStores[index] = { ...newStores[index], [field]: value };
-    setSettings({ ...settings, stores: newStores });
+  const handleChangePassword = () => {
+    if (!settings || !newPassword) return;
+    setSettings({ ...settings, adminPassword: newPassword });
+    setNewPassword("");
+    toast.success("Пароль змінено! Не забудьте зберегти всі налаштування.");
   };
 
   // Diaper size management
   const addDiaperSize = () => {
     if (!settings) return;
-    const newSizes = [...settings.diaperSizes, { id: "NEW", name: "New Size", waist: "", absorbency: "" }];
+    const newSizes = [...settings.diaperSizes, { id: "NEW", name: "New Size", waist: "", absorbency: "", images: [] }];
     const newStores = { ...settings.diaperStores, "NEW": [] };
     setSettings({ ...settings, diaperSizes: newSizes, diaperStores: newStores });
   };
@@ -78,7 +76,7 @@ function AdminPage() {
     setSettings({ ...settings, diaperSizes: newSizes, diaperStores: newStores });
   };
 
-  const updateDiaperSize = (index: number, field: string, value: string) => {
+  const updateDiaperSize = (index: number, field: string, value: any) => {
     if (!settings) return;
     const newSizes = [...settings.diaperSizes];
     const oldId = newSizes[index].id;
@@ -94,10 +92,36 @@ function AdminPage() {
     setSettings({ ...settings, diaperSizes: newSizes, diaperStores: newStores });
   };
 
+  const updateDiaperImage = (sizeIndex: number, imageIndex: number, value: string) => {
+    if (!settings) return;
+    const newSizes = [...settings.diaperSizes];
+    const images = [...(newSizes[sizeIndex].images || [])];
+    images[imageIndex] = value;
+    newSizes[sizeIndex] = { ...newSizes[sizeIndex], images };
+    setSettings({ ...settings, diaperSizes: newSizes });
+  };
+
+  const addDiaperImage = (sizeIndex: number) => {
+    if (!settings) return;
+    const newSizes = [...settings.diaperSizes];
+    const images = [...(newSizes[sizeIndex].images || []), ""];
+    newSizes[sizeIndex] = { ...newSizes[sizeIndex], images };
+    setSettings({ ...settings, diaperSizes: newSizes });
+  };
+
+  const removeDiaperImage = (sizeIndex: number, imageIndex: number) => {
+    if (!settings) return;
+    const newSizes = [...settings.diaperSizes];
+    const images = [...(newSizes[sizeIndex].images || [])];
+    images.splice(imageIndex, 1);
+    newSizes[sizeIndex] = { ...newSizes[sizeIndex], images };
+    setSettings({ ...settings, diaperSizes: newSizes });
+  };
+
   // Underpad size management
   const addUnderpadSize = () => {
     if (!settings) return;
-    const newSizes = [...settings.underpadSizes, { id: Date.now().toString(), name: "New", size: "", absorbLevel: 5, qty: "" }];
+    const newSizes = [...settings.underpadSizes, { id: Date.now().toString(), name: "New", size: "", absorbLevel: 5, qty: "", images: [] }];
     setSettings({ ...settings, underpadSizes: newSizes });
   };
 
@@ -108,11 +132,37 @@ function AdminPage() {
     setSettings({ ...settings, underpadSizes: newSizes });
   };
 
-  const updateUnderpadSize = (index: number, field: string, value: string | number) => {
+  const updateUnderpadSize = (index: number, field: string, value: any) => {
     if (!settings) return;
     const newSizes = [...settings.underpadSizes];
     // @ts-ignore
     newSizes[index] = { ...newSizes[index], [field]: value };
+    setSettings({ ...settings, underpadSizes: newSizes });
+  };
+
+  const updateUnderpadImage = (sizeIndex: number, imageIndex: number, value: string) => {
+    if (!settings) return;
+    const newSizes = [...settings.underpadSizes];
+    const images = [...(newSizes[sizeIndex].images || [])];
+    images[imageIndex] = value;
+    newSizes[sizeIndex] = { ...newSizes[sizeIndex], images };
+    setSettings({ ...settings, underpadSizes: newSizes });
+  };
+
+  const addUnderpadImage = (sizeIndex: number) => {
+    if (!settings) return;
+    const newSizes = [...settings.underpadSizes];
+    const images = [...(newSizes[sizeIndex].images || []), ""];
+    newSizes[sizeIndex] = { ...newSizes[sizeIndex], images };
+    setSettings({ ...settings, underpadSizes: newSizes });
+  };
+
+  const removeUnderpadImage = (sizeIndex: number, imageIndex: number) => {
+    if (!settings) return;
+    const newSizes = [...settings.underpadSizes];
+    const images = [...(newSizes[sizeIndex].images || [])];
+    images.splice(imageIndex, 1);
+    newSizes[sizeIndex] = { ...newSizes[sizeIndex], images };
     setSettings({ ...settings, underpadSizes: newSizes });
   };
 
@@ -198,6 +248,7 @@ function AdminPage() {
               <TabsTrigger value="general" className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600">Загальні</TabsTrigger>
               <TabsTrigger value="diapers" className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600">Підгузки-труси</TabsTrigger>
               <TabsTrigger value="underpads" className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600">Пелюшки</TabsTrigger>
+              <TabsTrigger value="security" className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600">Безпека</TabsTrigger>
             </TabsList>
 
             <TabsContent value="general" className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
@@ -313,6 +364,30 @@ function AdminPage() {
                     </div>
                   </div>
 
+                  <div className="space-y-4 mb-8">
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-bold text-slate-900">Фотографії (URL)</h3>
+                      <Button variant="ghost" size="sm" onClick={() => addDiaperImage(sizeIndex)} className="text-blue-600 hover:bg-blue-50">
+                        <Plus className="w-4 h-4 mr-1" /> Додати фото
+                      </Button>
+                    </div>
+                    <div className="grid gap-3">
+                      {(size.images || []).map((img, imgIndex) => (
+                        <div key={imgIndex} className="flex gap-2 items-center">
+                          <Input 
+                            value={img} 
+                            onChange={(e) => updateDiaperImage(sizeIndex, imgIndex, e.target.value)}
+                            placeholder="https://..."
+                            className="bg-slate-50 rounded-lg border-slate-200"
+                          />
+                          <Button variant="ghost" size="icon" onClick={() => removeDiaperImage(sizeIndex, imgIndex)} className="text-slate-300 hover:text-red-500">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
                   <div className="border-t border-slate-100 pt-6">
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="font-bold text-slate-900">Магазини для цього розміру</h3>
@@ -384,7 +459,7 @@ function AdminPage() {
                       </Button>
                    </div>
 
-                   <div className="grid md:grid-cols-4 gap-4">
+                   <div className="grid md:grid-cols-4 gap-4 mb-8">
                       <div className="space-y-2">
                         <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Назва</label>
                         <Input 
@@ -419,6 +494,30 @@ function AdminPage() {
                         />
                       </div>
                    </div>
+
+                   <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-bold text-slate-900">Фотографії (URL)</h3>
+                      <Button variant="ghost" size="sm" onClick={() => addUnderpadImage(sizeIndex)} className="text-blue-600 hover:bg-blue-50">
+                        <Plus className="w-4 h-4 mr-1" /> Додати фото
+                      </Button>
+                    </div>
+                    <div className="grid gap-3">
+                      {(size.images || []).map((img, imgIndex) => (
+                        <div key={imgIndex} className="flex gap-2 items-center">
+                          <Input 
+                            value={img} 
+                            onChange={(e) => updateUnderpadImage(sizeIndex, imgIndex, e.target.value)}
+                            placeholder="https://..."
+                            className="bg-slate-50 rounded-lg border-slate-200"
+                          />
+                          <Button variant="ghost" size="icon" onClick={() => removeUnderpadImage(sizeIndex, imgIndex)} className="text-slate-300 hover:text-red-500">
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                  </div>
                ))}
 
@@ -478,6 +577,30 @@ function AdminPage() {
                     ))}
                   </div>
                </div>
+            </TabsContent>
+
+            <TabsContent value="security" className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 max-w-md">
+                <h2 className="text-xl font-bold mb-6 flex items-center gap-3">
+                  <div className="w-2 h-6 bg-red-500 rounded-full" />
+                  Зміна пароля адміністратора
+                </h2>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">Новий пароль</label>
+                    <Input
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="rounded-xl p-6"
+                      placeholder="Введіть новий пароль"
+                    />
+                  </div>
+                  <Button onClick={handleChangePassword} className="w-full bg-slate-900 hover:bg-slate-800 rounded-xl py-6 font-bold">
+                    Оновити пароль
+                  </Button>
+                </div>
+              </div>
             </TabsContent>
           </Tabs>
         </div>

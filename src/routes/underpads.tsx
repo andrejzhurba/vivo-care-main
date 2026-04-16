@@ -108,7 +108,25 @@ function UnderpadsPage() {
                      <span className="bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1 rounded-full">{item.qty}</span>
                   </div>
                   
-                  <div className="text-blue-600 font-black text-5xl mb-6 tracking-tighter italic">{item.size}</div>
+                  <div className="mb-6">
+                    <div className="aspect-video overflow-hidden rounded-2xl mb-4">
+                      <img 
+                        src={(item.images && item.images.length > 0) ? item.images[0] : underpadImg} 
+                        className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" 
+                      />
+                    </div>
+                    {item.images && item.images.length > 1 && (
+                      <div className="flex gap-2 justify-center">
+                        {item.images.map((img, idx) => (
+                          <div key={idx} className="w-8 h-8 rounded-md border border-slate-100 overflow-hidden flex-shrink-0">
+                            <img src={img} className="w-full h-full object-cover" />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="text-blue-600 font-black text-5xl mb-6 tracking-tighter italic text-center">{item.size}</div>
                   
                   <div className="space-y-4 mb-8">
                     <div className="flex flex-col items-center gap-2 p-4 bg-slate-50 rounded-2xl">

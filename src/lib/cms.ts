@@ -10,6 +10,7 @@ export interface DiaperSize {
   name: string;
   waist: string;
   absorbency: string;
+  images?: string[];
 }
 
 export interface UnderpadSize {
@@ -18,6 +19,7 @@ export interface UnderpadSize {
   size: string;
   absorbLevel: number;
   qty: string;
+  images?: string[];
 }
 
 export interface CMSSettings {
@@ -26,6 +28,7 @@ export interface CMSSettings {
   stores: { name: string; url: string; description?: string }[];
   contactEmail: string;
   contactPhone: string;
+  adminPassword?: string;
   diaperStores: Record<string, StoreLink[]>;
   underpadStores: StoreLink[];
   diaperSizes: DiaperSize[];
@@ -60,12 +63,13 @@ const DEFAULT_SETTINGS: CMSSettings = {
   ],
   contactEmail: "info@vivocare.ua",
   contactPhone: "+38 (067) 123-45-67",
+  adminPassword: "vivo2025",
   diaperSizes: [
-    { id: "S", name: "Small", waist: "60-90 см", absorbency: "1200 мл" },
-    { id: "M", name: "Medium", waist: "80-110 см", absorbency: "1400 мл" },
-    { id: "L", name: "Large", waist: "100-135 см", absorbency: "1600 мл" },
-    { id: "XL", name: "Extra Large", waist: "120-155 см", absorbency: "1800 мл" },
-    { id: "XXL", name: "Extra Extra Large", waist: "135-170 см", absorbency: "2000 мл" },
+    { id: "S", name: "Small", waist: "60-90 см", absorbency: "1200 мл", images: [] },
+    { id: "M", name: "Medium", waist: "80-110 см", absorbency: "1400 мл", images: [] },
+    { id: "L", name: "Large", waist: "100-135 см", absorbency: "1600 мл", images: [] },
+    { id: "XL", name: "Extra Large", waist: "120-155 см", absorbency: "1800 мл", images: [] },
+    { id: "XXL", name: "Extra Extra Large", waist: "135-170 см", absorbency: "2000 мл", images: [] },
   ],
   diaperStores: {
     S: [
@@ -101,6 +105,7 @@ const DEFAULT_SETTINGS: CMSSettings = {
       size: "60 × 90 см",
       absorbLevel: 8,
       qty: "30 шт",
+      images: [],
     },
   ],
   underpadStores: [
@@ -125,8 +130,15 @@ export async function getSettings(): Promise<CMSSettings> {
         return {
           ...DEFAULT_SETTINGS,
           ...config,
-          diaperSizes: config.diaperSizes || DEFAULT_SETTINGS.diaperSizes,
-          underpadSizes: config.underpadSizes || DEFAULT_SETTINGS.underpadSizes,
+          adminPassword: config.adminPassword || DEFAULT_SETTINGS.adminPassword,
+          diaperSizes: (config.diaperSizes || DEFAULT_SETTINGS.diaperSizes).map(s => ({
+            ...s,
+            images: Array.isArray(s.images) ? s.images : (s.image ? [s.image] : []),
+          })),
+          underpadSizes: (config.underpadSizes || DEFAULT_SETTINGS.underpadSizes).map(s => ({
+            ...s,
+            images: Array.isArray(s.images) ? s.images : (s.image ? [s.image] : []),
+          })),
         };
       }
     } catch (e) {
@@ -143,8 +155,15 @@ export async function getSettings(): Promise<CMSSettings> {
         return {
           ...DEFAULT_SETTINGS,
           ...config,
-          diaperSizes: config.diaperSizes || DEFAULT_SETTINGS.diaperSizes,
-          underpadSizes: config.underpadSizes || DEFAULT_SETTINGS.underpadSizes,
+          adminPassword: config.adminPassword || DEFAULT_SETTINGS.adminPassword,
+          diaperSizes: (config.diaperSizes || DEFAULT_SETTINGS.diaperSizes).map((s: any) => ({
+            ...s,
+            images: Array.isArray(s.images) ? s.images : (s.image ? [s.image] : []),
+          })),
+          underpadSizes: (config.underpadSizes || DEFAULT_SETTINGS.underpadSizes).map((s: any) => ({
+            ...s,
+            images: Array.isArray(s.images) ? s.images : (s.image ? [s.image] : []),
+          })),
         };
       } catch {
         return DEFAULT_SETTINGS;

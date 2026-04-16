@@ -98,12 +98,23 @@ function DiapersPage() {
                   key={s.id} 
                   className="group flex flex-col bg-white border border-slate-100 rounded-[2rem] p-6 transition-all duration-300 hover:shadow-xl hover:border-blue-200 hover:-translate-y-2 shadow-sm"
                 >
-                  <div className="aspect-square mb-6 overflow-hidden flex items-center justify-center">
-                    <img 
-                      src={sizeImageMap[s.id] || diapersM} 
-                      alt={`Підгузки VIVO Care розмір ${s.id} (${s.name}) — упаковка`} 
-                      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" 
-                    />
+                  <div className="flex flex-col gap-4 mb-6">
+                    <div className="aspect-square overflow-hidden flex items-center justify-center">
+                      <img 
+                        src={(s.images && s.images.length > 0) ? s.images[0] : (sizeImageMap[s.id] || diapersM)} 
+                        alt={`Підгузки VIVO Care розмір ${s.id} (${s.name}) — упаковка`} 
+                        className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" 
+                      />
+                    </div>
+                    {s.images && s.images.length > 1 && (
+                      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide justify-center">
+                        {s.images.map((img, idx) => (
+                          <div key={idx} className="w-10 h-10 rounded-lg border border-slate-100 overflow-hidden flex-shrink-0">
+                            <img src={img} className="w-full h-full object-cover" />
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                   
                   <div className="mb-4 text-center sm:text-left">
