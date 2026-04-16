@@ -6,19 +6,19 @@ const tips = [
     icon: <Heart className="w-6 h-6 text-pink-500" />,
     title: "5 порад щодо догляду за шкірою",
     desc: "Як запобігти подразненням та пролежням при використанні підгузків.",
-    link: "#", // In a real app, these would be separate routes
+    link: "/tips/skin-care",
   },
   {
     icon: <ClipboardList className="w-6 h-6 text-blue-500" />,
     title: "Таблиця поглинання пелюшок",
     desc: "Порівняльний аналіз поглинальної здатності різних видів пелюшок.",
-    link: "#",
+    link: "/tips/absorption-table",
   },
   {
     icon: <Info className="w-6 h-6 text-green-500" />,
     title: "Як правильно обрати розмір?",
     desc: "Детальна інструкція із замірів для ідеальної посадки підгузка-трусів.",
-    link: "#",
+    link: "/tips/size-guide",
   },
 ];
 
