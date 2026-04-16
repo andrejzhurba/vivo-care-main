@@ -35,7 +35,6 @@ export interface CMSSettings {
   underpadSizes: UnderpadSize[];
 }
 
-// These should ideally be in .env
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || "";
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
 
@@ -85,7 +84,6 @@ const DEFAULT_SETTINGS: CMSSettings = {
         name: "Капітошка",
         url: "https://kapitoshka.kiev.ua/ua/p2905451595-podguzniki-trusy-dlya.html",
       },
-      { name: "Prom", url: "https://prom.ua/ua/p2999239908-podguzniki-trusiki-dlya.html" },
     ],
     M: [
       { name: "Igorek", url: "https://igorek.com.ua/ua/p2999256297-podguzniki-trusiki-dlya.html" },
@@ -93,7 +91,6 @@ const DEFAULT_SETTINGS: CMSSettings = {
         name: "Капітошка",
         url: "https://kapitoshka.kiev.ua/ua/p2905451614-podguzniki-trusy-dlya.html",
       },
-      { name: "Prom", url: "https://prom.ua/ua/p2999256297-podguzniki-trusiki-dlya.html" },
     ],
     L: [
       { name: "Igorek", url: "https://igorek.com.ua/ua/p2999223127-podguzniki-trusiki-dlya.html" },
@@ -101,7 +98,6 @@ const DEFAULT_SETTINGS: CMSSettings = {
         name: "Капітошка",
         url: "https://kapitoshka.kiev.ua/ua/p2905451581-podguzniki-trusy-dlya.html",
       },
-      { name: "Prom", url: "https://prom.ua/ua/p2999223127-podguzniki-trusiki-dlya.html" },
     ],
     XL: [
       { name: "Igorek", url: "https://igorek.com.ua/ua/p2999226792-podguzniki-trusiki-dlya.html" },
@@ -109,7 +105,6 @@ const DEFAULT_SETTINGS: CMSSettings = {
         name: "Капітошка",
         url: "https://kapitoshka.kiev.ua/ua/p2905451613-podguzniki-trusy-dlya.html",
       },
-      { name: "Prom", url: "https://prom.ua/ua/p2999226792-podguzniki-trusiki-dlya.html" },
     ],
     XXL: [
       { name: "Igorek", url: "https://igorek.com.ua/ua/p2999318378-podguzniki-trusiki-dlya.html" },
@@ -117,18 +112,10 @@ const DEFAULT_SETTINGS: CMSSettings = {
         name: "Капітошка",
         url: "https://kapitoshka.kiev.ua/ua/p2905451660-podguzniki-trusy-dlya.html",
       },
-      { name: "Prom", url: "https://prom.ua/ua/p2999318378-podguzniki-trusiki-dlya.html" },
     ],
   },
   underpadSizes: [
-    {
-      id: "1",
-      name: "Standard",
-      size: "60 × 90 см",
-      absorbLevel: 8,
-      qty: "30 шт",
-      images: [],
-    },
+    { id: "1", name: "Standard", size: "60 × 90 см", absorbLevel: 8, qty: "30 шт", images: [] },
   ],
   underpadStores: [
     { name: "Igorek", url: "https://igorek.com.ua/ua/p2999318379-pelenki-vivocare.html" },
@@ -136,22 +123,15 @@ const DEFAULT_SETTINGS: CMSSettings = {
       name: "Капітошка",
       url: "https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html",
     },
-    {
-      name: "Prom",
-      url: "https://prom.ua/ua/m-2017105891998858515-pelenki-pogloschayuschie-vivocare.html?p=2905451661",
-    },
   ],
 };
 
 export async function getSettings(): Promise<CMSSettings> {
-  // If Supabase is configured, try to fetch from it
   if (SUPABASE_URL && SUPABASE_KEY) {
     try {
       const { data, error } = await supabase.from("settings").select("config").single();
-
       if (data && !error) {
         const config = data.config as CMSSettings;
-        // Ensure new fields exist even if DB has old schema
         return {
           ...DEFAULT_SETTINGS,
           ...config,
@@ -171,7 +151,6 @@ export async function getSettings(): Promise<CMSSettings> {
     }
   }
 
-  // Fallback to localStorage for quick edits if DB not ready
   if (typeof window !== "undefined") {
     const saved = localStorage.getItem("vivo_cms_settings");
     if (saved) {
@@ -200,25 +179,41 @@ export async function getSettings(): Promise<CMSSettings> {
 }
 
 export async function saveSettings(settings: CMSSettings) {
-  // Save to Supabase if configured
   if (SUPABASE_URL && SUPABASE_KEY) {
     try {
       const { error } = await supabase.from("settings").upsert({ id: 1, config: settings });
-
       if (error) throw error;
     } catch (e) {
       console.error("Supabase save failed", e);
     }
   }
 
-  // Always save to localStorage as a cache/fallback
   if (typeof window !== "undefined") {
     localStorage.setItem("vivo_cms_settings", JSON.stringify(settings));
   }
 }
 
 export async function uploadFileToStorage(file: File): Promise<string> {
-  // Convert to Base64 to avoid Supabase storage bucket issues
+  if (SUPABASE_URL && SUPABASE_KEY) {
+    try {
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
+
+      const { data, error } = await supabase.storage.from("product-images").upload(fileName, file);
+
+      if (error) {
+        console.error("Supabase upload error:", error);
+        throw error;
+      }
+
+      const { data: urlData } = supabase.storage.from("product-images").getPublicUrl(fileName);
+
+      return urlData.publicUrl;
+    } catch (e) {
+      console.warn("Supabase upload failed, using Base64:", e);
+    }
+  }
+
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
