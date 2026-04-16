@@ -42,6 +42,7 @@ const diaperSizes = [
     waist: "60-90 см",
     absorbency: "1200 мл",
     img: diapersS,
+    url: "https://kapitoshka.kiev.ua/ua/p2905451595-podguzniki-trusy-dlya.html",
   },
   {
     id: "M",
@@ -49,6 +50,7 @@ const diaperSizes = [
     waist: "80-110 см",
     absorbency: "1400 мл",
     img: diapersM,
+    url: "https://kapitoshka.kiev.ua/ua/p2905451614-podguzniki-trusy-dlya.html",
   },
   {
     id: "L",
@@ -56,6 +58,7 @@ const diaperSizes = [
     waist: "100-135 см",
     absorbency: "1600 мл",
     img: diapersL,
+    url: "https://kapitoshka.kiev.ua/ua/p2905451581-podguzniki-trusy-dlya.html",
   },
   {
     id: "XL",
@@ -63,6 +66,7 @@ const diaperSizes = [
     waist: "120-155 см",
     absorbency: "1800 мл",
     img: diapersXL,
+    url: "https://kapitoshka.kiev.ua/ua/p2905451613-podguzniki-trusy-dlya.html",
   },
   {
     id: "XXL",
@@ -70,6 +74,7 @@ const diaperSizes = [
     waist: "135-170 см",
     absorbency: "2000 мл",
     img: diapersXXL,
+    url: "https://kapitoshka.kiev.ua/ua/p2905451660-podguzniki-trusy-dlya.html",
   },
 ];
 
@@ -161,7 +166,7 @@ function DiapersPage() {
                 </div>
 
                 <a 
-                  href="https://kapitoshka.kiev.ua/ua/product_list?csbss0=1128038494" 
+                  href={s.url} 
                   target="_blank"
                   className="mt-auto w-full py-3 bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-blue-600 transition-colors"
                 >
@@ -194,7 +199,7 @@ function DiapersPage() {
       </section>
 
       {/* WHERE TO BUY FOOTER SECTION */}
-      <div className="bg-slate-900">
+      <div className="bg-slate-900 py-10">
         <WhereToBuy />
       </div>
 
