@@ -1,8 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhereToBuy } from "@/components/WhereToBuy";
+import { FeatureCard } from "@/components/FeatureCard";
+import { 
+  Ruler, 
+  Droplets, 
+  ChevronRight, 
+  Activity, 
+  ShieldCheck, 
+  Wind, 
+  Timer, 
+  Ban, 
+  ShoppingCart 
+} from "lucide-react";
+
+// Імпорт зображень розмірів
 import diapersS from "@/assets/diapers-S.png";
 import diapersM from "@/assets/diapers-M.png";
 import diapersL from "@/assets/diapers-L.png";
@@ -12,340 +25,148 @@ import diapersXXL from "@/assets/diapers-XXL.png";
 export const Route = createFileRoute("/diapers")({
   head: () => ({
     meta: [
-      { title: "Підгузки-труси VIVO Care — Розміри та характеристики" },
+      { title: "Підгузки-труси VIVO Care — Свобода руху та захист" },
       {
         name: "description",
-        content:
-          "Підгузки-трусики для дорослих VIVO Care з еластичним поясом 360°. Розміри S, M, L, XL, XXL. 30 шт в упаковці. Дихаючі, з індикатором вологості.",
-      },
-      { property: "og:title", content: "Підгузки-труси VIVO Care" },
-      {
-        property: "og:description",
-        content: "Комфортні підгузки-трусики з еластичним поясом 360°. Розміри S–XXL, 30 шт.",
+        content: "Підгузки-труси VIVO Care: комфорт звичайної білизни та максимальний захист. Розміри S, M, L, XL, XXL.",
       },
     ],
   }),
   component: DiapersPage,
 });
 
-const sizes = [
+const diaperSizes = [
   {
-    size: "S",
-    label: "Small",
-    waist: "50–80 см",
-    weight: "40–60 кг",
-    drops: 8,
-    price: "560 ₴",
-    qty: "30 шт",
+    id: "S",
+    name: "Small",
+    waist: "60-90 см",
+    absorbency: "1200 мл",
     img: diapersS,
-    url: "https://kapitoshka.kiev.ua/ua/p2905451595-podguzniki-trusy-dlya.html",
-    description:
-      "Підгузки-трусики для дорослих розміру S (Small), 30 шт. VivoCare — комфортні підгузки-трусики з еластичним поясом 360°, які сидять зручно, як звичайна білизна. Вони забезпечують надійне поглинання, захист від протікань і комфорт упродовж дня та ночі. Підходять для активних людей, щоденного використання та догляду за лежачими пацієнтами.",
   },
   {
-    size: "M",
-    label: "Medium",
-    waist: "75–100 см",
-    weight: "55–85 кг",
-    drops: 9,
-    price: "610 ₴",
-    qty: "30 шт",
+    id: "M",
+    name: "Medium",
+    waist: "80-110 см",
+    absorbency: "1400 мл",
     img: diapersM,
-    url: "https://kapitoshka.kiev.ua/ua/p2905451614-podguzniki-trusy-dlya.html",
-    description:
-      "Підгузки-трусики для дорослих розміру M (Medium), 30 шт. Підходять для щоденного використання та догляду. Еластичний пояс 360° забезпечує комфортну посадку та свободу рухів.",
   },
   {
-    size: "L",
-    label: "Large",
-    waist: "90–120 см",
-    weight: "80–125 кг",
-    drops: 9,
-    price: "680 ₴",
-    qty: "30 шт",
+    id: "L",
+    name: "Large",
+    waist: "100-135 см",
+    absorbency: "1600 мл",
     img: diapersL,
-    url: "https://kapitoshka.kiev.ua/ua/p2905451581-podguzniki-trusy-dlya.html",
-    description:
-      "Підгузки-трусики для дорослих розміру L (Large), 30 шт. Зручні для щоденного використання. Еластичний пояс 360° та м'які манжети зменшують ризик протікань.",
   },
   {
-    size: "XL",
-    label: "Extra Large",
-    waist: "120–145 см",
-    weight: "110–150 кг",
-    drops: 9,
-    price: "700 ₴",
-    qty: "30 шт",
+    id: "XL",
+    name: "Extra Large",
+    waist: "120-155 см",
+    absorbency: "1800 мл",
     img: diapersXL,
-    url: "https://kapitoshka.kiev.ua/ua/p2905451613-podguzniki-trusy-dlya.html",
-    description:
-      "Підгузки-трусики для дорослих розміру XL (Extra Large), 30 шт. Для більшої фігури. Незалежно від будови тіла, зросту та індивідуальних особливостей посадки вибирайте найбільший розмір для більшого комфорту.",
   },
   {
-    size: "M",
-    label: "Medium",
-    waist: "75–100 см",
-    weight: "55–85 кг",
-    drops: 9,
-    price: "610 ₴",
-    qty: "30 шт",
-    img: diapersM,
-    url: "https://kapitoshka.kiev.ua/ua/p2905451614-podguzniki-trusy-dlya.html",
-    description: "Підгузки-трусики розміру M для талії 75-100 см. Найпопулярніший розмір.",
-  },
-  {
-    size: "L",
-    label: "Large",
-    waist: "90–120 см",
-    weight: "80–125 кг",
-    drops: 9,
-    price: "680 ₴",
-    qty: "30 шт",
-    img: diapersL,
-    url: "https://kapitoshka.kiev.ua/ua/p2905451581-podguzniki-trusy-dlya.html",
-    description:
-      "Підгузки-трусики розміру L для талії 90-120 см. Зручні для щоденного використання.",
-  },
-  {
-    size: "XL",
-    label: "Extra Large",
-    waist: "120–145 см",
-    weight: "110–150 кг",
-    drops: 9,
-    price: "700 ₴",
-    qty: "30 шт",
-    img: diapersXL,
-    url: "https://kapitoshka.kiev.ua/ua/p2905451613-podguzniki-trusy-dlya.html",
-    description: "Підгузки-трусики розміру XL для талії 120-145 см. Для більшої фігури.",
-  },
-  {
-    size: "XXL",
-    label: "Extra Extra Large",
-    waist: "135–180 см",
-    weight: "120–170 кг",
-    drops: 8,
-    price: "750 ₴",
-    qty: "30 шт",
+    id: "XXL",
+    name: "Extra Extra Large",
+    waist: "135-170 см",
+    absorbency: "2000 мл",
     img: diapersXXL,
-    url: "https://kapitoshka.kiev.ua/ua/p2905451660-podguzniki-trusy-dlya.html",
-    description:
-      "Підгузки-трусики для дорослих розміру XXL (Extra Extra Large), 30 шт. Максимальний комфорт для людей з вагою 120-170 кг. З усіма перевагами бренду Vivo Care - еластичний пояс 360°, висока поглинальна здатність, захист від протікань та нейтралізація запаху.",
   },
 ];
 
-const features = [
+const mainFeatures = [
   {
-    icon: "🔄",
-    title: "Еластичний пояс 360°",
-    desc: "Комфортна посадка та свобода рухів, як звичайна білизна",
+    icon: <Activity className="w-6 h-6 text-blue-500" />,
+    title: "Пояс 360°",
+    desc: "Анатомічна посадка",
   },
   {
-    icon: <img src="/1.png" alt="water" className="w-8 h-8" />,
-    title: "Висока поглинальна здатність",
-    desc: "Сухість і впевненість упродовж дня та ночі",
+    icon: <Droplets className="w-6 h-6 text-blue-500" />,
+    title: "High Absorb",
+    desc: "Сухість 12 годин",
   },
   {
-    icon: "🛡️",
-    title: "Захист від протікань",
-    desc: "Еластичні бар'єри та гідрофобні манжети з боків",
+    icon: <ShieldCheck className="w-6 h-6 text-blue-500" />,
+    title: "Leak Guard",
+    desc: "Захист від протікань",
   },
   {
-    icon: "🌬️",
-    title: "Дихаючий матеріал",
-    desc: "Зменшує ризик подразнень, комфорт для чутливої шкіри",
+    icon: <Wind className="w-6 h-6 text-blue-500" />,
+    title: "Air Flow",
+    desc: "Дихаючі матеріали",
   },
-  { icon: "📊", title: "Індикатор вологості", desc: "Зручний контроль для своєчасної заміни" },
   {
-    icon: "🚫",
-    title: "Нейтралізація запаху",
-    desc: "Система Odour Stop ефективно блокує неприємні запахи",
+    icon: <Timer className="w-6 h-6 text-blue-500" />,
+    title: "Humidity Indicator",
+    desc: "Індикатор наповнення",
+  },
+  {
+    icon: <Ban className="w-6 h-6 text-blue-500" />,
+    title: "Odour Stop",
+    desc: "Контроль запаху",
   },
 ];
-
-const layers = [
-  "Нетканий верхній шар",
-  "Нетканий шар для розподілу та поглинання рідини",
-  "SAP + розпушена целюлоза",
-  "Нетканий бар'єр від протікань",
-  "Нетканий еластичний пояс 360°",
-  "Дихаючий водонепроникний задній шар",
-];
-
-function DropsIndicator({ count }: { count: number }) {
-  return (
-    <div className="flex items-center gap-0.5" title={`Рівень поглинання: ${count} крапель`}>
-      {Array.from({ length: 10 }).map((_, i) => (
-        <span
-          key={i}
-          className={`text-xs ${i < count ? "text-violet-accent" : "text-muted-foreground/30"}`}
-        >
-          💧
-        </span>
-      ))}
-    </div>
-  );
-}
 
 function DiapersPage() {
-  const heroImages = [
-    "/src/assets/diapers-hero1.jpg",
-    "/src/assets/diapers-hero2.jpg",
-    "/src/assets/diapers-hero3.jpg",
-    "/src/assets/diapers-hero4.jpg",
-    "/src/assets/diapers-hero5.jpg",
-  ];
-  const [currentHero, setCurrentHero] = useState(0);
-
-  const nextHero = () => setCurrentHero((prev) => (prev + 1) % heroImages.length);
-  const prevHero = () =>
-    setCurrentHero((prev) => (prev - 1 + heroImages.length) % heroImages.length);
-
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Header />
 
-      {/* Hero */}
-      <section className="gradient-hero">
-        <div className="mx-auto max-w-5xl px-4 py-14 md:py-20 flex flex-col md:flex-row items-center gap-8">
-          <div className="flex-1 text-center md:text-left">
-            <p className="text-violet-accent-light text-sm font-semibold tracking-widest uppercase mb-3">
-              VIVO Care
-            </p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight mb-4">
-              Підгузки-трусики
-              <br />
-              для дорослих
-            </h1>
-            <p className="text-primary-foreground/80 text-base max-w-md mb-6 leading-relaxed">
-              Комфортні підгузки-трусики з еластичним поясом 360°, які сидять зручно, як звичайна
-              білизна. Надійне поглинання та захист упродовж дня та ночі.
-            </p>
-            <a href="#sizes" className="btn-buy inline-flex">
-              Обрати розмір ↓
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Hero Image */}
-      <section className="py-8 px-4 bg-white">
-        <div className="mx-auto max-w-4xl relative">
-          <button
-            onClick={prevHero}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-violet-100 hover:bg-violet-200 rounded-full p-3 shadow-lg text-violet-600 font-bold"
-          >
-            ‹
-          </button>
-          <img
-            src={heroImages[currentHero]}
-            alt="Підгузки-трусики VIVO Care"
-            className="w-full max-w-2xl mx-auto object-contain drop-shadow-2xl"
-          />
-          <button
-            onClick={nextHero}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-violet-100 hover:bg-violet-200 rounded-full p-3 shadow-lg text-violet-600 font-bold"
-          >
-            ›
-          </button>
-          <div className="flex justify-center gap-2 mt-6">
-            {heroImages.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentHero(i)}
-                className={`w-3 h-3 rounded-full ${i === currentHero ? "bg-violet-600" : "bg-gray-300"}`}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="py-12 px-4">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">Переваги</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {features.map((f) => (
-              <div key={f.title} className="card-product">
-                <div className="text-2xl mb-2">{f.icon}</div>
-                <h3 className="font-semibold text-foreground mb-1">{f.title}</h3>
-                <p className="text-sm text-muted-foreground">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Layers */}
-      <section className="py-12 px-4 bg-muted/50">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
-            Багатошарова структура
-          </h2>
-          <div className="card-product">
-            <ol className="space-y-3">
-              {layers.map((layer, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <span className="badge-size text-xs w-7 h-7 flex items-center justify-center flex-shrink-0">
-                    {i + 1}
-                  </span>
-                  <span className="text-foreground text-sm pt-0.5">{layer}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      </section>
-
-      {/* Size cards */}
-      <section id="sizes" className="py-14 md:py-20 px-4">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground text-center mb-2">
-            Оберіть свій розмір
-          </h2>
-          <p className="text-base text-muted-foreground text-center mb-8 max-w-2xl mx-auto">
-            Якщо ваші параметри між двома розмірами — обирайте більший для кращого комфорту.
+      {/* 1. ШАПКА ПРОДУКТУ */}
+      <section className="pt-32 pb-16 bg-gradient-to-b from-blue-50 to-white overflow-hidden">
+        <div className="container mx-auto px-6 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 tracking-tight">
+            Підгузки-труси <span className="text-blue-600">VIVO Care</span>
+          </h1>
+          <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto font-light leading-relaxed">
+            Поєднання комфорту звичайної білизни та максимального захисту. 
+            Створені для активного життя та спокійного сну.
           </p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sizes.map((s) => (
-              <div key={s.size} className="card-product flex flex-col p-4">
-                <div className="flex flex-col flex-1">
-                  <img
-                    src={s.img}
-                    alt={`VIVO Care ${s.size}`}
-                    className="w-full h-48 object-contain rounded-lg mb-4"
-                  />
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="badge-size text-xl px-3 py-1">{s.size}</span>
-                    <span className="text-muted-foreground text-sm">{s.label}</span>
-                  </div>
-                  <DropsIndicator count={s.drops} />
-                  <p className="text-sm text-muted-foreground mt-3 mb-3">{s.description}</p>
+        </div>
+      </section>
+
+      {/* 2. БЛОК РОЗМІРІВ */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Оберіть свій розмір</h2>
+            <div className="h-1 w-16 bg-blue-500 mx-auto rounded-full" />
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
+            {diaperSizes.map((s) => (
+              <div 
+                key={s.id} 
+                className="group flex flex-col bg-white border border-slate-100 rounded-[2rem] p-6 transition-all duration-300 hover:shadow-xl hover:border-blue-200 hover:-translate-y-2 shadow-sm"
+              >
+                <div className="aspect-square mb-6 overflow-hidden flex items-center justify-center">
+                  <img src={s.img} alt={`VIVO Care ${s.id}`} className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" />
                 </div>
-                <dl className="text-base space-y-2 mt-2">
-                  <div className="flex justify-between">
-                    <dt className="text-muted-foreground">Обхват талії</dt>
-                    <dd className="text-foreground font-medium">{s.waist}</dd>
+                
+                <div className="mb-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-2xl font-black text-blue-600">{s.id}</span>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{s.name}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <dt className="text-muted-foreground">Вага</dt>
-                    <dd className="text-foreground font-medium">{s.weight}</dd>
+                  
+                  <div className="space-y-2 mt-4">
+                    <div className="flex items-center text-sm text-slate-600">
+                      <Ruler className="w-4 h-4 mr-2 text-slate-400" />
+                      <span>{s.waist}</span>
+                    </div>
+                    <div className="flex items-center text-sm text-slate-600">
+                      <Droplets className="w-4 h-4 mr-2 text-blue-400" />
+                      <span className="font-medium">{s.absorbency}</span>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <dt className="text-muted-foreground">Кількість</dt>
-                    <dd className="text-foreground font-medium">{s.qty}</dd>
-                  </div>
-                  <div className="flex justify-between">
-                    <dt className="text-muted-foreground">Ціна</dt>
-                    <dd className="text-foreground font-bold text-lg">{s.price}</dd>
-                  </div>
-                </dl>
-                <a
-                  href={s.url}
+                </div>
+
+                <a 
+                  href="https://kapitoshka.kiev.ua/ua/product_list?csbss0=1128038494" 
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-buy mt-6 text-center justify-center py-3 text-base"
+                  className="mt-auto w-full py-3 bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-blue-600 transition-colors"
                 >
-                  Купити на Капітошка →
+                  <ShoppingCart className="w-3 h-3" />
+                  ДЕ КУПИТИ
                 </a>
               </div>
             ))}
@@ -353,59 +174,29 @@ function DiapersPage() {
         </div>
       </section>
 
-      {/* Comfort section */}
-      <section className="py-12 px-4 bg-muted/50">
-        <div className="mx-auto max-w-3xl">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4">
-            Комфорт у користуванні
-          </h2>
-          <div className="text-sm text-muted-foreground space-y-3 leading-relaxed">
-            <p>
-              Завдяки анатомічній посадці та м'яким еластичним манжетам підгузки-трусики щільно
-              прилягають до тіла, не сковують рухів і допомагають зменшити ризик протікань.
-            </p>
-            <p>
-              Матеріал, що дихає, зменшує ризик подразнень, а вбираючий шар швидко поглинає вологу
-              та сприяє відчуттю сухості. Зручний формат трусиків дозволяє легко одягати та знімати
-              виріб як самостійно, так і під час догляду.
-            </p>
-            <p>
-              Підходять для активних людей, щоденного використання та догляду за лежачими
-              пацієнтами. Рекомендовані при легкому, середньому або більш вираженому нетриманні.
-            </p>
+      {/* 3. ВІЗУАЛЬНА ПЕРЕВАГА (Icons grid) */}
+      <section className="py-20 bg-slate-50/50">
+        <div className="container mx-auto px-6">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+              {mainFeatures.map((f, i) => (
+                <div key={i} className="flex flex-col items-center text-center group">
+                  <div className="w-16 h-16 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center mb-4 transition-all group-hover:bg-blue-50 group-hover:scale-110 group-hover:border-blue-100">
+                    {f.icon}
+                  </div>
+                  <h4 className="font-bold text-slate-900 text-sm mb-1">{f.title}</h4>
+                  <p className="text-[10px] text-slate-400 font-medium uppercase tracking-tighter">{f.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <WhereToBuy
-        links={[
-          {
-            name: "Капітошка — усі розміри",
-            url: "https://kapitoshka.kiev.ua/ua/product_list?csbss0=1128038494",
-          },
-        ]}
-      />
-
-      {/* Contacts */}
-      <section className="py-12 px-4 bg-muted/30">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">Контакти</h2>
-          <div className="space-y-4">
-            <p className="text-muted-foreground">
-              <strong>VIVO Care</strong> — український бренд якісних гігієнічних засобів.
-            </p>
-            <p className="text-muted-foreground">
-              Для запитань пишіть:{" "}
-              <a href="mailto:info@vivocare.ua" className="text-violet-accent hover:underline">
-                info@vivocare.ua
-              </a>
-            </p>
-            <p className="text-sm text-muted-foreground mt-4">
-              © {new Date().getFullYear()} VIVO Care. Всі права захищені.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* WHERE TO BUY FOOTER SECTION */}
+      <div className="bg-slate-900">
+        <WhereToBuy />
+      </div>
 
       <Footer />
     </div>
