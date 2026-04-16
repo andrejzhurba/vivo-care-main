@@ -303,7 +303,13 @@ function HomePage() {
                 >
                   {settings.contactEmail}
                 </a>
-                <p className="text-slate-400 text-sm font-medium uppercase tracking-widest italic">
+                <a
+                  href={`tel:${settings.contactPhone.replace(/\s+/g, '')}`}
+                  className="text-xl md:text-2xl font-bold text-slate-600 hover:text-blue-600 transition-colors tracking-tight"
+                >
+                  {settings.contactPhone}
+                </a>
+                <p className="text-slate-400 text-sm font-medium uppercase tracking-widest italic pt-2">
                   Офіційний представник в Україні
                 </p>
               </div>

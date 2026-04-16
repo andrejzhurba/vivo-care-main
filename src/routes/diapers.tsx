@@ -36,13 +36,14 @@ export const Route = createFileRoute("/diapers")({
   component: DiapersPage,
 });
 
-const diaperSizeInfo = [
-  { id: "S", name: "Small", waist: "60-90 см", absorbency: "1200 мл", img: diapersS },
-  { id: "M", name: "Medium", waist: "80-110 см", absorbency: "1400 мл", img: diapersM },
-  { id: "L", name: "Large", waist: "100-135 см", absorbency: "1600 мл", img: diapersL },
-  { id: "XL", name: "Extra Large", waist: "120-155 см", absorbency: "1800 мл", img: diapersXL },
-  { id: "XXL", name: "Extra Extra Large", waist: "135-170 см", absorbency: "2000 мл", img: diapersXXL },
-];
+// Мапінг ID розміру до зображення
+const sizeImageMap: Record<string, string> = {
+  "S": diapersS,
+  "M": diapersM,
+  "L": diapersL,
+  "XL": diapersXL,
+  "XXL": diapersXXL,
+};
 
 const mainFeatures = [
   { icon: <Activity className="w-6 h-6 text-blue-500" />, title: "Пояс 360°", desc: "Анатомічна посадка" },
@@ -62,6 +63,8 @@ function DiapersPage() {
     }
     load();
   }, []);
+
+  const diaperSizeInfo = settings?.diaperSizes || [];
 
   return (
     <div className="flex flex-col min-h-screen bg-white font-sans selection:bg-blue-100 selection:text-blue-900">
@@ -97,7 +100,7 @@ function DiapersPage() {
                 >
                   <div className="aspect-square mb-6 overflow-hidden flex items-center justify-center">
                     <img 
-                      src={s.img} 
+                      src={sizeImageMap[s.id] || diapersM} 
                       alt={`Підгузки VIVO Care розмір ${s.id} (${s.name}) — упаковка`} 
                       className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" 
                     />

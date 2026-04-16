@@ -24,16 +24,6 @@ export const Route = createFileRoute("/underpads")({
   component: UnderpadsPage,
 });
 
-const underpadSizes = [
-  {
-    id: 1,
-    name: "Standard",
-    size: "60 × 90 см",
-    absorbLevel: 8,
-    qty: "30 шт",
-  },
-];
-
 const commonSpecs = [
   { label: "Шари поглинання", value: "5 шарів" },
   { label: "Верхній шар", value: "М'який нетканий" },
@@ -60,6 +50,8 @@ function UnderpadsPage() {
     }
     load();
   }, []);
+
+  const underpadSizes = settings?.underpadSizes || [];
 
   return (
     <div className="flex flex-col min-h-screen bg-white font-sans selection:bg-blue-100 selection:text-blue-900">
