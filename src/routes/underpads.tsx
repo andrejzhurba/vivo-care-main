@@ -1,273 +1,208 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhereToBuy } from "@/components/WhereToBuy";
+import { FeatureCard } from "@/components/FeatureCard";
+import { Button } from "@/components/ui/button";
+import { ShoppingCart, CheckCircle2, Droplets, ShieldCheck, Activity, Wind, Heart } from "lucide-react";
+
+// Імпорт зображення
+import underpadImg from "@/assets/underpads-product.png";
 
 export const Route = createFileRoute("/underpads")({
   head: () => ({
     meta: [
-      { title: "Пелюшки поглинаючі VIVO Care 60×90 см — 30 шт" },
+      { title: "Пелюшки поглинаючі VIVO Care 60×90 см — Надійний захист" },
       {
         name: "description",
-        content:
-          "Поглинаючі пелюшки VivoCare 60×90 см, 30 шт. 5 шарів поглинання, вологонепроникний нижній шар. Для дорослих, дітей та домашніх тварин.",
-      },
-      { property: "og:title", content: "Пелюшки поглинаючі VIVO Care 60×90 см" },
-      {
-        property: "og:description",
-        content: "Поглинаючі пелюшки 60×90 см, 30 шт. 5 шарів захисту. Ціна 529 ₴.",
+        content: "Поглинаючі пелюшки VIVO Care 60×90 см. 5 шарів захисту, гіпоалергенні, з вологонепроникним шаром.",
       },
     ],
   }),
   component: UnderpadsPage,
 });
 
-const underpadsSizes: UnderpadSize[] = [
+const underpadSizes = [
   {
-    id: "1",
+    id: "6090",
     size: "Standard",
-    dimensions: "60×90 см",
-    qty: 30,
+    dimensions: "60 × 90 см",
+    qty: "30 шт",
     price: "529 ₴",
-    drops: 5,
-    image: "",
-    buyLink: "https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html",
+    absorbency: "Висока (5 крапель)",
+    url: "https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html",
   },
+  // Приклад для майбутнього додавання розміру 60x60
+  /*
+  {
+    id: "6060",
+    size: "Compact",
+    dimensions: "60 × 60 см",
+    qty: "30 шт",
+    price: "415 ₴",
+    absorbency: "Середня (4 краплі)",
+    url: "#",
+  },
+  */
 ];
-
-interface UnderpadSize {
-  id: string;
-  size: string;
-  dimensions: string;
-  qty: number;
-  price: string;
-  drops: number;
-  image?: string;
-  buyLink?: string;
-}
 
 const specs = [
   { label: "Розмір", value: "60 × 90 см" },
   { label: "Кількість", value: "30 шт" },
   { label: "Шари поглинання", value: "5 шарів" },
-  { label: "Верхній шар", value: "М'який нетканий матеріал" },
-  { label: "Внутрішній шар", value: "Розпушена целюлоза + SAP" },
+  { label: "Верхній шар", value: "М'який нетканий" },
+  { label: "Внутрішній шар", value: "Целюлоза + SAP" },
   { label: "Нижній шар", value: "Водонепроникна плівка" },
-  { label: "Виробник", value: "VivoCare" },
-  { label: "Країна виробник", value: "Китай" },
-  { label: "Колір", value: "Білий" },
-  { label: "Ціна", value: "529 ₴" },
+  { label: "Гіпоалергенність", value: "Так" },
+  { label: "Виробник", value: "VIVO Care" },
 ];
 
 const advantages = [
   {
-    icon: <img src="/1.png" alt="water" className="w-8 h-8" />,
-    title: "Висока поглинаюча здатність",
-    desc: "Швидко вбирає рідину та утримує її всередині",
+    icon: <Droplets className="w-5 h-5 text-blue-500" />,
+    title: "Висока поглинальність",
+    desc: "Швидко вбирає та утримує рідину",
   },
   {
-    icon: <img src="/2.png" alt="waterproof" className="w-8 h-8" />,
-    title: "Вологонепроникний нижній шар",
-    desc: "Зменшує ризик протікання на поверхні",
+    icon: <ShieldCheck className="w-5 h-5 text-blue-500" />,
+    title: "Вологонепроникність",
+    desc: "Захищає поверхні від протікань",
   },
   {
-    icon: <img src="/3.png" alt="soft" className="w-8 h-8" />,
-    title: "М'яка поверхня",
-    desc: "Приємна на дотик, комфортна для шкіри",
+    icon: <Activity className="w-5 h-5 text-blue-500" />,
+    title: "М’яка поверхня",
+    desc: "Комфортна для тривалого контакту",
   },
   {
-    icon: <img src="/4.png" alt="distribution" className="w-8 h-8" />,
-    title: "Рівномірний розподіл рідини",
-    desc: "Антиковзна поверхня для стабільного положення",
+    icon: <Wind className="w-5 h-5 text-blue-500" />,
+    title: "Рівномірний розподіл",
+    desc: "Антиковзне покриття для стабільності",
   },
   {
-    icon: <img src="/5.png" alt="hypoallergenic" className="w-8 h-8" />,
+    icon: <Heart className="w-5 h-5 text-blue-500" />,
     title: "Гіпоалергенність",
-    desc: "Підходять для чутливої шкіри",
+    desc: "Безпечно для чутливої шкіри",
   },
-];
-
-const useCases = [
-  {
-    title: "Догляд за лежачими пацієнтами",
-    desc: "Надійний захист постільної білизни під час щоденного догляду",
-  },
-  {
-    title: "Післяопераційний період",
-    desc: "Ідеально підходять для використання у лікарнях та вдома",
-  },
-  { title: "Догляд за дітьми", desc: "Зручний захист поверхонь під час пеленання та годування" },
-  { title: "Захист меблів", desc: "Для ліжка, матраца, дивана, крісла та автомобільних сидінь" },
-  { title: "Домашні тварини", desc: "Захист підлоги та меблів від вологи та забруднень" },
-  { title: "У подорожі", desc: "Компактні та зручні для використання в дорозі" },
 ];
 
 function UnderpadsPage() {
-  const [sizes, setSizes] = useState(underpadsSizes);
-  const [newSize, setNewSize] = useState({
-    size: "",
-    dimensions: "",
-    qty: 30,
-    price: "",
-    drops: 3,
-    image: "",
-    buyLink: "",
-  });
-
-  const handleAddSize = () => {
-    if (!newSize.size || !newSize.dimensions || !newSize.price) return;
-    const id = Date.now().toString();
-    setSizes([...sizes, { ...newSize, id } as (typeof underpadsSizes)[0]]);
-    setNewSize({ size: "", dimensions: "", qty: 30, price: "", drops: 3, image: "", buyLink: "" });
-  };
-
-  const handleDeleteSize = (id: string) => {
-    setSizes(sizes.filter((s) => s.id !== id));
-  };
-
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white">
       <Header />
 
-      {/* Hero */}
-      <section className="gradient-hero">
-        <div className="mx-auto max-w-5xl px-4 py-14 md:py-20 flex flex-col md:flex-row items-center gap-8">
-          <div className="flex-1 text-center md:text-left">
-            <p className="text-violet-accent-light text-sm font-semibold tracking-widest uppercase mb-3">
-              VIVO Care
-            </p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight mb-4">
-              Пелюшки
-              <br />
-              поглинаючі
-            </h1>
-            <p className="text-primary-foreground/80 text-base max-w-md mb-6 leading-relaxed">
-              Одноразові поглинаючі пелюшки 60×90 см із 5-шаровою структурою. Підходять для
-              дорослих, дітей та домашніх тварин.
-            </p>
-            <p className="text-primary-foreground font-bold text-2xl mb-4">529 ₴</p>
-            <a
-              href="https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-buy inline-flex"
-            >
-              Купити на Капітошка →
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Hero Image */}
-      <section className="py-8 px-4 bg-white">
-        <div className="mx-auto max-w-4xl">
-          <img
-            src="/src/assets/underpads-product.png"
-            alt="Пелюшки поглинаючі VIVO Care 60×90 см"
-            className="w-full max-w-2xl mx-auto object-contain drop-shadow-2xl"
-          />
-        </div>
-      </section>
-
-      {/* Advantages */}
-      <section className="py-12 px-4">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">Переваги</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {advantages.map((a) => (
-              <div key={a.title} className="card-product">
-                <div className="text-2xl mb-2">{a.icon}</div>
-                <h3 className="font-semibold text-foreground mb-1">{a.title}</h3>
-                <p className="text-sm text-muted-foreground">{a.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Sizes Section */}
-      <section id="sizes" className="py-12 px-4">
-        <div className="mx-auto max-w-4xl">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-8">
-            Оберіть розмір
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sizes.map((s) => (
-              <div key={s.id} className="card-product p-6 text-center">
-                <h3 className="text-xl font-bold mb-2">{s.size}</h3>
-                <p className="text-muted-foreground mb-2">{s.dimensions}</p>
-                <p className="text-2xl font-bold text-violet-accent mb-2">{s.price}</p>
-                <p className="text-sm text-muted-foreground mb-4">{s.qty} шт</p>
-                <div className="flex justify-center gap-1 mb-4">
-                  {Array.from({ length: 10 }).map((_, i) => (
-                    <span
-                      key={i}
-                      className={`text-xs ${i < s.drops ? "text-violet-accent" : "text-muted-foreground/30"}`}
-                    >
-                      💧
-                    </span>
-                  ))}
+      {/* Hero Section */}
+      <section className="pt-32 pb-16 bg-gradient-to-b from-blue-50 to-white overflow-hidden">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            <div className="lg:w-1/2 text-center lg:text-left">
+              <span className="inline-block px-4 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold uppercase tracking-widest mb-6">Преміальна серія</span>
+              <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 tracking-tight">
+                Пелюшки поглинаючі <br />
+                <span className="text-blue-600">VIVO Care</span>
+              </h1>
+              <p className="text-lg text-slate-600 mb-10 font-light leading-relaxed max-w-xl">
+                Надійний гігієнічний захист для будь-яких поверхонь. 
+                5 шарів безпеки для вашого спокою.
+              </p>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="flex items-center gap-3 text-slate-700 font-medium">
+                  <CheckCircle2 className="text-green-500 w-5 h-5" />
+                  Сухість та комфорт
                 </div>
-                <a
-                  href={
-                    s.buyLink ||
-                    "https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html"
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-buy"
-                >
-                  Купити →
-                </a>
+                <div className="flex items-center gap-3 text-slate-700 font-medium">
+                  <CheckCircle2 className="text-green-500 w-5 h-5" />
+                  Захист 24/7
+                </div>
+              </div>
+            </div>
+            <div className="lg:w-1/2">
+              <img src={underpadImg} alt="VIVO Care Underpads" className="w-full max-w-lg mx-auto drop-shadow-2xl animate-in zoom-in duration-700" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 1. БЛОК РОЗМІРІВ (Scalable Grid) */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold text-slate-900 mb-4">Оберіть розмір</h2>
+          <div className="h-1 w-16 bg-blue-500 mx-auto rounded-full mb-12" />
+          
+          <div className="flex flex-wrap justify-center gap-8">
+            {underpadSizes.map((s) => (
+              <div key={s.id} className="w-full sm:w-[350px] bg-white border border-slate-100 rounded-[2.5rem] p-8 shadow-sm transition-all hover:shadow-xl hover:-translate-y-2 hover:border-blue-100 group">
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">{s.size}</h3>
+                <div className="text-blue-600 font-black text-3xl mb-4 tracking-tighter">{s.dimensions}</div>
+                
+                <div className="space-y-3 mb-8 text-slate-500 font-light italic">
+                  <p>Кількість: <span className="text-slate-900 font-medium">{s.qty}</span></p>
+                  <p>Поглинання: <span className="text-slate-900 font-medium">{s.absorbency}</span></p>
+                </div>
+                
+                <div className="flex items-center justify-between pt-6 border-t border-slate-50">
+                  <span className="text-3xl font-bold text-slate-900">{s.price}</span>
+                  <a 
+                    href={s.url} 
+                    target="_blank"
+                    className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100"
+                  >
+                    <ShoppingCart className="w-4 h-4" />
+                    КУПИТИ
+                  </a>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Specs */}
-      <section className="py-12 px-4 bg-muted/50">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">Характеристики</h2>
-          <div className="card-product max-w-lg">
-            <dl className="divide-y divide-border">
-              {specs.map((s) => (
-                <div key={s.label} className="flex justify-between py-3 px-1">
-                  <dt className="text-muted-foreground text-sm">{s.label}</dt>
-                  <dd className="text-foreground font-medium text-sm">{s.value}</dd>
+      {/* 3. ВІЗУАЛ ПЕРЕВАГ (Horizontal Layout) */}
+      <section className="py-20 bg-slate-50/50">
+        <div className="container mx-auto px-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {advantages.map((a, i) => (
+              <div key={i} className="flex items-start gap-5 p-6 bg-white rounded-3xl shadow-sm border border-white transition-all hover:border-blue-100 group">
+                <div className="shrink-0 w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                  {a.icon}
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 mb-1">{a.title}</h4>
+                  <p className="text-sm text-slate-500 leading-relaxed font-light">{a.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 2. БЛОК ХАРАКТЕРИСТИК (2 Columns on Desktop) */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">Детальні характеристики</h2>
+            <div className="grid md:grid-cols-2 gap-x-12 gap-y-4 bg-slate-50 p-10 rounded-[3rem] border border-slate-100">
+              {specs.map((s, i) => (
+                <div key={i} className="flex justify-between items-center py-3 border-b border-slate-200/50">
+                  <span className="text-slate-500 font-light">{s.label}</span>
+                  <span className="text-slate-900 font-bold text-sm">{s.value}</span>
                 </div>
               ))}
-            </dl>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Use cases */}
-      <section className="py-12 px-4">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
-            Де використовувати?
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {useCases.map((u) => (
-              <div key={u.title} className="card-product">
-                <h3 className="font-semibold text-foreground mb-1">{u.title}</h3>
-                <p className="text-sm text-muted-foreground">{u.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <WhereToBuy
-        links={[
-          {
-            name: "Капітошка",
-            url: "https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html",
-          },
-        ]}
-      />
+      {/* 4. ЛОГІКА "ДЕ КУПИТИ" */}
+      <div className="bg-slate-900">
+        <WhereToBuy 
+          links={[
+            {
+              name: "Капітошка — офіційний партнер",
+              url: "https://kapitoshka.kiev.ua/ua/product_list?csbss0=1128038494",
+            },
+          ]}
+        />
+      </div>
 
       <Footer />
     </div>
