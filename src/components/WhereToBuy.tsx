@@ -16,9 +16,9 @@ export function WhereToBuy({ links }: WhereToBuyProps) {
   return (
     <section className="py-12 px-4">
       <div className="mx-auto max-w-3xl text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Де купити?</h2>
-        <p className="text-muted-foreground mb-8">Оберіть зручний для вас магазин</p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Де купити?</h2>
+        <p className="text-slate-400 text-lg mb-10 font-light italic">Оберіть зручний для вас магазин</p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
           {stores.map((store) => (
             <a
               key={store.name}
