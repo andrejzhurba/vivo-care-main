@@ -864,6 +864,106 @@ function AdminPage() {
                     </div>
                   </div>
 
+                  <div className="grid md:grid-cols-3 gap-4 mb-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Бренд
+                      </label>
+                      <Input
+                        value={size.brand || ""}
+                        onChange={(e) => updateUnderpadSize(sizeIndex, "brand", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                        placeholder="Vivo Care"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Тип
+                      </label>
+                      <Input
+                        value={size.type || ""}
+                        onChange={(e) => updateUnderpadSize(sizeIndex, "type", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                        placeholder="поглинаючі пелюшки"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Структура
+                      </label>
+                      <Input
+                        value={size.fit || ""}
+                        onChange={(e) => updateUnderpadSize(sizeIndex, "fit", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                        placeholder="5 шарів захисту"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-1 gap-4 mb-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Особливості (Склад)
+                      </label>
+                      <Input
+                        value={size.specialties || ""}
+                        onChange={(e) => updateUnderpadSize(sizeIndex, "specialties", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                        placeholder="SAP + розпушена целюлоза"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4 mb-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Короткий опис
+                      </label>
+                      <Textarea
+                        value={size.description || ""}
+                        onChange={(e) => updateUnderpadSize(sizeIndex, "description", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200 min-h-[80px]"
+                        placeholder="Надійний гігієнічний захист для будь-яких поверхонь..."
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Переваги (кожна з нового рядка)
+                      </label>
+                      <Textarea
+                        value={(size.features || []).join("\n")}
+                        onChange={(e) => updateUnderpadSize(sizeIndex, "features", e.target.value.split("\n"))}
+                        className="bg-slate-50 rounded-lg border-slate-200 min-h-[80px]"
+                        placeholder="5 шарів поглинання&#10;100% захист від протікання"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4 mb-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Комфорт у користуванні
+                      </label>
+                      <Textarea
+                        value={size.comfortText || ""}
+                        onChange={(e) => updateUnderpadSize(sizeIndex, "comfortText", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200 min-h-[120px]"
+                        placeholder="Текст для секції комфорту..."
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Рекомендації щодо використання
+                      </label>
+                      <Textarea
+                        value={size.recommendations || ""}
+                        onChange={(e) => updateUnderpadSize(sizeIndex, "recommendations", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200 min-h-[120px]"
+                        placeholder="Текст для секції рекомендацій..."
+                      />
+                    </div>
+                  </div>
+
                   <div className="space-y-4">
                     <h3 className="font-bold text-slate-900">Фотографії (Drag-n-Drop)</h3>
                     <ImageUploadZone

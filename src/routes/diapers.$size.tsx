@@ -107,9 +107,11 @@ function DiaperDetailPage() {
                   <span className="bg-blue-600 text-white px-4 py-2 rounded-full font-bold">
                     {qty} в упаковці
                   </span>
-                  <span className="bg-green-100 text-green-700 px-4 py-2 rounded-full font-bold">
-                    {sizeData.drops || 9} крапель
-                  </span>
+                  <div className="bg-blue-50 px-4 py-2 rounded-full flex gap-1">
+                    {Array.from({ length: 9 }).map((_, i) => (
+                      <Droplets key={i} className="w-4 h-4 text-blue-500 fill-blue-500" />
+                    ))}
+                  </div>
                 </div>
 
                 {/* Size Info */}

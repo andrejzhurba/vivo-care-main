@@ -36,6 +36,12 @@ export interface UnderpadSize {
   features?: string[];
   expiration?: string;
   certification?: string;
+  comfortText?: string;
+  recommendations?: string;
+  type?: string;
+  brand?: string;
+  fit?: string;
+  specialties?: string;
 }
 
 export interface CMSSettings {

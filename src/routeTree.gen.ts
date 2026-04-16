@@ -14,7 +14,9 @@ import { Route as UnderpadsRouteImport } from './routes/underpads'
 import { Route as DiapersRouteImport } from './routes/diapers'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UnderpadsIndexRouteImport } from './routes/underpads.index'
 import { Route as DiapersIndexRouteImport } from './routes/diapers.index'
+import { Route as UnderpadsSizeRouteImport } from './routes/underpads.$size'
 import { Route as TipsSkinCareRouteImport } from './routes/tips.skin-care'
 import { Route as TipsSizeGuideRouteImport } from './routes/tips.size-guide'
 import { Route as TipsAbsorptionTableRouteImport } from './routes/tips.absorption-table'
@@ -47,10 +49,20 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnderpadsIndexRoute = UnderpadsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => UnderpadsRoute,
+} as any)
 const DiapersIndexRoute = DiapersIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DiapersRoute,
+} as any)
+const UnderpadsSizeRoute = UnderpadsSizeRouteImport.update({
+  id: '/$size',
+  path: '/$size',
+  getParentRoute: () => UnderpadsRoute,
 } as any)
 const TipsSkinCareRoute = TipsSkinCareRouteImport.update({
   id: '/tips/skin-care',
@@ -87,7 +99,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/diapers': typeof DiapersRouteWithChildren
-  '/underpads': typeof UnderpadsRoute
+  '/underpads': typeof UnderpadsRouteWithChildren
   '/where-to-buy': typeof WhereToBuyRoute
   '/admin/diapers': typeof AdminDiapersRoute
   '/admin/underpads': typeof AdminUnderpadsRoute
@@ -95,12 +107,13 @@ export interface FileRoutesByFullPath {
   '/tips/absorption-table': typeof TipsAbsorptionTableRoute
   '/tips/size-guide': typeof TipsSizeGuideRoute
   '/tips/skin-care': typeof TipsSkinCareRoute
+  '/underpads/$size': typeof UnderpadsSizeRoute
   '/diapers/': typeof DiapersIndexRoute
+  '/underpads/': typeof UnderpadsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/underpads': typeof UnderpadsRoute
   '/where-to-buy': typeof WhereToBuyRoute
   '/admin/diapers': typeof AdminDiapersRoute
   '/admin/underpads': typeof AdminUnderpadsRoute
@@ -108,14 +121,16 @@ export interface FileRoutesByTo {
   '/tips/absorption-table': typeof TipsAbsorptionTableRoute
   '/tips/size-guide': typeof TipsSizeGuideRoute
   '/tips/skin-care': typeof TipsSkinCareRoute
+  '/underpads/$size': typeof UnderpadsSizeRoute
   '/diapers': typeof DiapersIndexRoute
+  '/underpads': typeof UnderpadsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/diapers': typeof DiapersRouteWithChildren
-  '/underpads': typeof UnderpadsRoute
+  '/underpads': typeof UnderpadsRouteWithChildren
   '/where-to-buy': typeof WhereToBuyRoute
   '/admin/diapers': typeof AdminDiapersRoute
   '/admin/underpads': typeof AdminUnderpadsRoute
@@ -123,7 +138,9 @@ export interface FileRoutesById {
   '/tips/absorption-table': typeof TipsAbsorptionTableRoute
   '/tips/size-guide': typeof TipsSizeGuideRoute
   '/tips/skin-care': typeof TipsSkinCareRoute
+  '/underpads/$size': typeof UnderpadsSizeRoute
   '/diapers/': typeof DiapersIndexRoute
+  '/underpads/': typeof UnderpadsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -139,12 +156,13 @@ export interface FileRouteTypes {
     | '/tips/absorption-table'
     | '/tips/size-guide'
     | '/tips/skin-care'
+    | '/underpads/$size'
     | '/diapers/'
+    | '/underpads/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
-    | '/underpads'
     | '/where-to-buy'
     | '/admin/diapers'
     | '/admin/underpads'
@@ -152,7 +170,9 @@ export interface FileRouteTypes {
     | '/tips/absorption-table'
     | '/tips/size-guide'
     | '/tips/skin-care'
+    | '/underpads/$size'
     | '/diapers'
+    | '/underpads'
   id:
     | '__root__'
     | '/'
@@ -166,14 +186,16 @@ export interface FileRouteTypes {
     | '/tips/absorption-table'
     | '/tips/size-guide'
     | '/tips/skin-care'
+    | '/underpads/$size'
     | '/diapers/'
+    | '/underpads/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   DiapersRoute: typeof DiapersRouteWithChildren
-  UnderpadsRoute: typeof UnderpadsRoute
+  UnderpadsRoute: typeof UnderpadsRouteWithChildren
   WhereToBuyRoute: typeof WhereToBuyRoute
   TipsAbsorptionTableRoute: typeof TipsAbsorptionTableRoute
   TipsSizeGuideRoute: typeof TipsSizeGuideRoute
@@ -217,12 +239,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/underpads/': {
+      id: '/underpads/'
+      path: '/'
+      fullPath: '/underpads/'
+      preLoaderRoute: typeof UnderpadsIndexRouteImport
+      parentRoute: typeof UnderpadsRoute
+    }
     '/diapers/': {
       id: '/diapers/'
       path: '/'
       fullPath: '/diapers/'
       preLoaderRoute: typeof DiapersIndexRouteImport
       parentRoute: typeof DiapersRoute
+    }
+    '/underpads/$size': {
+      id: '/underpads/$size'
+      path: '/$size'
+      fullPath: '/underpads/$size'
+      preLoaderRoute: typeof UnderpadsSizeRouteImport
+      parentRoute: typeof UnderpadsRoute
     }
     '/tips/skin-care': {
       id: '/tips/skin-care'
@@ -294,11 +330,25 @@ const DiapersRouteChildren: DiapersRouteChildren = {
 const DiapersRouteWithChildren =
   DiapersRoute._addFileChildren(DiapersRouteChildren)
 
+interface UnderpadsRouteChildren {
+  UnderpadsSizeRoute: typeof UnderpadsSizeRoute
+  UnderpadsIndexRoute: typeof UnderpadsIndexRoute
+}
+
+const UnderpadsRouteChildren: UnderpadsRouteChildren = {
+  UnderpadsSizeRoute: UnderpadsSizeRoute,
+  UnderpadsIndexRoute: UnderpadsIndexRoute,
+}
+
+const UnderpadsRouteWithChildren = UnderpadsRoute._addFileChildren(
+  UnderpadsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   DiapersRoute: DiapersRouteWithChildren,
-  UnderpadsRoute: UnderpadsRoute,
+  UnderpadsRoute: UnderpadsRouteWithChildren,
   WhereToBuyRoute: WhereToBuyRoute,
   TipsAbsorptionTableRoute: TipsAbsorptionTableRoute,
   TipsSizeGuideRoute: TipsSizeGuideRoute,

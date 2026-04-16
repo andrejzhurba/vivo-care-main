@@ -216,9 +216,18 @@ function DiapersPage() {
                           <Ruler className="w-4 h-4 mr-2 text-slate-400 shrink-0" />
                           <span>{s.waist}</span>
                         </div>
-                        <div className="flex items-center text-sm text-slate-600">
-                          <Droplets className="w-4 h-4 mr-2 text-blue-400 shrink-0" />
-                          <span className="font-medium">{s.absorbency}</span>
+                        <div className="flex flex-col gap-1 mt-2">
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                            Поглинання
+                          </span>
+                          <div className="flex gap-0.5">
+                            {Array.from({ length: 9 }).map((_, i) => (
+                              <Droplets
+                                key={i}
+                                className="w-3.5 h-3.5 text-blue-500 fill-blue-500"
+                              />
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>

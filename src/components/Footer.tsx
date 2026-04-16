@@ -16,7 +16,7 @@ const TelegramIcon = ({ className }: { className?: string }) => (
 
 const ViberIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M17.5 11c0 3.037-2.463 5.5-5.5 5.5s-5.5-2.463-5.5-5.5 2.463-5.5 5.5-5.5 5.5 2.463 5.5 5.5zm1.5-1.5V9c0-2.209-1.791-4-4-4h-.5v.5c0 1.104-.896 2-2 2s-2-.896-2-2V5H10c-2.209 0-4 1.791-4 4v.5h.5c1.104 0 2 .896 2 2s-.896 2-2 2H6v.5c0 2.209 1.791 4 4 4h.5v-.5c0-1.104.896-2 2-2s2 .896 2 2v.5h.5c2.209 0 4-1.791 4-4v-.5h-.5c-1.104 0-2-.896-2-2s.896-2 2-2h.5zm5-1.5V16c0 4.418-3.582 8-8 8s-8-3.582-8-8V8c0-4.418 3.582-8 8-8s8 3.582 8 8z" />
+    <path d="M18.14 7.174c-.48-.72-.96-1.44-1.44-2.16-1.44-1.92-3.36-3.36-5.76-3.36-2.4 0-4.32 1.44-5.76 3.36-.48.72-.96 1.44-1.44 2.16-1.44 1.92-2.16 4.32-2.16 6.72 0 2.4.72 4.8 2.16 6.72.48.72.96 1.44 1.44 2.16 1.44 1.92 3.36 3.36 5.76 3.36 2.4 0 4.32-1.44 5.76-3.36.48-.72.96-1.44 1.44-2.16 1.44-1.92 2.16-4.32 2.16-6.72 0-2.4-.72-4.8-2.16-6.72zm-6.14 11.826c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm3-6c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z" />
   </svg>
 );
 
@@ -67,10 +67,10 @@ export function Footer() {
                   href={messengers.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 bg-green-500 rounded-full hover:bg-green-600 transition-colors"
+                  className="p-3 bg-green-500 rounded-full hover:bg-green-600 transition-colors"
                   aria-label="WhatsApp"
                 >
-                  <WhatsAppIcon className="w-5 h-5 text-white" />
+                  <WhatsAppIcon className="w-6 h-6 text-white" />
                 </a>
               )}
               {messengers.telegram && (
@@ -78,10 +78,10 @@ export function Footer() {
                   href={messengers.telegram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 bg-[#0088cc] rounded-full hover:bg-[#0077b5] transition-colors"
+                  className="p-3 bg-[#0088cc] rounded-full hover:bg-[#0077b5] transition-colors"
                   aria-label="Telegram"
                 >
-                  <TelegramIcon className="w-5 h-5 text-white" />
+                  <TelegramIcon className="w-6 h-6 text-white" />
                 </a>
               )}
               {messengers.viber && (
@@ -89,10 +89,10 @@ export function Footer() {
                   href={messengers.viber}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 bg-[#665cac] rounded-full hover:bg-[#7c6fbe] transition-colors"
+                  className="p-3 bg-[#665cac] rounded-full hover:bg-[#7c6fbe] transition-colors"
                   aria-label="Viber"
                 >
-                  <ViberIcon className="w-5 h-5 text-white" />
+                  <ViberIcon className="w-6 h-6 text-white" />
                 </a>
               )}
             </div>
