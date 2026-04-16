@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight, Droplets, ShieldCheck, Wind, Activity, Timer, Ban } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getSettings, type CMSSettings } from "@/lib/cms";
+import { Tips } from "@/components/Tips";
 
 import diaperImg from "@/assets/diapers-hero.jpg";
 import underpadImg from "@/assets/underpads-hero.jpg";
@@ -64,7 +65,7 @@ const diaperFeatures = [
   {
     icon: <Ban className="w-6 h-6 text-blue-500" />,
     title: "Нейтралізація запаху",
-    desc: "Система Odour Stop ефективно блокує неприємні запахи.",
+    desc: "Система Odour Stop эффективно блокує неприємні запахи.",
   },
 ];
 
@@ -130,6 +131,7 @@ function HomePage() {
                 src={brandLogo} 
                 alt="VIVO Care — професійні засоби гігієни (логотип бренду)" 
                 className="h-24 md:h-32 mx-auto mb-8 object-contain" 
+                loading="lazy"
               />
               <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-4 leading-tight tracking-tight">
                 {settings.heroSlogan.split(' ').map((word, i) => (
@@ -174,6 +176,7 @@ function HomePage() {
                     src={diaperImg}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     alt="Підгузки-труси VIVO Care для активних людей — переглянути деталі"
+                    loading="lazy"
                   />
                 </div>
                 <div className="p-10">
@@ -197,6 +200,7 @@ function HomePage() {
                     src={underpadImg}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     alt="Поглинаючі пелюшки VIVO Care для гігієни поверхонь — переглянути деталі"
+                    loading="lazy"
                   />
                 </div>
                 <div className="p-10">
@@ -236,6 +240,7 @@ function HomePage() {
                   src={diaperImg}
                   className="rounded-[3rem] shadow-2xl rotate-2 transition-transform hover:rotate-0 duration-500"
                   alt="Переваги підгузків VIVO Care: комфорт та надійність"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -265,11 +270,14 @@ function HomePage() {
                   src={underpadImg}
                   className="rounded-[3rem] shadow-2xl -rotate-2 transition-transform hover:rotate-0 duration-500"
                   alt="Переваги пелюшок VIVO Care: 5 шарів поглинання"
+                  loading="lazy"
                 />
               </div>
             </div>
           </div>
         </section>
+
+        <Tips />
       </main>
 
       {/* 5. WHERE TO BUY */}

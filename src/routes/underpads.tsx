@@ -41,6 +41,23 @@ const advantages = [
   { icon: <Heart className="w-5 h-5 text-blue-500" />, title: "Гіпоалергенність", desc: "Безпечно для чутливої шкіри" },
 ];
 
+import { FAQ } from "@/components/FAQ";
+
+const underpadFaqs = [
+  {
+    question: "Чи підходять пелюшки VIVO Care для догляду за лежачими хворими?",
+    answer: "Так, поглинаючі пелюшки VIVO Care спеціально розроблені для професійного догляду за лежачими хворими. Вони мають 5 шарів захисту, що забезпечує надійне утримання вологи та захист постільної білизни від протікань."
+  },
+  {
+    question: "Чи можна використовувати ці пелюшки для дітей?",
+    answer: "Так, пелюшки VIVO Care гіпоалергенні та виготовлені з м'яких матеріалів, тому вони безпечні для ніжної шкіри немовлят під час перевдягання або повітряних ванн."
+  },
+  {
+    question: "Який рівень поглинання мають пелюшки?",
+    answer: "Наші пелюшки мають високий рівень поглинання (8 з 10), що дозволяє їм швидко вбирати значну кількість рідини, залишаючи поверхню сухою."
+  }
+];
+
 function UnderpadsPage() {
   const [settings, setSettings] = useState<CMSSettings | null>(null);
 
@@ -53,9 +70,33 @@ function UnderpadsPage() {
 
   const underpadSizes = settings?.underpadSizes || [];
 
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Поглинаючі пелюшки VIVO Care",
+    "image": "https://vivocare.com.ua/assets/underpads-product.png",
+    "description": "Гігієнічні поглинаючі пелюшки VIVO Care з 5 шарами захисту для догляду за хворими та дітьми.",
+    "brand": {
+      "@type": "Brand",
+      "name": "VIVO Care"
+    },
+    "offers": {
+      "@type": "AggregateOffer",
+      "offerCount": underpadSizes.length > 0 ? underpadSizes.length : 1,
+      "lowPrice": "300",
+      "highPrice": "600",
+      "priceCurrency": "UAH",
+      "availability": "https://schema.org/InStock"
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-white font-sans selection:bg-blue-100 selection:text-blue-900">
       <Header />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
 
       <main>
         {/* Hero Section */}
@@ -88,6 +129,7 @@ function UnderpadsPage() {
                   src={underpadImg} 
                   alt="Упаковка поглинаючих пелюшок VIVO Care — 5 шарів захисту" 
                   className="w-full max-w-lg mx-auto drop-shadow-2xl animate-in zoom-in duration-700" 
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -113,13 +155,14 @@ function UnderpadsPage() {
                       <img 
                         src={(item.images && item.images.length > 0) ? item.images[0] : underpadImg} 
                         className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" 
+                        loading="lazy"
                       />
                     </div>
                     {item.images && item.images.length > 1 && (
                       <div className="flex gap-2 justify-center">
                         {item.images.map((img, idx) => (
                           <div key={idx} className="w-8 h-8 rounded-md border border-slate-100 overflow-hidden flex-shrink-0">
-                            <img src={img} className="w-full h-full object-cover" />
+                            <img src={img} className="w-full h-full object-cover" loading="lazy" />
                           </div>
                         ))}
                       </div>
@@ -150,6 +193,9 @@ function UnderpadsPage() {
             </div>
           </div>
         </section>
+
+        {/* FAQ Section */}
+        <FAQ items={underpadFaqs} title="Питання про пелюшки" />
 
         {/* ПЕРЕВАГИ (Horizontal) */}
         <section className="py-20 bg-slate-50/50">

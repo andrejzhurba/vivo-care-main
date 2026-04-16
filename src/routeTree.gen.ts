@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WhereToBuyRouteImport } from './routes/where-to-buy'
 import { Route as UnderpadsRouteImport } from './routes/underpads'
 import { Route as DiapersRouteImport } from './routes/diapers'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -16,6 +17,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminUnderpadsRouteImport } from './routes/admin.underpads'
 import { Route as AdminDiapersRouteImport } from './routes/admin.diapers'
 
+const WhereToBuyRoute = WhereToBuyRouteImport.update({
+  id: '/where-to-buy',
+  path: '/where-to-buy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UnderpadsRoute = UnderpadsRouteImport.update({
   id: '/underpads',
   path: '/underpads',
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/diapers': typeof DiapersRoute
   '/underpads': typeof UnderpadsRoute
+  '/where-to-buy': typeof WhereToBuyRoute
   '/admin/diapers': typeof AdminDiapersRoute
   '/admin/underpads': typeof AdminUnderpadsRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRouteWithChildren
   '/diapers': typeof DiapersRoute
   '/underpads': typeof UnderpadsRoute
+  '/where-to-buy': typeof WhereToBuyRoute
   '/admin/diapers': typeof AdminDiapersRoute
   '/admin/underpads': typeof AdminUnderpadsRoute
 }
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/diapers': typeof DiapersRoute
   '/underpads': typeof UnderpadsRoute
+  '/where-to-buy': typeof WhereToBuyRoute
   '/admin/diapers': typeof AdminDiapersRoute
   '/admin/underpads': typeof AdminUnderpadsRoute
 }
@@ -79,6 +88,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/diapers'
     | '/underpads'
+    | '/where-to-buy'
     | '/admin/diapers'
     | '/admin/underpads'
   fileRoutesByTo: FileRoutesByTo
@@ -87,6 +97,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/diapers'
     | '/underpads'
+    | '/where-to-buy'
     | '/admin/diapers'
     | '/admin/underpads'
   id:
@@ -95,6 +106,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/diapers'
     | '/underpads'
+    | '/where-to-buy'
     | '/admin/diapers'
     | '/admin/underpads'
   fileRoutesById: FileRoutesById
@@ -104,10 +116,18 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   DiapersRoute: typeof DiapersRoute
   UnderpadsRoute: typeof UnderpadsRoute
+  WhereToBuyRoute: typeof WhereToBuyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/where-to-buy': {
+      id: '/where-to-buy'
+      path: '/where-to-buy'
+      fullPath: '/where-to-buy'
+      preLoaderRoute: typeof WhereToBuyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/underpads': {
       id: '/underpads'
       path: '/underpads'
@@ -170,6 +190,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   DiapersRoute: DiapersRoute,
   UnderpadsRoute: UnderpadsRoute,
+  WhereToBuyRoute: WhereToBuyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

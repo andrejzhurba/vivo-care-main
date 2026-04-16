@@ -54,9 +54,34 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="uk">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "VIVO Care",
+              "url": "https://vivocare.com.ua",
+              "logo": "https://vivocare.com.ua/logo.png",
+              "description": "Професійні гігієнічні засоби для дорослих: підгузки-труси та поглинаючі пелюшки VIVO Care.",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Київ",
+                "addressCountry": "UA"
+              },
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+38-067-123-45-67",
+                "contactType": "customer service",
+                "areaServed": "UA",
+                "availableLanguage": ["Ukrainian", "Russian"]
+              }
+            })
+          }}
+        />
       </head>
       <body>
         {children}

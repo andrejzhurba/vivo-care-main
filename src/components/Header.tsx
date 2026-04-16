@@ -10,6 +10,7 @@ export function Header() {
     { to: "/", label: "Головна" },
     { to: "/diapers", label: "Підгузки-труси" },
     { to: "/underpads", label: "Пелюшки" },
+    { to: "/where-to-buy", label: "Де купити" },
   ] as const;
 
   return (

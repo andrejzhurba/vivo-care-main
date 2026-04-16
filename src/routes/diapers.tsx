@@ -54,6 +54,23 @@ const mainFeatures = [
   { icon: <Ban className="w-6 h-6 text-blue-500" />, title: "Odour Stop", desc: "Контроль запаху" },
 ];
 
+import { FAQ } from "@/components/FAQ";
+
+const diaperFaqs = [
+  {
+    question: "Як підібрати розмір підгузків-трусів VIVO Care?",
+    answer: "Для правильного підбору необхідно виміряти обхват талії та стегон. Орієнтуйтеся на більший показник. В нашій таблиці розмірів вказано діапазон обхвату для кожного розміру (S, M, L, XL, XXL). Якщо ваші заміри знаходяться на межі двох розмірів, рекомендуємо обрати більший для максимального комфорту."
+  },
+  {
+    question: "Чи підходять підгузки-труси для нічного використання?",
+    answer: "Так, підгузки-труси VIVO Care мають високу поглинальну здатність та систему захисту від протікань, що робить їх ідеальними для тривалого використання, включаючи нічний час."
+  },
+  {
+    question: "Як часто потрібно міняти підгузок-труси?",
+    answer: "Рекомендується змінювати виріб за потреби, але не рідше ніж кожні 4-6 годин, або відразу після наповнення. Наші підгузки оснащені індикатором наповнення, який підкаже, коли прийшов час для зміни."
+  }
+];
+
 function DiapersPage() {
   const [settings, setSettings] = useState<CMSSettings | null>(null);
 
@@ -66,9 +83,33 @@ function DiapersPage() {
 
   const diaperSizeInfo = settings?.diaperSizes || [];
 
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Підгузки-труси VIVO Care для дорослих",
+    "image": "https://vivocare.com.ua/assets/diapers-L.png",
+    "description": "Професійні підгузки-труси для дорослих з еластичним поясом 360° та високою поглинальною здатністю.",
+    "brand": {
+      "@type": "Brand",
+      "name": "VIVO Care"
+    },
+    "offers": {
+      "@type": "AggregateOffer",
+      "offerCount": diaperSizeInfo.length > 0 ? diaperSizeInfo.length : 5,
+      "lowPrice": "500",
+      "highPrice": "800",
+      "priceCurrency": "UAH",
+      "availability": "https://schema.org/InStock"
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-white font-sans selection:bg-blue-100 selection:text-blue-900">
       <Header />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+      />
 
       <main>
         {/* 1. ШАПКА ПРОДУКТУ */}
@@ -104,13 +145,14 @@ function DiapersPage() {
                         src={(s.images && s.images.length > 0) ? s.images[0] : (sizeImageMap[s.id] || diapersM)} 
                         alt={`Підгузки VIVO Care розмір ${s.id} (${s.name}) — упаковка`} 
                         className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" 
+                        loading="lazy"
                       />
                     </div>
                     {s.images && s.images.length > 1 && (
                       <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide justify-center">
                         {s.images.map((img, idx) => (
                           <div key={idx} className="w-10 h-10 rounded-lg border border-slate-100 overflow-hidden flex-shrink-0">
-                            <img src={img} className="w-full h-full object-cover" />
+                            <img src={img} className="w-full h-full object-cover" loading="lazy" />
                           </div>
                         ))}
                       </div>
@@ -163,6 +205,9 @@ function DiapersPage() {
             </div>
           </div>
         </section>
+
+        {/* FAQ Section */}
+        <FAQ items={diaperFaqs} title="Питання про підгузки-труси" />
       </main>
 
       <div className="bg-slate-900 py-10">
