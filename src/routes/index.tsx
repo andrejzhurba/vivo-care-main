@@ -12,6 +12,7 @@ import { Tips } from "@/components/Tips";
 import diaperImg from "@/assets/diapers-hero.jpg";
 import underpadImg from "@/assets/underpads-hero.jpg";
 import brandLogo from "../../vivo logo.png";
+import heroBg from "../../Gemini_Generated_Image_pql2g1pql2g1pql2.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -119,18 +120,18 @@ function HomePage() {
 
       <main>
         {/* 1. HERO SECTION */}
-        <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-white via-blue-50 to-slate-100">
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-20 left-10 w-64 h-64 bg-blue-300 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-slate-300 rounded-full blur-3xl" />
-          </div>
+        <section 
+          className="relative min-h-[90vh] flex items-center overflow-hidden bg-slate-100 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        >
+          <div className="absolute inset-0 bg-white/20 backdrop-blur-[2px]" />
 
           <div className="container mx-auto px-6 relative z-10">
-            <div className="max-w-3xl mx-auto text-center animate-in fade-in duration-1000">
+            <div className="max-w-3xl text-left animate-in fade-in duration-1000">
               <img 
                 src={brandLogo} 
                 alt="VIVO Care — професійні засоби гігієни (логотип бренду)" 
-                className="h-24 md:h-32 mx-auto mb-8 object-contain" 
+                className="h-24 md:h-32 mb-8 object-contain" 
                 loading="lazy"
               />
               <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-4 leading-tight tracking-tight">
@@ -140,7 +141,7 @@ function HomePage() {
                   </span>
                 ))}
               </h1>
-              <p className="text-lg md:text-xl text-slate-600 mb-10 font-light leading-relaxed max-w-2xl mx-auto">
+              <p className="text-lg md:text-xl text-slate-700 mb-10 font-medium leading-relaxed max-w-2xl">
                 {settings.heroDescription}
               </p>
               <Button

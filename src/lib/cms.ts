@@ -193,3 +193,27 @@ export async function saveSettings(settings: CMSSettings) {
     localStorage.setItem("vivo_cms_settings", JSON.stringify(settings));
   }
 }
+
+export async function uploadFileToStorage(file: File): Promise<string> {
+  if (!SUPABASE_URL || !SUPABASE_KEY) {
+    throw new Error("Supabase is not configured");
+  }
+
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
+  const filePath = `${fileName}`;
+
+  const { error } = await supabase.storage
+    .from('product-images')
+    .upload(filePath, file);
+
+  if (error) {
+    throw error;
+  }
+
+  const { data } = supabase.storage
+    .from('product-images')
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
+}

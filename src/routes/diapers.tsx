@@ -71,6 +71,14 @@ const diaperFaqs = [
   }
 ];
 
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious 
+} from "@/components/ui/carousel";
+
 function DiapersPage() {
   const [settings, setSettings] = useState<CMSSettings | null>(null);
 
@@ -134,54 +142,62 @@ function DiapersPage() {
             </div>
 
             <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
-              {diaperSizeInfo.map((s) => (
-                <article 
-                  key={s.id} 
-                  className="group flex flex-col bg-white border border-slate-100 rounded-[2rem] p-6 transition-all duration-300 hover:shadow-xl hover:border-blue-200 hover:-translate-y-2 shadow-sm"
-                >
-                  <div className="flex flex-col gap-4 mb-6">
-                    <div className="aspect-square overflow-hidden flex items-center justify-center">
-                      <img 
-                        src={(s.images && s.images.length > 0) ? s.images[0] : (sizeImageMap[s.id] || diapersM)} 
-                        alt={`Підгузки VIVO Care розмір ${s.id} (${s.name}) — упаковка`} 
-                        className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" 
-                        loading="lazy"
-                      />
-                    </div>
-                    {s.images && s.images.length > 1 && (
-                      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide justify-center">
-                        {s.images.map((img, idx) => (
-                          <div key={idx} className="w-10 h-10 rounded-lg border border-slate-100 overflow-hidden flex-shrink-0">
-                            <img src={img} className="w-full h-full object-cover" loading="lazy" />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="mb-4 text-center sm:text-left">
-                    <div className="flex flex-col sm:flex-row items-center gap-2 mb-1">
-                      <span className="text-2xl font-black text-blue-600">{s.id}</span>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">{s.name}</span>
+              {diaperSizeInfo.map((s) => {
+                const images = s.images && s.images.length > 0 ? s.images : [sizeImageMap[s.id] || diapersM];
+                return (
+                  <article 
+                    key={s.id} 
+                    className="group flex flex-col bg-white border border-slate-100 rounded-[2rem] p-6 transition-all duration-300 hover:shadow-xl hover:border-blue-200 hover:-translate-y-2 shadow-sm"
+                  >
+                    <div className="flex flex-col gap-4 mb-6">
+                      <Carousel className="w-full">
+                        <CarouselContent>
+                          {images.map((img, idx) => (
+                            <CarouselItem key={idx}>
+                              <div className="aspect-square overflow-hidden flex items-center justify-center">
+                                <img 
+                                  src={img} 
+                                  alt={`Підгузки VIVO Care розмір ${s.id} (${s.name}) — упаковка`} 
+                                  className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" 
+                                  loading="lazy"
+                                />
+                              </div>
+                            </CarouselItem>
+                          ))}
+                        </CarouselContent>
+                        {images.length > 1 && (
+                          <>
+                            <CarouselPrevious className="left-2" />
+                            <CarouselNext className="right-2" />
+                          </>
+                        )}
+                      </Carousel>
                     </div>
                     
-                    <div className="space-y-2 mt-4">
-                      <div className="flex items-center text-sm text-slate-600">
-                        <Ruler className="w-4 h-4 mr-2 text-slate-400 shrink-0" />
-                        <span>{s.waist}</span>
+                    <div className="mb-4 text-center sm:text-left">
+                      <div className="flex flex-col sm:flex-row items-center gap-2 mb-1">
+                        <span className="text-2xl font-black text-blue-600">{s.id}</span>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">{s.name}</span>
                       </div>
-                      <div className="flex items-center text-sm text-slate-600">
-                        <Droplets className="w-4 h-4 mr-2 text-blue-400 shrink-0" />
-                        <span className="font-medium">{s.absorbency}</span>
+                      
+                      <div className="space-y-2 mt-4">
+                        <div className="flex items-center text-sm text-slate-600">
+                          <Ruler className="w-4 h-4 mr-2 text-slate-400 shrink-0" />
+                          <span>{s.waist}</span>
+                        </div>
+                        <div className="flex items-center text-sm text-slate-600">
+                          <Droplets className="w-4 h-4 mr-2 text-blue-400 shrink-0" />
+                          <span className="font-medium">{s.absorbency}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="mt-auto">
-                     <BuyDropdown stores={settings?.diaperStores[s.id] || []} />
-                  </div>
-                </article>
-              ))}
+                    <div className="mt-auto">
+                       <BuyDropdown stores={settings?.diaperStores[s.id] || []} />
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>

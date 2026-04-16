@@ -58,6 +58,14 @@ const underpadFaqs = [
   }
 ];
 
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious 
+} from "@/components/ui/carousel";
+
 function UnderpadsPage() {
   const [settings, setSettings] = useState<CMSSettings | null>(null);
 
@@ -143,53 +151,61 @@ function UnderpadsPage() {
             <div className="h-1 w-16 bg-blue-500 mx-auto rounded-full mb-12" />
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-              {underpadSizes.map((item) => (
-                <article key={item.id} className="w-full max-w-sm bg-white border border-slate-100 rounded-[2.5rem] p-8 shadow-sm transition-all hover:shadow-xl hover:-translate-y-2 hover:border-blue-100 group flex flex-col">
-                  <div className="flex justify-between items-start mb-4">
-                     <h3 className="text-xl font-bold text-slate-400 uppercase tracking-widest">{item.name}</h3>
-                     <span className="bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1 rounded-full">{item.qty}</span>
-                  </div>
-                  
-                  <div className="mb-6">
-                    <div className="aspect-video overflow-hidden rounded-2xl mb-4">
-                      <img 
-                        src={(item.images && item.images.length > 0) ? item.images[0] : underpadImg} 
-                        className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" 
-                        loading="lazy"
-                      />
+              {underpadSizes.map((item) => {
+                const images = item.images && item.images.length > 0 ? item.images : [underpadImg];
+                return (
+                  <article key={item.id} className="w-full max-w-sm bg-white border border-slate-100 rounded-[2.5rem] p-8 shadow-sm transition-all hover:shadow-xl hover:-translate-y-2 hover:border-blue-100 group flex flex-col">
+                    <div className="flex justify-between items-start mb-4">
+                       <h3 className="text-xl font-bold text-slate-400 uppercase tracking-widest">{item.name}</h3>
+                       <span className="bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1 rounded-full">{item.qty}</span>
                     </div>
-                    {item.images && item.images.length > 1 && (
-                      <div className="flex gap-2 justify-center">
-                        {item.images.map((img, idx) => (
-                          <div key={idx} className="w-8 h-8 rounded-md border border-slate-100 overflow-hidden flex-shrink-0">
-                            <img src={img} className="w-full h-full object-cover" loading="lazy" />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
+                    
+                    <div className="mb-6">
+                      <Carousel className="w-full">
+                        <CarouselContent>
+                          {images.map((img, idx) => (
+                            <CarouselItem key={idx}>
+                              <div className="aspect-video overflow-hidden rounded-2xl flex items-center justify-center">
+                                <img 
+                                  src={img} 
+                                  className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105" 
+                                  loading="lazy"
+                                />
+                              </div>
+                            </CarouselItem>
+                          ))}
+                        </CarouselContent>
+                        {images.length > 1 && (
+                          <>
+                            <CarouselPrevious className="left-2" />
+                            <CarouselNext className="right-2" />
+                          </>
+                        )}
+                      </Carousel>
+                    </div>
 
-                  <div className="text-blue-600 font-black text-5xl mb-6 tracking-tighter italic text-center">{item.size}</div>
-                  
-                  <div className="space-y-4 mb-8">
-                    <div className="flex flex-col items-center gap-2 p-4 bg-slate-50 rounded-2xl">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Рівень поглинання</span>
-                      <div className="flex gap-1" aria-label={`Рівень поглинання: ${item.absorbLevel} з 10`}>
-                        {Array.from({ length: 10 }).map((_, i) => (
-                          <Droplets 
-                            key={i} 
-                            className={`w-4 h-4 ${i < item.absorbLevel ? "text-blue-500 fill-blue-500" : "text-slate-200"}`} 
-                          />
-                        ))}
+                    <div className="text-blue-600 font-black text-5xl mb-6 tracking-tighter italic text-center">{item.size}</div>
+                    
+                    <div className="space-y-4 mb-8">
+                      <div className="flex flex-col items-center gap-2 p-4 bg-slate-50 rounded-2xl">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Рівень поглинання</span>
+                        <div className="flex gap-1" aria-label={`Рівень поглинання: ${item.absorbLevel} з 10`}>
+                          {Array.from({ length: 10 }).map((_, i) => (
+                            <Droplets 
+                              key={i} 
+                              className={`w-4 h-4 ${i < item.absorbLevel ? "text-blue-500 fill-blue-500" : "text-slate-200"}`} 
+                            />
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  
-                  <div className="mt-auto pt-6 border-t border-slate-50">
-                    <BuyDropdown stores={settings?.underpadStores || []} />
-                  </div>
-                </article>
-              ))}
+                    
+                    <div className="mt-auto pt-6 border-t border-slate-50">
+                      <BuyDropdown stores={settings?.underpadStores || []} />
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>

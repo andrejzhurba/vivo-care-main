@@ -1,14 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { useState, useEffect } from "react";
-import { getSettings, saveSettings, type CMSSettings, type StoreLink } from "@/lib/cms";
+import { useState, useEffect, useCallback } from "react";
+import { getSettings, saveSettings, uploadFileToStorage, type CMSSettings, type StoreLink } from "@/lib/cms";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { Save, Plus, Trash2, LogOut, ExternalLink } from "lucide-react";
+import { Save, Plus, Trash2, LogOut, ExternalLink, Upload, Loader2, X } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -16,6 +16,91 @@ export const Route = createFileRoute("/admin")({
   }),
   component: AdminPage,
 });
+
+function ImageUploadZone({ 
+  images, 
+  onUpload, 
+  onRemove 
+}: { 
+  images: string[], 
+  onUpload: (urls: string[]) => void, 
+  onRemove: (index: number) => void 
+}) {
+  const [isDragging, setIsDragging] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleFiles = useCallback(async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    
+    setIsUploading(true);
+    const uploadPromises = Array.from(files).map(file => uploadFileToStorage(file));
+    
+    try {
+      const urls = await Promise.all(uploadPromises);
+      onUpload(urls);
+      toast.success(`Завантажено ${urls.length} фото`);
+    } catch (error) {
+      console.error(error);
+      toast.error("Помилка при завантаженні");
+    } finally {
+      setIsUploading(false);
+    }
+  }, [onUpload]);
+
+  return (
+    <div className="space-y-4">
+      <div 
+        onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+        onDragLeave={() => setIsDragging(false)}
+        onDrop={(e) => { e.preventDefault(); setIsDragging(false); handleFiles(e.dataTransfer.files); }}
+        className={`
+          border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center transition-all
+          ${isDragging ? "border-blue-500 bg-blue-50/50 scale-[0.99]" : "border-slate-200 hover:border-blue-300 hover:bg-slate-50/50"}
+          ${isUploading ? "opacity-50 pointer-events-none" : ""}
+        `}
+      >
+        {isUploading ? (
+          <Loader2 className="w-10 h-10 text-blue-500 animate-spin mb-4" />
+        ) : (
+          <Upload className="w-10 h-10 text-slate-300 mb-4" />
+        )}
+        <p className="text-sm font-medium text-slate-600">
+          {isUploading ? "Завантаження..." : "Перетягніть фото сюди або клікніть для вибору"}
+        </p>
+        <input 
+          type="file" 
+          multiple 
+          accept="image/*" 
+          className="hidden" 
+          id="file-upload"
+          onChange={(e) => handleFiles(e.target.files)}
+        />
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="mt-4 rounded-xl"
+          onClick={() => document.getElementById("file-upload")?.click()}
+        >
+          Вибрати файли
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
+        {images.map((url, idx) => (
+          <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border border-slate-100 group">
+            <img src={url} className="w-full h-full object-cover" />
+            <button 
+              onClick={() => onRemove(idx)}
+              className="absolute top-1 right-1 bg-white/90 p-1 rounded-lg text-red-500 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -92,19 +177,10 @@ function AdminPage() {
     setSettings({ ...settings, diaperSizes: newSizes, diaperStores: newStores });
   };
 
-  const updateDiaperImage = (sizeIndex: number, imageIndex: number, value: string) => {
+  const handleDiaperUpload = (sizeIndex: number, newUrls: string[]) => {
     if (!settings) return;
     const newSizes = [...settings.diaperSizes];
-    const images = [...(newSizes[sizeIndex].images || [])];
-    images[imageIndex] = value;
-    newSizes[sizeIndex] = { ...newSizes[sizeIndex], images };
-    setSettings({ ...settings, diaperSizes: newSizes });
-  };
-
-  const addDiaperImage = (sizeIndex: number) => {
-    if (!settings) return;
-    const newSizes = [...settings.diaperSizes];
-    const images = [...(newSizes[sizeIndex].images || []), ""];
+    const images = [...(newSizes[sizeIndex].images || []), ...newUrls];
     newSizes[sizeIndex] = { ...newSizes[sizeIndex], images };
     setSettings({ ...settings, diaperSizes: newSizes });
   };
@@ -140,19 +216,10 @@ function AdminPage() {
     setSettings({ ...settings, underpadSizes: newSizes });
   };
 
-  const updateUnderpadImage = (sizeIndex: number, imageIndex: number, value: string) => {
+  const handleUnderpadUpload = (sizeIndex: number, newUrls: string[]) => {
     if (!settings) return;
     const newSizes = [...settings.underpadSizes];
-    const images = [...(newSizes[sizeIndex].images || [])];
-    images[imageIndex] = value;
-    newSizes[sizeIndex] = { ...newSizes[sizeIndex], images };
-    setSettings({ ...settings, underpadSizes: newSizes });
-  };
-
-  const addUnderpadImage = (sizeIndex: number) => {
-    if (!settings) return;
-    const newSizes = [...settings.underpadSizes];
-    const images = [...(newSizes[sizeIndex].images || []), ""];
+    const images = [...(newSizes[sizeIndex].images || []), ...newUrls];
     newSizes[sizeIndex] = { ...newSizes[sizeIndex], images };
     setSettings({ ...settings, underpadSizes: newSizes });
   };
@@ -365,27 +432,12 @@ function AdminPage() {
                   </div>
 
                   <div className="space-y-4 mb-8">
-                    <div className="flex justify-between items-center">
-                      <h3 className="font-bold text-slate-900">Фотографії (URL)</h3>
-                      <Button variant="ghost" size="sm" onClick={() => addDiaperImage(sizeIndex)} className="text-blue-600 hover:bg-blue-50">
-                        <Plus className="w-4 h-4 mr-1" /> Додати фото
-                      </Button>
-                    </div>
-                    <div className="grid gap-3">
-                      {(size.images || []).map((img, imgIndex) => (
-                        <div key={imgIndex} className="flex gap-2 items-center">
-                          <Input 
-                            value={img} 
-                            onChange={(e) => updateDiaperImage(sizeIndex, imgIndex, e.target.value)}
-                            placeholder="https://..."
-                            className="bg-slate-50 rounded-lg border-slate-200"
-                          />
-                          <Button variant="ghost" size="icon" onClick={() => removeDiaperImage(sizeIndex, imgIndex)} className="text-slate-300 hover:text-red-500">
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
+                    <h3 className="font-bold text-slate-900">Фотографії (Drag-n-Drop)</h3>
+                    <ImageUploadZone 
+                      images={size.images || []} 
+                      onUpload={(urls) => handleDiaperUpload(sizeIndex, urls)}
+                      onRemove={(idx) => removeDiaperImage(sizeIndex, idx)}
+                    />
                   </div>
 
                   <div className="border-t border-slate-100 pt-6">
@@ -496,27 +548,12 @@ function AdminPage() {
                    </div>
 
                    <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <h3 className="font-bold text-slate-900">Фотографії (URL)</h3>
-                      <Button variant="ghost" size="sm" onClick={() => addUnderpadImage(sizeIndex)} className="text-blue-600 hover:bg-blue-50">
-                        <Plus className="w-4 h-4 mr-1" /> Додати фото
-                      </Button>
-                    </div>
-                    <div className="grid gap-3">
-                      {(size.images || []).map((img, imgIndex) => (
-                        <div key={imgIndex} className="flex gap-2 items-center">
-                          <Input 
-                            value={img} 
-                            onChange={(e) => updateUnderpadImage(sizeIndex, imgIndex, e.target.value)}
-                            placeholder="https://..."
-                            className="bg-slate-50 rounded-lg border-slate-200"
-                          />
-                          <Button variant="ghost" size="icon" onClick={() => removeUnderpadImage(sizeIndex, imgIndex)} className="text-slate-300 hover:text-red-500">
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
+                    <h3 className="font-bold text-slate-900">Фотографії (Drag-n-Drop)</h3>
+                    <ImageUploadZone 
+                      images={size.images || []} 
+                      onUpload={(urls) => handleUnderpadUpload(sizeIndex, urls)}
+                      onRemove={(idx) => removeUnderpadImage(sizeIndex, idx)}
+                    />
                   </div>
                  </div>
                ))}
