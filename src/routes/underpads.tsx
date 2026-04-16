@@ -30,38 +30,42 @@ export const Route = createFileRoute("/underpads")({
 
 const commonSpecs = [
   { label: "Шари поглинання", value: "5 шарів" },
-  { label: "Верхній шар", value: "М'який нетканий" },
-  { label: "Внутрішній шар", value: "Целюлоза + SAP" },
+  { label: "Верхній шар", value: "М'який нетканий гіпоалергенний" },
+  { label: "Розподільний шар", value: "Tissue layers — рівномірний розподіл вологи" },
+  { label: "Абсорбуючий шар", value: "SAP + розпушена целюлоза (нейтралізація запаху)" },
   { label: "Нижній шар", value: "Водонепроникна плівка" },
   { label: "Гіпоалергенність", value: "Так" },
+  { label: "Захист від запаху", value: "Odour Free" },
+  { label: "Термін придатності", value: "5 років" },
+  { label: "Сертифікація", value: "ISO 9001, ISO 13485, CE" },
   { label: "Виробник", value: "Vivo Care" },
 ];
 
 const advantages = [
   {
     icon: <Droplets className="w-5 h-5 text-blue-500" />,
-    title: "Висока поглинальність",
-    desc: "Швидко вбирає та утримує рідину",
+    title: "5 шарів поглинання",
+    desc: "Абсорбуючий шар з SAP миттєво перетворює рідину на гель",
   },
   {
     icon: <ShieldCheck className="w-5 h-5 text-blue-500" />,
-    title: "Вологонепроникність",
-    desc: "Захищає поверхні від протікань",
+    title: "100% захист від протікання",
+    desc: "Водонепроникна основа утримує вологу",
   },
   {
     icon: <Activity className="w-5 h-5 text-blue-500" />,
-    title: "М’яка поверхня",
-    desc: "Комфортна для тривалого контакту",
+    title: "Гіпоалергенний",
+    desc: "М'який нетканий верхній шар для чутливої шкіри",
   },
   {
     icon: <Wind className="w-5 h-5 text-blue-500" />,
-    title: "Рівномірний розподіл",
-    desc: "Антиковзне покриття для стабільності",
+    title: "Tissue layers",
+    desc: "Рівномірний розподіл вологи — не збивається в грудки",
   },
   {
     icon: <Heart className="w-5 h-5 text-blue-500" />,
-    title: "Гіпоалергенність",
-    desc: "Безпечно для чутливої шкіри",
+    title: "Odour Free",
+    desc: "Нейтралізація запаху — без неприємних ароматів",
   },
 ];
 
@@ -83,6 +87,15 @@ const underpadFaqs = [
     answer:
       "Наші пелюшки мають високий рівень поглинання (8 з 10), що дозволяє їм швидко вбирати значну кількість рідини, залишаючи поверхню сухою.",
   },
+];
+
+const usageApplications = [
+  { title: "Захист постільної білизни та меблів" },
+  { title: "Під час медичних оглядів та маніпуляцій" },
+  { title: "При зміні підгузків" },
+  { title: "Для пацієнтів у інвалідних візках" },
+  { title: "Догляд за домашніми тваринами" },
+  { title: "Післяопераційний період" },
 ];
 
 import {
@@ -277,6 +290,25 @@ function UnderpadsPage() {
                     <p className="text-sm text-slate-500 leading-relaxed font-light">{a.desc}</p>
                   </div>
                 </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* СФЕРИ ЗАСТОСУВАННЯ */}
+        <section className="py-16 bg-blue-50/50">
+          <div className="container mx-auto px-6">
+            <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">
+              Призначення (Usage)
+            </h2>
+            <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
+              {usageApplications.map((item, i) => (
+                <span
+                  key={i}
+                  className="px-4 py-2 bg-white rounded-full text-sm font-medium text-slate-700 border border-slate-200"
+                >
+                  {item.title}
+                </span>
               ))}
             </div>
           </div>

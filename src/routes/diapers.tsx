@@ -44,13 +44,13 @@ const sizeImageMap: Record<string, string> = {
 const mainFeatures = [
   {
     icon: <Activity className="w-6 h-6 text-blue-500" />,
-    title: "Пояс 360°",
-    desc: "Анатомічна посадка",
+    title: "Еластичний пояс 360°",
+    desc: "М'яка посадка та свобода рухів",
   },
   {
     icon: <Droplets className="w-6 h-6 text-blue-500" />,
-    title: "High Absorb",
-    desc: "Сухість 12 годин",
+    title: "Висока поглинальність",
+    desc: "Сухість і впевненість",
   },
   {
     icon: <ShieldCheck className="w-6 h-6 text-blue-500" />,
@@ -59,15 +59,19 @@ const mainFeatures = [
   },
   {
     icon: <Wind className="w-6 h-6 text-blue-500" />,
-    title: "Air Flow",
-    desc: "Дихаючі матеріали",
+    title: "Дихаючий матеріал",
+    desc: "Комфорт для шкіри",
   },
   {
     icon: <Timer className="w-6 h-6 text-blue-500" />,
-    title: "Humidity Indicator",
-    desc: "Індикатор наповнення",
+    title: "Індикатор вологості",
+    desc: "Зручний контроль заміни",
   },
-  { icon: <Ban className="w-6 h-6 text-blue-500" />, title: "Odour Stop", desc: "Контроль запаху" },
+  {
+    icon: <Ban className="w-6 h-6 text-blue-500" />,
+    title: "Odour Stop",
+    desc: "Нейтралізація запаху",
+  },
 ];
 
 import { FAQ } from "@/components/FAQ";

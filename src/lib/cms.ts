@@ -9,8 +9,13 @@ export interface DiaperSize {
   id: string;
   name: string;
   waist: string;
+  weight: string;
   absorbency: string;
+  drops: number;
   images?: string[];
+  description?: string;
+  features?: string[];
+  usage?: string;
 }
 
 export interface UnderpadSize {
@@ -20,6 +25,10 @@ export interface UnderpadSize {
   absorbLevel: number;
   qty: string;
   images?: string[];
+  description?: string;
+  features?: string[];
+  expiration?: string;
+  certification?: string;
 }
 
 export interface CMSSettings {
@@ -75,16 +84,100 @@ const DEFAULT_SETTINGS: CMSSettings = {
   },
   adminPassword: "vivo2025",
   diaperSizes: [
-    { id: "S", name: "Small", waist: "60-90 см", absorbency: "1200 мл", images: [] },
-    { id: "M", name: "Medium", waist: "80-110 см", absorbency: "1400 мл", images: [] },
-    { id: "L", name: "Large", waist: "100-135 см", absorbency: "1600 мл", images: [] },
-    { id: "XL", name: "Extra Large", waist: "120-155 см", absorbency: "1800 мл", images: [] },
+    {
+      id: "S",
+      name: "Small",
+      waist: "60-90 см",
+      weight: "40-60 кг",
+      absorbency: "1200 мл",
+      drops: 8,
+      images: [],
+      description: "Комфортні підгузки-трусики для дорослих розміру S з еластичним поясом 360°",
+      features: [
+        "Еластичний пояс 360°",
+        "Висока поглинальна здатність",
+        "Захист від протікань",
+        "Дихаючий матеріал",
+        "Індикатор вологості",
+        "Нейтралізація запаху",
+      ],
+      usage: "Для активних людей, щоденного використання та догляду за лежачими пацієнтами",
+    },
+    {
+      id: "M",
+      name: "Medium",
+      waist: "75-100 см",
+      weight: "55-85 кг",
+      absorbency: "1400 мл",
+      drops: 9,
+      images: [],
+      description: "Комфортні підгузки-трусики для дорослих розміру M з еластичним поясом 360°",
+      features: [
+        "Еластичний пояс 360°",
+        "Висока поглинальна здатність",
+        "Захист від протікань",
+        "Дихаючий матеріал",
+        "Індикатор вологості",
+        "Нейтралізація запаху",
+      ],
+      usage: "Для активних людей, щоденного використання та догляду за лежачими пацієнтами",
+    },
+    {
+      id: "L",
+      name: "Large",
+      waist: "90-120 см",
+      weight: "80-125 кг",
+      absorbency: "1600 мл",
+      drops: 9,
+      images: [],
+      description: "Комфортні підгузки-трусики для дорослих розміру L з еластичним поясом 360°",
+      features: [
+        "Еластичний пояс 360°",
+        "Висока поглинальна здатність",
+        "Захист від протікань",
+        "Дихаючий матеріал",
+        "Індикатор вологості",
+        "Нейтралізація запаху",
+      ],
+      usage: "Для активних людей, щоденного використання та догляду за лежачими пацієнтами",
+    },
+    {
+      id: "XL",
+      name: "Extra Large",
+      waist: "120-145 см",
+      weight: "110-150 кг",
+      absorbency: "1800 мл",
+      drops: 9,
+      images: [],
+      description: "Комфортні підгузки-трусики для дорослих розміру XL з еластичним поясом 360°",
+      features: [
+        "Еластичний пояс 360°",
+        "Висока поглинальна здатність",
+        "Захист від протікань",
+        "Дихаючий матеріал",
+        "Індикатор вологості",
+        "Нейтралізація запаху",
+      ],
+      usage: "Для активних людей, щоденного використання та догляду за лежачими пацієнтами",
+    },
     {
       id: "XXL",
       name: "Extra Extra Large",
-      waist: "135-170 см",
+      waist: "135-180 см",
+      weight: "120-170 кг",
       absorbency: "2000 мл",
+      drops: 9,
       images: [],
+      description: "Комфортні підгузки-трусики для дорослих розміру XXL з еластичним поясом 360°",
+      features: [
+        "Еластичний пояс 360°",
+        "Висока поглинальна здатність",
+        "Захист від протікань",
+        "Дихаючий матеріал",
+        "Індикатор вологості",
+        "Нейтралізація запаху",
+      ],
+      usage: "Для активних людей, щоденного використання та догляду за лежачими пацієнтами",
     },
   ],
   diaperStores: {
