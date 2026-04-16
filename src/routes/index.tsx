@@ -230,6 +230,35 @@ function HomePage() {
         <WhereToBuy />
       </div>
 
+      {/* 6. КОНТАКТИ */}
+      <section id="contacts" className="py-24 bg-white">
+        <div className="container mx-auto px-6 text-center">
+          <div className="max-w-3xl mx-auto bg-slate-50 rounded-[3rem] p-12 border border-slate-100 shadow-sm transition-all hover:shadow-md">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 tracking-tight">Контакти</h2>
+            <div className="h-1 w-12 bg-blue-500 mx-auto rounded-full mb-8" />
+            
+            <div className="space-y-6">
+              <p className="text-slate-600 text-lg font-light leading-relaxed">
+                Ми завжди відкриті до спілкування та співпраці. <br />
+                Зв’яжіться з нами для отримання детальної інформації про продукцію <span className="text-blue-600 font-bold italic text-nowrap leading-none">VIVO Care</span>.
+              </p>
+              
+              <div className="flex flex-col items-center gap-4 pt-4">
+                <a 
+                  href="mailto:info@vivocare.ua" 
+                  className="text-2xl md:text-3xl font-bold text-slate-900 hover:text-blue-600 transition-colors tracking-tight"
+                >
+                  info@vivocare.ua
+                </a>
+                <p className="text-slate-400 text-sm font-medium uppercase tracking-widest italic">
+                  Офіційний представник в Україні
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
