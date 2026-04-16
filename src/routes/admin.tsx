@@ -585,13 +585,74 @@ function AdminPage() {
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                        Поглинання
+                        Кількість (шт)
                       </label>
                       <Input
-                        value={size.absorbency}
-                        onChange={(e) => updateDiaperSize(sizeIndex, "absorbency", e.target.value)}
+                        value={size.qty || ""}
+                        onChange={(e) => updateDiaperSize(sizeIndex, "qty", e.target.value)}
                         className="bg-slate-50 rounded-lg border-slate-200"
-                        placeholder="1200 мл"
+                        placeholder="30 шт"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-4 gap-4 mb-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Краплі (число)
+                      </label>
+                      <Input
+                        type="number"
+                        value={size.drops || 0}
+                        onChange={(e) => updateDiaperSize(sizeIndex, "drops", parseInt(e.target.value) || 0)}
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Бренд
+                      </label>
+                      <Input
+                        value={size.brand || ""}
+                        onChange={(e) => updateDiaperSize(sizeIndex, "brand", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                        placeholder="Vivo Care"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Тип
+                      </label>
+                      <Input
+                        value={size.type || ""}
+                        onChange={(e) => updateDiaperSize(sizeIndex, "type", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                        placeholder="підгузки-трусики (pull-up)"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Посадка
+                      </label>
+                      <Input
+                        value={size.fit || ""}
+                        onChange={(e) => updateDiaperSize(sizeIndex, "fit", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                        placeholder="еластичний пояс 360°"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-1 gap-4 mb-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Особливості (Характеристики)
+                      </label>
+                      <Input
+                        value={size.specialties || ""}
+                        onChange={(e) => updateDiaperSize(sizeIndex, "specialties", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                        placeholder="дихаючі, індикатор, запах"
                       />
                     </div>
                   </div>
@@ -599,7 +660,7 @@ function AdminPage() {
                   <div className="grid md:grid-cols-2 gap-4 mb-6">
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                        Опис товару
+                        Короткий опис
                       </label>
                       <Textarea
                         value={size.description || ""}
@@ -610,23 +671,38 @@ function AdminPage() {
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                        Призначення
+                        Переваги (кожна з нового рядка)
                       </label>
                       <Textarea
-                        value={size.usage || ""}
-                        onChange={(e) => updateDiaperSize(sizeIndex, "usage", e.target.value)}
+                        value={(size.features || []).join("\n")}
+                        onChange={(e) => updateDiaperSize(sizeIndex, "features", e.target.value.split("\n"))}
                         className="bg-slate-50 rounded-lg border-slate-200 min-h-[80px]"
-                        placeholder="Для активних людей, щоденного використання..."
+                        placeholder="Еластичний пояс 360°&#10;Висока поглинальна здатність"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4 mb-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Комфорт у користуванні
+                      </label>
+                      <Textarea
+                        value={size.comfortText || ""}
+                        onChange={(e) => updateDiaperSize(sizeIndex, "comfortText", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200 min-h-[120px]"
+                        placeholder="Текст для секції комфорту..."
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                        Поглинання (мл)
+                        Рекомендації щодо вибору
                       </label>
-                      <Input
-                        value={size.absorbency}
-                        onChange={(e) => updateDiaperSize(sizeIndex, "absorbency", e.target.value)}
-                        className="bg-slate-50 rounded-lg border-slate-200"
+                      <Textarea
+                        value={size.recommendations || ""}
+                        onChange={(e) => updateDiaperSize(sizeIndex, "recommendations", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200 min-h-[120px]"
+                        placeholder="Текст для секції рекомендацій..."
                       />
                     </div>
                   </div>

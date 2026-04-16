@@ -10,12 +10,19 @@ export interface DiaperSize {
   name: string;
   waist: string;
   weight: string;
-  absorbency: string;
+  absorbency: string; // This was ml, but can be used as general
   drops: number;
+  qty?: string;
   images?: string[];
   description?: string;
   features?: string[];
   usage?: string;
+  comfortText?: string;
+  recommendations?: string;
+  type?: string;
+  brand?: string;
+  fit?: string;
+  specialties?: string;
 }
 
 export interface UnderpadSize {

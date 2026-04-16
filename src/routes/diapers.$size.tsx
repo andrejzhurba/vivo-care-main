@@ -53,14 +53,23 @@ function DiaperDetailPage() {
   }
 
   const image = sizeData.images?.[0] || sizeImageMap[sizeId] || diapersM;
-  const features = sizeData.features || [
-    "Еластичний пояс 360°",
-    "Висока поглинальна здатність",
-    "Захист від протікань",
-    "Дихаючий матеріал",
-    "Індикатор вологості",
-    "Нейтралізація запаху",
-  ];
+  const features =
+    sizeData.features && sizeData.features.length > 0
+      ? sizeData.features.filter((f) => f.trim() !== "")
+      : [
+          "Еластичний пояс 360°",
+          "Висока поглинальна здатність",
+          "Захист від протікань",
+          "Дихаючий матеріал",
+          "Індикатор вологості",
+          "Нейтралізація запаху",
+        ];
+
+  const qty = sizeData.qty || "30 шт";
+  const brand = sizeData.brand || "Vivo Care";
+  const type = sizeData.type || "підгузки-трусики (pull-up)";
+  const fit = sizeData.fit || "еластичний пояс 360°";
+  const specialties = sizeData.specialties || "дихаючі, індикатор, запах";
 
   return (
     <div className="flex flex-col min-h-screen bg-white font-sans selection:bg-blue-100 selection:text-blue-900">
@@ -74,7 +83,7 @@ function DiaperDetailPage() {
               <div className="lg:w-1/2">
                 <img
                   src={image}
-                  alt={`Підгузки-трусики Vivo Care розмір ${sizeData.name} (${sizeData.id}) — упаковка 30 шт`}
+                  alt={`Підгузки-трусики ${brand} розмір ${sizeData.name} (${sizeData.id}) — упаковка ${qty}`}
                   className="w-full max-w-md mx-auto drop-shadow-2xl"
                   loading="eager"
                 />
@@ -85,7 +94,7 @@ function DiaperDetailPage() {
                 </span>
                 <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight">
                   Підгузки-трусики <br />
-                  <span className="text-blue-600">Vivo Care</span>
+                  <span className="text-blue-600">{brand}</span>
                 </h1>
                 <p className="text-xl text-slate-600 mb-2 font-medium">
                   Розмір {sizeData.name} ({sizeData.id})
@@ -96,7 +105,7 @@ function DiaperDetailPage() {
                 </p>
                 <div className="flex items-center justify-center lg:justify-start gap-2 mb-8">
                   <span className="bg-blue-600 text-white px-4 py-2 rounded-full font-bold">
-                    30 шт в упаковці
+                    {qty} в упаковці
                   </span>
                   <span className="bg-green-100 text-green-700 px-4 py-2 rounded-full font-bold">
                     {sizeData.drops || 9} крапель
@@ -144,16 +153,20 @@ function DiaperDetailPage() {
             <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center">
               Комфорт у користуванні
             </h2>
-            <div className="max-w-3xl mx-auto text-slate-600 space-y-4 font-light text-center">
-              <p>
-                Завдяки анатомічній посадці та м'яким еластичним манжетам підгузки-трусики щільно
-                прилягають до тіла, не сковують рухів і допомагають зменшити ризик протікань.
-              </p>
-              <p>
-                Матеріал, що дихає, зменшує ризик подразнень, а вбираючий шар швидко поглинає вологу
-                та сприяє відчуттю сухості. Зручний формат трусиків дозволяє легко одягати та
-                знімати виріб як самостійно, так і під час догляду.
-              </p>
+            <div className="max-w-3xl mx-auto text-slate-600 space-y-4 font-light text-center whitespace-pre-line">
+              {sizeData.comfortText || (
+                <>
+                  <p>
+                    Завдяки анатомічній посадці та м'яким еластичним манжетам підгузки-трусики щільно
+                    прилягають до тіла, не сковують рухів і допомагають зменшити ризик протікань.
+                  </p>
+                  <p>
+                    Матеріал, що дихає, зменшує ризик подразнень, а вбираючий шар швидко поглинає
+                    вологу та сприяє відчуттю сухості. Зручний формат трусиків дозволяє легко
+                    одягати та знімати виріб як самостійно, так і під час догляду.
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </section>
@@ -174,10 +187,10 @@ function DiaperDetailPage() {
               <p className="text-slate-600 mb-6">
                 <span className="font-bold">Обхват талії:</span> {sizeData.waist}
               </p>
-              <p className="text-sm text-slate-400 italic">
-                Якщо ваші параметри знаходяться між двома розмірами, рекомендується обирати більший
-                розмір для комфорту.
-              </p>
+              <div className="text-sm text-slate-400 italic whitespace-pre-line">
+                {sizeData.recommendations ||
+                  "Якщо ваші параметри знаходяться між двома розмірами, рекомендується обирати більший розмір для комфорту."}
+              </div>
             </div>
           </div>
         </section>
@@ -190,7 +203,7 @@ function DiaperDetailPage() {
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="py-3 border-b border-slate-100">
                   <span className="text-slate-500">Тип</span>
-                  <span className="block font-bold text-slate-900">підгузки-трусики (pull-up)</span>
+                  <span className="block font-bold text-slate-900">{type}</span>
                 </div>
                 <div className="py-3 border-b border-slate-100">
                   <span className="text-slate-500">Призначення</span>
@@ -198,7 +211,7 @@ function DiaperDetailPage() {
                 </div>
                 <div className="py-3 border-b border-slate-100">
                   <span className="text-slate-500">Бренд</span>
-                  <span className="block font-bold text-slate-900">Vivo Care</span>
+                  <span className="block font-bold text-slate-900">{brand}</span>
                 </div>
                 <div className="py-3 border-b border-slate-100">
                   <span className="text-slate-500">Розмір</span>
@@ -208,11 +221,11 @@ function DiaperDetailPage() {
                 </div>
                 <div className="py-3 border-b border-slate-100">
                   <span className="text-slate-500">Кількість</span>
-                  <span className="block font-bold text-slate-900">30 шт</span>
+                  <span className="block font-bold text-slate-900">{qty}</span>
                 </div>
                 <div className="py-3 border-b border-slate-100">
                   <span className="text-slate-500">Посадка</span>
-                  <span className="block font-bold text-slate-900">еластичний пояс 360°</span>
+                  <span className="block font-bold text-slate-900">{fit}</span>
                 </div>
                 <div className="py-3 border-b border-slate-100">
                   <span className="text-slate-500">Поглинання</span>
@@ -222,7 +235,7 @@ function DiaperDetailPage() {
                 </div>
                 <div className="py-3 border-b border-slate-100">
                   <span className="text-slate-500">Особливості</span>
-                  <span className="block font-bold text-slate-900">дихаючі, індикатор, запах</span>
+                  <span className="block font-bold text-slate-900">{specialties}</span>
                 </div>
               </div>
             </div>
