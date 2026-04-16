@@ -227,3 +227,22 @@ export async function uploadFileToStorage(file: File): Promise<string> {
     reader.readAsDataURL(file);
   });
 }
+
+export async function deleteFileFromStorage(url: string): Promise<void> {
+  if (!url || url.startsWith("data:")) return;
+
+  if (SUPABASE_URL && SUPABASE_KEY) {
+    try {
+      const urlParts = url.split("/storage/v1/object/public/");
+      if (urlParts.length > 1) {
+        const fileName = urlParts[1];
+        const { error } = await supabase.storage.from("product-images").remove([fileName]);
+        if (error) {
+          console.error("Supabase delete error:", error);
+        }
+      }
+    } catch (e) {
+      console.warn("Supabase delete failed:", e);
+    }
+  }
+}

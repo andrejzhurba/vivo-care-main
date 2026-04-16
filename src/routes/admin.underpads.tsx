@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useState } from "react";
+import { deleteFileFromStorage } from "@/lib/cms";
 
 export const Route = createFileRoute("/admin/underpads")({
   head: () => ({
@@ -48,7 +49,11 @@ function AdminUnderpadsPage() {
     setNewSize({ size: "", dimensions: "", qty: 30, price: "", drops: 3, image: "", buyLink: "" });
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
+    const item = sizes.find((s) => s.id === id);
+    if (item?.image) {
+      await deleteFileFromStorage(item.image);
+    }
     setSizes(sizes.filter((s) => s.id !== id));
   };
 
