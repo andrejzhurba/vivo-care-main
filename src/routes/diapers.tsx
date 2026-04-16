@@ -1,19 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { WhereToBuy } from "@/components/WhereToBuy";
-import { FeatureCard } from "@/components/FeatureCard";
+import { WhereToBuy, BuyDropdown } from "@/components/WhereToBuy";
 import { 
   Ruler, 
   Droplets, 
-  ChevronRight, 
   Activity, 
   ShieldCheck, 
   Wind, 
   Timer, 
-  Ban, 
-  ShoppingCart 
+  Ban 
 } from "lucide-react";
+import { DIAPER_STORES } from "@/lib/stores";
+import { useState, useEffect } from "react";
+import { getSettings, type CMSSettings } from "@/lib/cms";
 
 // Імпорт зображень розмірів
 import diapersS from "@/assets/diapers-S.png";
@@ -42,7 +42,7 @@ const diaperSizes = [
     waist: "60-90 см",
     absorbency: "1200 мл",
     img: diapersS,
-    url: "https://kapitoshka.kiev.ua/ua/p2905451595-podguzniki-trusy-dlya.html",
+    stores: DIAPER_STORES.S,
   },
   {
     id: "M",
@@ -50,7 +50,7 @@ const diaperSizes = [
     waist: "80-110 см",
     absorbency: "1400 мл",
     img: diapersM,
-    url: "https://kapitoshka.kiev.ua/ua/p2905451614-podguzniki-trusy-dlya.html",
+    stores: DIAPER_STORES.M,
   },
   {
     id: "L",
@@ -58,7 +58,7 @@ const diaperSizes = [
     waist: "100-135 см",
     absorbency: "1600 мл",
     img: diapersL,
-    url: "https://kapitoshka.kiev.ua/ua/p2905451581-podguzniki-trusy-dlya.html",
+    stores: DIAPER_STORES.L,
   },
   {
     id: "XL",
@@ -66,7 +66,7 @@ const diaperSizes = [
     waist: "120-155 см",
     absorbency: "1800 мл",
     img: diapersXL,
-    url: "https://kapitoshka.kiev.ua/ua/p2905451613-podguzniki-trusy-dlya.html",
+    stores: DIAPER_STORES.XL,
   },
   {
     id: "XXL",
@@ -74,7 +74,7 @@ const diaperSizes = [
     waist: "135-170 см",
     absorbency: "2000 мл",
     img: diapersXXL,
-    url: "https://kapitoshka.kiev.ua/ua/p2905451660-podguzniki-trusy-dlya.html",
+    stores: DIAPER_STORES.XXL,
   },
 ];
 
@@ -112,6 +112,12 @@ const mainFeatures = [
 ];
 
 function DiapersPage() {
+  const [settings, setSettings] = useState<CMSSettings | null>(null);
+
+  useEffect(() => {
+    setSettings(getSettings());
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Header />
@@ -165,14 +171,9 @@ function DiapersPage() {
                   </div>
                 </div>
 
-                <a 
-                  href={s.url} 
-                  target="_blank"
-                  className="mt-auto w-full py-3 bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-blue-600 transition-colors"
-                >
-                  <ShoppingCart className="w-3 h-3" />
-                  ДЕ КУПИТИ
-                </a>
+                <div className="mt-auto">
+                   <BuyDropdown stores={s.stores} />
+                </div>
               </div>
             ))}
           </div>
@@ -200,7 +201,7 @@ function DiapersPage() {
 
       {/* WHERE TO BUY FOOTER SECTION */}
       <div className="bg-slate-900 py-10">
-        <WhereToBuy />
+        <WhereToBuy links={settings?.stores} />
       </div>
 
       <Footer />

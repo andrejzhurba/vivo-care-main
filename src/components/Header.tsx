@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import logo from "@/assets/logo.png";
+import logo from "../../vivo logo.png";
 import { useState } from "react";
 
 export function Header() {

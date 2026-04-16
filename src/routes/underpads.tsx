@@ -1,8 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { WhereToBuy } from "@/components/WhereToBuy";
-import { ShoppingCart, CheckCircle2, Droplets, ShieldCheck, Activity, Wind, Heart } from "lucide-react";
+import { WhereToBuy, BuyDropdown } from "@/components/WhereToBuy";
+import { CheckCircle2, Droplets, ShieldCheck, Activity, Wind, Heart } from "lucide-react";
+import { UNDERPAD_STORES } from "@/lib/stores";
+import { useState, useEffect } from "react";
+import { getSettings, type CMSSettings } from "@/lib/cms";
 
 // Імпорт зображення
 import underpadImg from "@/assets/underpads-product.png";
@@ -20,22 +23,14 @@ export const Route = createFileRoute("/underpads")({
   component: UnderpadsPage,
 });
 
-/**
- * ============================================================================
- * ЯК ДОДАТИ НОВИЙ РОЗМІР:
- * Просто скопіюйте об'єкт нижче і вставте його в масив underpadSizes.
- * absorbLevel: 8 — це кількість зафарбованих синіх крапельок.
- * ============================================================================
- */
 const underpadSizes = [
   {
     id: 1,
     name: "Standard",
     size: "60 × 90 см",
-    price: "529 ₴",
     absorbLevel: 8,
     qty: "30 шт",
-    link: "https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html",
+    stores: UNDERPAD_STORES,
   },
 ];
 
@@ -78,6 +73,12 @@ const advantages = [
 ];
 
 function UnderpadsPage() {
+  const [settings, setSettings] = useState<CMSSettings | null>(null);
+
+  useEffect(() => {
+    setSettings(getSettings());
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-white font-sans selection:bg-blue-100 selection:text-blue-900">
       <Header />
@@ -144,16 +145,8 @@ function UnderpadsPage() {
                   </div>
                 </div>
                 
-                <div className="mt-auto flex items-center justify-between pt-6 border-t border-slate-50">
-                  <span className="text-3xl font-bold text-slate-900">{item.price}</span>
-                  <a 
-                    href={item.link} 
-                    target="_blank"
-                    className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100"
-                  >
-                    <ShoppingCart className="w-4 h-4" />
-                    КУПИТИ
-                  </a>
+                <div className="mt-auto pt-6 border-t border-slate-50">
+                  <BuyDropdown stores={item.stores} />
                 </div>
               </div>
             ))}
@@ -199,14 +192,7 @@ function UnderpadsPage() {
 
       {/* WHERE TO BUY */}
       <div className="bg-slate-900 py-10">
-        <WhereToBuy 
-          links={[
-            {
-              name: "Капітошка — офіційний партнер",
-              url: "https://kapitoshka.kiev.ua/ua/product_list?csbss0=1128038494",
-            },
-          ]}
-        />
+        <WhereToBuy links={settings?.stores} />
       </div>
 
       <Footer />
