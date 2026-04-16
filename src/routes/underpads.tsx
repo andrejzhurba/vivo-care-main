@@ -2,8 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhereToBuy } from "@/components/WhereToBuy";
-import { FeatureCard } from "@/components/FeatureCard";
-import { Button } from "@/components/ui/button";
 import { ShoppingCart, CheckCircle2, Droplets, ShieldCheck, Activity, Wind, Heart } from "lucide-react";
 
 // Імпорт зображення
@@ -12,43 +10,37 @@ import underpadImg from "@/assets/underpads-product.png";
 export const Route = createFileRoute("/underpads")({
   head: () => ({
     meta: [
-      { title: "Пелюшки поглинаючі VIVO Care 60×90 см — Надійний захист" },
+      { title: "Пелюшки поглинаючі VIVO Care — Надійний захист" },
       {
         name: "description",
-        content: "Поглинаючі пелюшки VIVO Care 60×90 см. 5 шарів захисту, гіпоалергенні, з вологонепроникним шаром.",
+        content: "Поглинаючі пелюшки VIVO Care. 5 шарів захисту, гіпоалергенні, з вологонепроникним шаром.",
       },
     ],
   }),
   component: UnderpadsPage,
 });
 
+/**
+ * ============================================================================
+ * ЯК ДОДАТИ НОВИЙ РОЗМІР:
+ * Просто скопіюйте об'єкт нижче і вставте його в масив underpadSizes.
+ * absorbLevel: 8 — це кількість зафарбованих синіх крапельок.
+ * ============================================================================
+ */
 const underpadSizes = [
   {
-    id: "6090",
-    size: "Standard",
-    dimensions: "60 × 90 см",
-    qty: "30 шт",
+    id: 1,
+    name: "Standard",
+    size: "60 × 90 см",
     price: "529 ₴",
-    absorbency: "Висока (5 крапель)",
-    url: "https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html",
-  },
-  // Приклад для майбутнього додавання розміру 60x60
-  /*
-  {
-    id: "6060",
-    size: "Compact",
-    dimensions: "60 × 60 см",
+    absorbLevel: 8,
     qty: "30 шт",
-    price: "415 ₴",
-    absorbency: "Середня (4 краплі)",
-    url: "#",
+    link: "https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html",
   },
-  */
 ];
 
-const specs = [
-  { label: "Розмір", value: "60 × 90 см" },
-  { label: "Кількість", value: "30 шт" },
+// Загальні характеристики для всіх пелюшок бренду
+const commonSpecs = [
   { label: "Шари поглинання", value: "5 шарів" },
   { label: "Верхній шар", value: "М'який нетканий" },
   { label: "Внутрішній шар", value: "Целюлоза + SAP" },
@@ -87,7 +79,7 @@ const advantages = [
 
 function UnderpadsPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-white font-sans selection:bg-blue-100 selection:text-blue-900">
       <Header />
 
       {/* Hero Section */}
@@ -122,27 +114,40 @@ function UnderpadsPage() {
         </div>
       </section>
 
-      {/* 1. БЛОК РОЗМІРІВ (Scalable Grid) */}
+      {/* БЛОК РОЗМІРІВ */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-slate-900 mb-4">Оберіть розмір</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-4 tracking-tight">Оберіть розмір</h2>
           <div className="h-1 w-16 bg-blue-500 mx-auto rounded-full mb-12" />
           
-          <div className="flex flex-wrap justify-center gap-8">
-            {underpadSizes.map((s) => (
-              <div key={s.id} className="w-full sm:w-[350px] bg-white border border-slate-100 rounded-[2.5rem] p-8 shadow-sm transition-all hover:shadow-xl hover:-translate-y-2 hover:border-blue-100 group">
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">{s.size}</h3>
-                <div className="text-blue-600 font-black text-3xl mb-4 tracking-tighter">{s.dimensions}</div>
-                
-                <div className="space-y-3 mb-8 text-slate-500 font-light italic">
-                  <p>Кількість: <span className="text-slate-900 font-medium">{s.qty}</span></p>
-                  <p>Поглинання: <span className="text-slate-900 font-medium">{s.absorbency}</span></p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+            {underpadSizes.map((item) => (
+              <div key={item.id} className="w-full max-w-sm bg-white border border-slate-100 rounded-[2.5rem] p-8 shadow-sm transition-all hover:shadow-xl hover:-translate-y-2 hover:border-blue-100 group flex flex-col">
+                <div className="flex justify-between items-start mb-4">
+                   <h3 className="text-xl font-bold text-slate-400 uppercase tracking-widest">{item.name}</h3>
+                   <span className="bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1 rounded-full">{item.qty}</span>
                 </div>
                 
-                <div className="flex items-center justify-between pt-6 border-t border-slate-50">
-                  <span className="text-3xl font-bold text-slate-900">{s.price}</span>
+                <div className="text-blue-600 font-black text-5xl mb-6 tracking-tighter italic">{item.size}</div>
+                
+                <div className="space-y-4 mb-8">
+                  <div className="flex flex-col items-center gap-2 p-4 bg-slate-50 rounded-2xl">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Рівень поглинання</span>
+                    <div className="flex gap-1">
+                      {Array.from({ length: 10 }).map((_, i) => (
+                        <Droplets 
+                          key={i} 
+                          className={`w-4 h-4 ${i < item.absorbLevel ? "text-blue-500 fill-blue-500" : "text-slate-200"}`} 
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="mt-auto flex items-center justify-between pt-6 border-t border-slate-50">
+                  <span className="text-3xl font-bold text-slate-900">{item.price}</span>
                   <a 
-                    href={s.url} 
+                    href={item.link} 
                     target="_blank"
                     className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100"
                   >
@@ -156,7 +161,7 @@ function UnderpadsPage() {
         </div>
       </section>
 
-      {/* 3. ВІЗУАЛ ПЕРЕВАГ (Horizontal Layout) */}
+      {/* ПЕРЕВАГИ (Horizontal) */}
       <section className="py-20 bg-slate-50/50">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -166,7 +171,7 @@ function UnderpadsPage() {
                   {a.icon}
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900 mb-1">{a.title}</h4>
+                  <h4 className="font-bold text-slate-900 mb-1 leading-tight">{a.title}</h4>
                   <p className="text-sm text-slate-500 leading-relaxed font-light">{a.desc}</p>
                 </div>
               </div>
@@ -175,15 +180,15 @@ function UnderpadsPage() {
         </div>
       </section>
 
-      {/* 2. БЛОК ХАРАКТЕРИСТИК (2 Columns on Desktop) */}
+      {/* ХАРАКТЕРИСТИКИ (2 Columns) */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">Детальні характеристики</h2>
-            <div className="grid md:grid-cols-2 gap-x-12 gap-y-4 bg-slate-50 p-10 rounded-[3rem] border border-slate-100">
-              {specs.map((s, i) => (
+            <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">Загальні характеристики</h2>
+            <div className="grid md:grid-cols-2 gap-x-12 gap-y-4 bg-slate-50 p-10 rounded-[3rem] border border-slate-100 shadow-inner">
+              {commonSpecs.map((s, i) => (
                 <div key={i} className="flex justify-between items-center py-3 border-b border-slate-200/50">
-                  <span className="text-slate-500 font-light">{s.label}</span>
+                  <span className="text-slate-500 font-light italic">{s.label}</span>
                   <span className="text-slate-900 font-bold text-sm">{s.value}</span>
                 </div>
               ))}
@@ -192,8 +197,8 @@ function UnderpadsPage() {
         </div>
       </section>
 
-      {/* 4. ЛОГІКА "ДЕ КУПИТИ" */}
-      <div className="bg-slate-900">
+      {/* WHERE TO BUY */}
+      <div className="bg-slate-900 py-10">
         <WhereToBuy 
           links={[
             {
