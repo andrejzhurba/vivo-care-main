@@ -1,16 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { ClipboardList, Droplets, Info } from "lucide-react";
+import { Droplets } from "lucide-react";
 
 export const Route = createFileRoute("/tips/absorption-table")({
   head: () => ({
     meta: [
-      { title: "Таблиця поглинання пелюшок та підгузків Vivo Care — Повний гід" },
+      { title: "Vivo Care — Таблиця поглинання підгузків" },
       {
         name: "description",
-        content:
-          "Порівняйте рівень поглинання різних розмірів підгузків-трусів та пелюшок Vivo Care. Дізнайтеся, скільки мілілітрів рідини утримує кожен виріб.",
+        content: "Порівняльна таблиця поглинальної здатності різних розмірів підгузків Vivo Care.",
       },
     ],
   }),
@@ -18,113 +17,70 @@ export const Route = createFileRoute("/tips/absorption-table")({
 });
 
 function AbsorptionTablePage() {
-  const diaperData = [
-    { size: "S (Small)", ml: "1200 мл", drops: 6, usage: "Денне/Нічне" },
-    { size: "M (Medium)", ml: "1400 мл", drops: 7, usage: "Денне/Нічне" },
-    { size: "L (Large)", ml: "1600 мл", drops: 7, usage: "Денне/Нічне" },
-    { size: "XL (Extra Large)", ml: "1800 мл", drops: 8, usage: "Нічне/Посилене" },
-    { size: "XXL (XX Large)", ml: "2000 мл", drops: 8, usage: "Нічне/Посилене" },
+  const absorptionData = [
+    { size: "S (Small)", drops: 9, usage: "Денне/Нічне" },
+    { size: "M (Medium)", drops: 9, usage: "Денне/Нічне" },
+    { size: "L (Large)", drops: 9, usage: "Денне/Нічне" },
+    { size: "XL (Extra Large)", drops: 9, usage: "Нічне/Посилене" },
+    { size: "XXL (XX Large)", drops: 9, usage: "Нічне/Посилене" },
   ];
 
   return (
     <div className="flex flex-col min-h-screen bg-white font-sans">
       <Header />
-
-      <main className="pt-32 pb-20">
-        <article className="container mx-auto px-6 max-w-4xl">
-          <div className="text-center mb-16">
-            <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <ClipboardList className="text-blue-600 w-8 h-8" />
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight leading-tight">
-              Таблиця поглинання <br />
-              <span className="text-blue-600">продукції Vivo Care</span>
+      <main className="flex-grow pt-32 pb-16">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-8 text-center tracking-tight">
+              Таблиця <span className="text-blue-600">поглинання</span>
             </h1>
-            <p className="text-xl text-slate-500 font-light italic">
-              Максимальна впевненість у кожній краплі
-            </p>
-          </div>
 
-          <section className="mb-20">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
-              <Droplets className="text-blue-500" />
-              Підгузки-труси
-            </h2>
-            <div className="overflow-hidden rounded-[2rem] border border-slate-100 shadow-sm">
-              <table className="w-full text-left border-collapse">
-                <thead className="bg-slate-50">
-                  <tr>
-                    <th className="py-6 px-8 text-sm font-bold text-slate-400 uppercase tracking-widest">
-                      Розмір
-                    </th>
-                    <th className="py-6 px-8 text-sm font-bold text-slate-400 uppercase tracking-widest text-center">
-                      Об'єм (мл)
-                    </th>
-                    <th className="py-6 px-8 text-sm font-bold text-slate-400 uppercase tracking-widest text-center">
-                      Режим
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-50">
-                  {diaperData.map((row, i) => (
-                    <tr key={i} className="hover:bg-blue-50/30 transition-colors">
-                      <td className="py-6 px-8 font-bold text-slate-900">{row.size}</td>
-                      <td className="py-6 px-8 text-center text-blue-600 font-black text-xl">
-                        {row.ml}
-                      </td>
-                      <td className="py-6 px-8 text-center">
-                        <span className="px-4 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-500 uppercase tracking-tighter">
-                          {row.usage}
-                        </span>
-                      </td>
+            <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50">
+                      <th className="p-6 font-bold text-slate-900 border-b border-slate-100">Розмір</th>
+                      <th className="p-6 font-bold text-slate-900 border-b border-slate-100 text-center">Поглинання</th>
+                      <th className="p-6 font-bold text-slate-900 border-b border-slate-100">Рекомендації</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </section>
-
-          <section className="mb-20">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
-              <Droplets className="text-blue-500" />
-              Поглинаючі пелюшки
-            </h2>
-            <div className="p-8 rounded-[2.5rem] bg-slate-50 border border-slate-100">
-              <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-                <div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">Стандарт 60х90 см</h3>
-                  <p className="text-slate-500 font-light">
-                    Ідеально для захисту ліжка, крісла або при перевдяганні.
-                  </p>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="text-4xl font-black text-blue-600 mb-1">8 / 10</div>
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                    Рівень захисту
-                  </div>
-                </div>
+                  </thead>
+                  <tbody className="divide-y divide-slate-50">
+                    {absorptionData.map((row, i) => (
+                      <tr key={i} className="hover:bg-blue-50/30 transition-colors">
+                        <td className="p-6 text-slate-900 font-bold">{row.size}</td>
+                        <td className="p-6">
+                          <div className="flex justify-center gap-0.5">
+                            {Array.from({ length: row.drops }).map((_, idx) => (
+                              <Droplets key={idx} className="w-4 h-4 text-blue-500 fill-blue-500" />
+                            ))}
+                          </div>
+                        </td>
+                        <td className="p-6 text-slate-600 font-light">{row.usage}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
-          </section>
 
-          <div className="p-10 rounded-[3rem] bg-slate-900 text-white shadow-2xl">
-            <div className="flex items-start gap-6">
-              <div className="w-12 h-12 bg-blue-500 rounded-2xl flex items-center justify-center shrink-0">
-                <Info className="text-white w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold mb-4 text-blue-400">Як працює поглинання?</h3>
-                <p className="text-slate-400 leading-relaxed font-light text-lg">
-                  В основі продукції Vivo Care лежить сучасний суперабсорбент (SAP). Він не просто
-                  вбирає рідину, а миттєво перетворює її на гель, блокуючи вологу та запах
-                  всередині. Це забезпечує сухість поверхні навіть під тиском тіла.
+            <div className="mt-12 bg-blue-50 rounded-[2rem] p-8 md:p-10 border border-blue-100">
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">Як розуміти таблицю?</h2>
+              <div className="space-y-4 text-slate-600 font-light leading-relaxed">
+                <p>
+                  Поглинальна здатність підгузків-трусів Vivo Care позначається кількістю крапель. 
+                  Чим більше крапель, тим більший об'єм рідини може увібрати виріб.
+                </p>
+                <p>
+                  Всі підгузки-труси Vivo Care мають високий рівень захисту (<span className="font-bold text-blue-600">9 крапель</span>), 
+                  що забезпечує спокійний сон і впевненість упродовж дня. Ми використовуємо 
+                  суперабсорбент <span className="font-bold text-blue-600">SAP</span>, який миттєво перетворює рідину на гель.
                 </p>
               </div>
             </div>
           </div>
-        </article>
+        </div>
       </main>
-
       <Footer />
     </div>
   );
