@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import logo from "../../vivo logo.png";
+import logo from "@/assets/logo.png";
 import { useState } from "react";
 
 export function Header() {
@@ -17,7 +17,13 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
       <div className="mx-auto max-w-5xl flex items-center justify-between px-4 py-3">
         <Link to="/" className="flex items-center">
-          <img src={logo} alt="VIVO Care" width={40} height={40} className="h-10 w-auto object-contain" />
+          <img
+            src={logo}
+            alt="Vivo Care"
+            width={40}
+            height={40}
+            className="h-10 w-auto object-contain"
+          />
         </Link>
 
         {/* Desktop nav */}
@@ -43,7 +49,15 @@ export function Header() {
           className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors"
           aria-label="Меню"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          >
             {menuOpen ? (
               <>
                 <line x1="18" y1="6" x2="6" y2="18" />

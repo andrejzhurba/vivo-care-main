@@ -6,10 +6,11 @@ import { Ruler, CheckCircle2, AlertCircle } from "lucide-react";
 export const Route = createFileRoute("/tips/size-guide")({
   head: () => ({
     meta: [
-      { title: "Як правильно обрати розмір підгузків-трусів? — Інструкція VIVO Care" },
+      { title: "Як правильно обрати розмір підгузків-трусів? — Інструкція Vivo Care" },
       {
         name: "description",
-        content: "Детальна інструкція із замірів для вибору ідеального розміру підгузків-трусів для дорослих. Таблиця розмірів S, M, L, XL, XXL.",
+        content:
+          "Детальна інструкція із замірів для вибору ідеального розміру підгузків-трусів для дорослих. Таблиця розмірів S, M, L, XL, XXL.",
       },
     ],
   }),
@@ -31,7 +32,9 @@ function SizeGuidePage() {
               Як правильно обрати розмір <br />
               <span className="text-blue-600">підгузків-трусів?</span>
             </h1>
-            <p className="text-xl text-slate-500 font-light italic">Комфорт починається з точних замірів</p>
+            <p className="text-xl text-slate-500 font-light italic">
+              Комфорт починається з точних замірів
+            </p>
           </div>
 
           <section className="mb-16">
@@ -41,13 +44,19 @@ function SizeGuidePage() {
                 <h3 className="font-bold text-red-900 mb-2 flex items-center gap-2">
                   <AlertCircle className="w-4 h-4" /> Якщо замалий:
                 </h3>
-                <p className="text-red-700 text-sm">Натирає шкіру, обмежує рухи, спричиняє дискомфорт та подразнення через погану циркуляцію повітря.</p>
+                <p className="text-red-700 text-sm">
+                  Натирає шкіру, обмежує рухи, спричиняє дискомфорт та подразнення через погану
+                  циркуляцію повітря.
+                </p>
               </div>
               <div className="p-6 rounded-2xl bg-orange-50 border border-orange-100">
                 <h3 className="font-bold text-orange-900 mb-2 flex items-center gap-2">
                   <AlertCircle className="w-4 h-4" /> Якщо завеликий:
                 </h3>
-                <p className="text-orange-700 text-sm">Погано прилягає до тіла, що призводить до протікань, навіть якщо виріб має високу поглинальну здатність.</p>
+                <p className="text-orange-700 text-sm">
+                  Погано прилягає до тіла, що призводить до протікань, навіть якщо виріб має високу
+                  поглинальну здатність.
+                </p>
               </div>
             </div>
           </section>
@@ -56,37 +65,51 @@ function SizeGuidePage() {
             <h2 className="text-2xl font-bold text-slate-900 mb-8">Як робити заміри?</h2>
             <div className="space-y-8">
               <div className="flex gap-6">
-                <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0 font-bold">1</div>
+                <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0 font-bold">
+                  1
+                </div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Замір талії</h3>
-                  <p className="text-slate-600">Виміряйте обхват талії сантиметровою стрічкою на рівні пупка.</p>
+                  <p className="text-slate-600">
+                    Виміряйте обхват талії сантиметровою стрічкою на рівні пупка.
+                  </p>
                 </div>
               </div>
               <div className="flex gap-6">
-                <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0 font-bold">2</div>
+                <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0 font-bold">
+                  2
+                </div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Замір стегон</h3>
                   <p className="text-slate-600">Виміряйте обхват стегон у найширшій їх частині.</p>
                 </div>
               </div>
               <div className="flex gap-6">
-                <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0 font-bold">3</div>
+                <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0 font-bold">
+                  3
+                </div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Вибір результату</h3>
-                  <p className="text-slate-600 font-bold">Важливо! Орієнтуйтеся на більший із двох отриманих показників.</p>
+                  <p className="text-slate-600 font-bold">
+                    Важливо! Орієнтуйтеся на більший із двох отриманих показників.
+                  </p>
                 </div>
               </div>
             </div>
           </section>
 
           <section className="mb-16">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8">Таблиця розмірів VIVO Care</h2>
+            <h2 className="text-2xl font-bold text-slate-900 mb-8">Таблиця розмірів Vivo Care</h2>
             <div className="overflow-hidden rounded-[2rem] border border-slate-100 shadow-sm">
               <table className="w-full text-left border-collapse">
                 <thead className="bg-slate-50">
                   <tr>
-                    <th className="py-6 px-8 text-sm font-bold text-slate-400 uppercase tracking-widest">Розмір</th>
-                    <th className="py-6 px-8 text-sm font-bold text-slate-400 uppercase tracking-widest text-center">Обхват (см)</th>
+                    <th className="py-6 px-8 text-sm font-bold text-slate-400 uppercase tracking-widest">
+                      Розмір
+                    </th>
+                    <th className="py-6 px-8 text-sm font-bold text-slate-400 uppercase tracking-widest text-center">
+                      Обхват (см)
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
@@ -99,7 +122,9 @@ function SizeGuidePage() {
                   ].map((row, i) => (
                     <tr key={i} className="hover:bg-blue-50/30 transition-colors">
                       <td className="py-6 px-8 font-bold text-slate-900">{row.s}</td>
-                      <td className="py-6 px-8 text-center text-blue-600 font-black text-xl">{row.v}</td>
+                      <td className="py-6 px-8 text-center text-blue-600 font-black text-xl">
+                        {row.v}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -112,8 +137,9 @@ function SizeGuidePage() {
               <CheckCircle2 className="text-blue-600 w-5 h-5" /> Корисна порада
             </h3>
             <p className="text-blue-800 font-light">
-              Якщо ваші заміри знаходяться на межі двох розмірів (наприклад, рівно 110 см), ми рекомендуємо обрати більший розмір (L замість M). 
-              Це забезпечить кращу циркуляцію повітря та уникне надмірного тиску на шкіру.
+              Якщо ваші заміри знаходяться на межі двох розмірів (наприклад, рівно 110 см), ми
+              рекомендуємо обрати більший розмір (L замість M). Це забезпечить кращу циркуляцію
+              повітря та уникне надмірного тиску на шкіру.
             </p>
           </div>
         </article>

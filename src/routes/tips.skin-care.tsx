@@ -6,10 +6,11 @@ import { Heart, CheckCircle2, ShieldAlert } from "lucide-react";
 export const Route = createFileRoute("/tips/skin-care")({
   head: () => ({
     meta: [
-      { title: "5 порад щодо догляду за шкірою при використанні підгузків — VIVO Care" },
+      { title: "5 порад щодо догляду за шкірою при використанні підгузків — Vivo Care" },
       {
         name: "description",
-        content: "Дізнайтеся, як правильно доглядати за шкірою дорослих при використанні підгузків-трусів. Поради від VIVO Care щодо запобігання подразненням.",
+        content:
+          "Дізнайтеся, як правильно доглядати за шкірою дорослих при використанні підгузків-трусів. Поради від Vivo Care щодо запобігання подразненням.",
       },
     ],
   }),
@@ -36,7 +37,7 @@ function SkinCarePage() {
     },
     {
       title: "Ідеальний розмір",
-      desc: "Занадто тісний підгузок може натирати, а занадто вільний — протікати. Правильно підібраний розмір VIVO Care забезпечує оптимальну циркуляцію повітря.",
+      desc: "Занадто тісний підгузок може натирати, а занадто вільний — протікати. Правильно підібраний розмір Vivo Care забезпечує оптимальну циркуляцію повітря.",
     },
   ];
 
@@ -59,21 +60,22 @@ function SkinCarePage() {
 
           <div className="prose prose-slate max-w-none">
             <p className="text-xl text-slate-600 leading-relaxed font-light mb-12 text-center">
-              Збереження здоров'я шкіри — це ключ до комфорту та гідності при використанні засобів гігієни. 
-              Дотримання цих простих кроків допоможе уникнути дерматитів та пролежнів.
+              Збереження здоров'я шкіри — це ключ до комфорту та гідності при використанні засобів
+              гігієни. Дотримання цих простих кроків допоможе уникнути дерматитів та пролежнів.
             </p>
 
             <div className="space-y-12">
               {tips.map((tip, i) => (
-                <div key={i} className="flex flex-col md:flex-row gap-8 items-start p-8 rounded-[2.5rem] bg-slate-50 border border-slate-100 transition-all hover:shadow-lg">
+                <div
+                  key={i}
+                  className="flex flex-col md:flex-row gap-8 items-start p-8 rounded-[2.5rem] bg-slate-50 border border-slate-100 transition-all hover:shadow-lg"
+                >
                   <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shrink-0 shadow-sm font-bold text-blue-600 text-xl">
                     {i + 1}
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold text-slate-900 mb-4">{tip.title}</h2>
-                    <p className="text-slate-600 leading-relaxed font-light text-lg">
-                      {tip.desc}
-                    </p>
+                    <p className="text-slate-600 leading-relaxed font-light text-lg">{tip.desc}</p>
                   </div>
                 </div>
               ))}
@@ -85,12 +87,12 @@ function SkinCarePage() {
                 <h3 className="text-2xl font-bold">Важливо пам'ятати</h3>
               </div>
               <p className="text-blue-50 text-lg font-light leading-relaxed mb-6">
-                Якщо ви помітили стійкі почервоніння, висип або пошкодження шкіри, які не минають упродовж 24 годин — 
-                обов'язково зверніться до лікаря або професійної доглядальниці.
+                Якщо ви помітили стійкі почервоніння, висип або пошкодження шкіри, які не минають
+                упродовж 24 годин — обов'язково зверніться до лікаря або професійної доглядальниці.
               </p>
               <div className="flex items-center gap-3 text-blue-100 font-medium">
                 <CheckCircle2 className="w-5 h-5 text-blue-300" />
-                VIVO Care — з турботою про здоров'я шкіри
+                Vivo Care — з турботою про здоров'я шкіри
               </div>
             </div>
           </div>

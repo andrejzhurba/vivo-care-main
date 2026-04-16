@@ -35,13 +35,15 @@ export function WhereToBuy({ links }: WhereToBuyProps) {
 
   return (
     <section className="py-12 px-4">
-      <h2 className="sr-only">Де купити продукцію VIVO Care</h2>
+      <h2 className="sr-only">Де купити продукцію Vivo Care</h2>
       <div className="mx-auto max-w-3xl text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">Де купити?</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
+          Де купити?
+        </h2>
         <p className="text-slate-400 text-lg mb-10 font-light italic">
           Оберіть зручний для вас магазин
         </p>
-        
+
         <div className="flex flex-wrap items-center justify-center gap-4">
           {stores.map((store) => (
             <a
@@ -69,12 +71,21 @@ export function WhereToBuy({ links }: WhereToBuyProps) {
   );
 }
 
-export function BuyDropdown({ stores, label = "ДЕ КУПИТИ" }: { stores: { name: string; url: string }[], label?: string }) {
+export function BuyDropdown({
+  stores,
+  label = "ДЕ КУПИТИ",
+}: {
+  stores: { name: string; url: string }[];
+  label?: string;
+}) {
   const [checking, setChecking] = useState<string | null>(null);
 
-  const handleLinkClick = async (e: React.MouseEvent<HTMLAnchorElement>, store: { name: string; url: string }) => {
+  const handleLinkClick = async (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    store: { name: string; url: string },
+  ) => {
     e.preventDefault();
-    
+
     if (checking) return;
 
     setChecking(store.name);
@@ -83,17 +94,17 @@ export function BuyDropdown({ stores, label = "ДЕ КУПИТИ" }: { stores: {
     try {
       // NOTE: Client-side fetch to external domains will likely fail due to CORS
       // This is a "best effort" check. In a real production app, you'd use a proxy.
-      const response = await fetch(store.url, { 
-        mode: 'no-cors', // Standard for cross-origin if CORS headers are missing
-        method: 'GET'
+      const response = await fetch(store.url, {
+        mode: "no-cors", // Standard for cross-origin if CORS headers are missing
+        method: "GET",
       });
 
       // With no-cors, we can't actually see the status code (it's always 0).
       // So we'll assume it's okay unless the fetch itself fails.
       // If we wanted a real 404 check, we'd need a backend proxy.
-      
+
       toast.dismiss(toastId);
-      window.open(store.url, '_blank', 'noopener,noreferrer');
+      window.open(store.url, "_blank", "noopener,noreferrer");
     } catch (error) {
       console.error("Availability check failed:", error);
       toast.dismiss(toastId);
@@ -110,7 +121,10 @@ export function BuyDropdown({ stores, label = "ДЕ КУПИТИ" }: { stores: {
         {checking ? "ПЕРЕВІРКА..." : label}
         <ChevronDown className="w-3 h-3 opacity-50" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 p-2 rounded-2xl bg-white border-slate-100 shadow-2xl">
+      <DropdownMenuContent
+        align="end"
+        className="w-56 p-2 rounded-2xl bg-white border-slate-100 shadow-2xl"
+      >
         <div className="px-2 py-2 mb-1 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
           Оберіть магазин
         </div>
@@ -121,7 +135,9 @@ export function BuyDropdown({ stores, label = "ДЕ КУПИТИ" }: { stores: {
               onClick={(e) => handleLinkClick(e, store)}
               className="flex items-center justify-between w-full px-3 py-2.5 rounded-xl hover:bg-blue-50 transition-colors group"
             >
-              <span className="font-bold text-slate-700 group-hover:text-blue-700">{store.name}</span>
+              <span className="font-bold text-slate-700 group-hover:text-blue-700">
+                {store.name}
+              </span>
               <ExternalLink className="w-3 h-3 text-slate-300 group-hover:text-blue-400" />
             </a>
           </DropdownMenuItem>

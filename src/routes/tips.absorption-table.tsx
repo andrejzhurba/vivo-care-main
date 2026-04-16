@@ -6,10 +6,11 @@ import { ClipboardList, Droplets, Info } from "lucide-react";
 export const Route = createFileRoute("/tips/absorption-table")({
   head: () => ({
     meta: [
-      { title: "Таблиця поглинання пелюшок та підгузків VIVO Care — Повний гід" },
+      { title: "Таблиця поглинання пелюшок та підгузків Vivo Care — Повний гід" },
       {
         name: "description",
-        content: "Порівняйте рівень поглинання різних розмірів підгузків-трусів та пелюшок VIVO Care. Дізнайтеся, скільки мілілітрів рідини утримує кожен виріб.",
+        content:
+          "Порівняйте рівень поглинання різних розмірів підгузків-трусів та пелюшок Vivo Care. Дізнайтеся, скільки мілілітрів рідини утримує кожен виріб.",
       },
     ],
   }),
@@ -37,9 +38,11 @@ function AbsorptionTablePage() {
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight leading-tight">
               Таблиця поглинання <br />
-              <span className="text-blue-600">продукції VIVO Care</span>
+              <span className="text-blue-600">продукції Vivo Care</span>
             </h1>
-            <p className="text-xl text-slate-500 font-light italic">Максимальна впевненість у кожній краплі</p>
+            <p className="text-xl text-slate-500 font-light italic">
+              Максимальна впевненість у кожній краплі
+            </p>
           </div>
 
           <section className="mb-20">
@@ -51,16 +54,24 @@ function AbsorptionTablePage() {
               <table className="w-full text-left border-collapse">
                 <thead className="bg-slate-50">
                   <tr>
-                    <th className="py-6 px-8 text-sm font-bold text-slate-400 uppercase tracking-widest">Розмір</th>
-                    <th className="py-6 px-8 text-sm font-bold text-slate-400 uppercase tracking-widest text-center">Об'єм (мл)</th>
-                    <th className="py-6 px-8 text-sm font-bold text-slate-400 uppercase tracking-widest text-center">Режим</th>
+                    <th className="py-6 px-8 text-sm font-bold text-slate-400 uppercase tracking-widest">
+                      Розмір
+                    </th>
+                    <th className="py-6 px-8 text-sm font-bold text-slate-400 uppercase tracking-widest text-center">
+                      Об'єм (мл)
+                    </th>
+                    <th className="py-6 px-8 text-sm font-bold text-slate-400 uppercase tracking-widest text-center">
+                      Режим
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
                   {diaperData.map((row, i) => (
                     <tr key={i} className="hover:bg-blue-50/30 transition-colors">
                       <td className="py-6 px-8 font-bold text-slate-900">{row.size}</td>
-                      <td className="py-6 px-8 text-center text-blue-600 font-black text-xl">{row.ml}</td>
+                      <td className="py-6 px-8 text-center text-blue-600 font-black text-xl">
+                        {row.ml}
+                      </td>
                       <td className="py-6 px-8 text-center">
                         <span className="px-4 py-1 bg-slate-100 rounded-full text-xs font-bold text-slate-500 uppercase tracking-tighter">
                           {row.usage}
@@ -82,11 +93,15 @@ function AbsorptionTablePage() {
               <div className="flex flex-col md:flex-row justify-between items-center gap-8">
                 <div>
                   <h3 className="text-xl font-bold text-slate-900 mb-2">Стандарт 60х90 см</h3>
-                  <p className="text-slate-500 font-light">Ідеально для захисту ліжка, крісла або при перевдяганні.</p>
+                  <p className="text-slate-500 font-light">
+                    Ідеально для захисту ліжка, крісла або при перевдяганні.
+                  </p>
                 </div>
                 <div className="flex flex-col items-center">
                   <div className="text-4xl font-black text-blue-600 mb-1">8 / 10</div>
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Рівень захисту</div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                    Рівень захисту
+                  </div>
                 </div>
               </div>
             </div>
@@ -100,9 +115,9 @@ function AbsorptionTablePage() {
               <div>
                 <h3 className="text-2xl font-bold mb-4 text-blue-400">Як працює поглинання?</h3>
                 <p className="text-slate-400 leading-relaxed font-light text-lg">
-                  В основі продукції VIVO Care лежить сучасний суперабсорбент (SAP). 
-                  Він не просто вбирає рідину, а миттєво перетворює її на гель, блокуючи вологу та запах всередині. 
-                  Це забезпечує сухість поверхні навіть під тиском тіла.
+                  В основі продукції Vivo Care лежить сучасний суперабсорбент (SAP). Він не просто
+                  вбирає рідину, а миттєво перетворює її на гель, блокуючи вологу та запах
+                  всередині. Це забезпечує сухість поверхні навіть під тиском тіла.
                 </p>
               </div>
             </div>

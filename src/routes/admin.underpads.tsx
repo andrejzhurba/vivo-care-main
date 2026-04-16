@@ -6,7 +6,7 @@ import { deleteFileFromStorage } from "@/lib/cms";
 
 export const Route = createFileRoute("/admin/underpads")({
   head: () => ({
-    meta: [{ title: "Admin - Пелюшки VIVO Care" }],
+    meta: [{ title: "Admin - Пелюшки Vivo Care" }],
   }),
   component: AdminUnderpadsPage,
 });

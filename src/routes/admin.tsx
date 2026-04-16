@@ -2,7 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { useState, useEffect, useCallback } from "react";
-import { getSettings, saveSettings, uploadFileToStorage, type CMSSettings, type StoreLink } from "@/lib/cms";
+import {
+  getSettings,
+  saveSettings,
+  uploadFileToStorage,
+  type CMSSettings,
+  type StoreLink,
+} from "@/lib/cms";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,47 +18,57 @@ import { Save, Plus, Trash2, LogOut, ExternalLink, Upload, Loader2, X } from "lu
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
-    meta: [{ title: "Admin - VIVO Care" }],
+    meta: [{ title: "Admin - Vivo Care" }],
   }),
   component: AdminPage,
 });
 
-function ImageUploadZone({ 
-  images, 
-  onUpload, 
-  onRemove 
-}: { 
-  images: string[], 
-  onUpload: (urls: string[]) => void, 
-  onRemove: (index: number) => void 
+function ImageUploadZone({
+  images,
+  onUpload,
+  onRemove,
+}: {
+  images: string[];
+  onUpload: (urls: string[]) => void;
+  onRemove: (index: number) => void;
 }) {
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
-  const handleFiles = useCallback(async (files: FileList | null) => {
-    if (!files || files.length === 0) return;
-    
-    setIsUploading(true);
-    const uploadPromises = Array.from(files).map(file => uploadFileToStorage(file));
-    
-    try {
-      const urls = await Promise.all(uploadPromises);
-      onUpload(urls);
-      toast.success(`Завантажено ${urls.length} фото`);
-    } catch (error) {
-      console.error(error);
-      toast.error("Помилка при завантаженні");
-    } finally {
-      setIsUploading(false);
-    }
-  }, [onUpload]);
+  const handleFiles = useCallback(
+    async (files: FileList | null) => {
+      if (!files || files.length === 0) return;
+
+      setIsUploading(true);
+      const uploadPromises = Array.from(files).map((file) => uploadFileToStorage(file));
+
+      try {
+        const urls = await Promise.all(uploadPromises);
+        onUpload(urls);
+        toast.success(`Завантажено ${urls.length} фото`);
+      } catch (error) {
+        console.error(error);
+        toast.error("Помилка при завантаженні");
+      } finally {
+        setIsUploading(false);
+      }
+    },
+    [onUpload],
+  );
 
   return (
     <div className="space-y-4">
-      <div 
-        onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+      <div
+        onDragOver={(e) => {
+          e.preventDefault();
+          setIsDragging(true);
+        }}
         onDragLeave={() => setIsDragging(false)}
-        onDrop={(e) => { e.preventDefault(); setIsDragging(false); handleFiles(e.dataTransfer.files); }}
+        onDrop={(e) => {
+          e.preventDefault();
+          setIsDragging(false);
+          handleFiles(e.dataTransfer.files);
+        }}
         className={`
           border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center transition-all
           ${isDragging ? "border-blue-500 bg-blue-50/50 scale-[0.99]" : "border-slate-200 hover:border-blue-300 hover:bg-slate-50/50"}
@@ -67,17 +83,17 @@ function ImageUploadZone({
         <p className="text-sm font-medium text-slate-600">
           {isUploading ? "Завантаження..." : "Перетягніть фото сюди або клікніть для вибору"}
         </p>
-        <input 
-          type="file" 
-          multiple 
-          accept="image/*" 
-          className="hidden" 
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          className="hidden"
           id="file-upload"
           onChange={(e) => handleFiles(e.target.files)}
         />
-        <Button 
-          variant="outline" 
-          size="sm" 
+        <Button
+          variant="outline"
+          size="sm"
           className="mt-4 rounded-xl"
           onClick={() => document.getElementById("file-upload")?.click()}
         >
@@ -87,9 +103,12 @@ function ImageUploadZone({
 
       <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
         {images.map((url, idx) => (
-          <div key={idx} className="relative aspect-square rounded-xl overflow-hidden border border-slate-100 group">
+          <div
+            key={idx}
+            className="relative aspect-square rounded-xl overflow-hidden border border-slate-100 group"
+          >
             <img src={url} className="w-full h-full object-cover" />
-            <button 
+            <button
               onClick={() => onRemove(idx)}
               className="absolute top-1 right-1 bg-white/90 p-1 rounded-lg text-red-500 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
             >
@@ -144,8 +163,11 @@ function AdminPage() {
   // Diaper size management
   const addDiaperSize = () => {
     if (!settings) return;
-    const newSizes = [...settings.diaperSizes, { id: "NEW", name: "New Size", waist: "", absorbency: "", images: [] }];
-    const newStores = { ...settings.diaperStores, "NEW": [] };
+    const newSizes = [
+      ...settings.diaperSizes,
+      { id: "NEW", name: "New Size", waist: "", absorbency: "", images: [] },
+    ];
+    const newStores = { ...settings.diaperStores, NEW: [] };
     setSettings({ ...settings, diaperSizes: newSizes, diaperStores: newStores });
   };
 
@@ -154,10 +176,10 @@ function AdminPage() {
     const size = settings.diaperSizes[index];
     const newSizes = [...settings.diaperSizes];
     newSizes.splice(index, 1);
-    
+
     const newStores = { ...settings.diaperStores };
     delete newStores[size.id];
-    
+
     setSettings({ ...settings, diaperSizes: newSizes, diaperStores: newStores });
   };
 
@@ -167,13 +189,13 @@ function AdminPage() {
     const oldId = newSizes[index].id;
     // @ts-ignore
     newSizes[index] = { ...newSizes[index], [field]: value };
-    
+
     const newStores = { ...settings.diaperStores };
-    if (field === 'id' && oldId !== value) {
+    if (field === "id" && oldId !== value) {
       newStores[value] = newStores[oldId] || [];
       delete newStores[oldId];
     }
-    
+
     setSettings({ ...settings, diaperSizes: newSizes, diaperStores: newStores });
   };
 
@@ -197,7 +219,10 @@ function AdminPage() {
   // Underpad size management
   const addUnderpadSize = () => {
     if (!settings) return;
-    const newSizes = [...settings.underpadSizes, { id: Date.now().toString(), name: "New", size: "", absorbLevel: 5, qty: "", images: [] }];
+    const newSizes = [
+      ...settings.underpadSizes,
+      { id: Date.now().toString(), name: "New", size: "", absorbLevel: 5, qty: "", images: [] },
+    ];
     setSettings({ ...settings, underpadSizes: newSizes });
   };
 
@@ -234,7 +259,12 @@ function AdminPage() {
   };
 
   // Diaper store management
-  const updateDiaperStore = (size: string, index: number, field: keyof StoreLink, value: string) => {
+  const updateDiaperStore = (
+    size: string,
+    index: number,
+    field: keyof StoreLink,
+    value: string,
+  ) => {
     if (!settings) return;
     const newDiaperStores = { ...settings.diaperStores };
     const sizeStores = [...newDiaperStores[size]];
@@ -274,7 +304,10 @@ function AdminPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="rounded-xl"
               />
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 rounded-xl py-6">
+              <Button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 rounded-xl py-6"
+              >
                 Увійти
               </Button>
             </form>
@@ -295,15 +328,22 @@ function AdminPage() {
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-slate-900">Адмін-панель VIVO Care</h1>
+              <h1 className="text-3xl font-bold text-slate-900">Адмін-панель Vivo Care</h1>
               <p className="text-slate-500 italic font-light">Керування контентом та посиланнями</p>
             </div>
             <div className="flex gap-3">
-              <Button onClick={handleSave} className="bg-green-600 hover:bg-green-700 rounded-xl px-6 font-bold">
+              <Button
+                onClick={handleSave}
+                className="bg-green-600 hover:bg-green-700 rounded-xl px-6 font-bold"
+              >
                 <Save className="w-4 h-4 mr-2" />
                 Зберегти все
               </Button>
-              <Button variant="outline" onClick={() => setIsAuthenticated(false)} className="rounded-xl">
+              <Button
+                variant="outline"
+                onClick={() => setIsAuthenticated(false)}
+                className="rounded-xl"
+              >
                 <LogOut className="w-4 h-4 mr-2" />
                 Вийти
               </Button>
@@ -312,13 +352,36 @@ function AdminPage() {
 
           <Tabs defaultValue="general" className="space-y-8">
             <TabsList className="bg-white p-1 rounded-2xl border border-slate-100 h-auto">
-              <TabsTrigger value="general" className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600">Загальні</TabsTrigger>
-              <TabsTrigger value="diapers" className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600">Підгузки-труси</TabsTrigger>
-              <TabsTrigger value="underpads" className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600">Пелюшки</TabsTrigger>
-              <TabsTrigger value="security" className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600">Безпека</TabsTrigger>
+              <TabsTrigger
+                value="general"
+                className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600"
+              >
+                Загальні
+              </TabsTrigger>
+              <TabsTrigger
+                value="diapers"
+                className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600"
+              >
+                Підгузки-труси
+              </TabsTrigger>
+              <TabsTrigger
+                value="underpads"
+                className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600"
+              >
+                Пелюшки
+              </TabsTrigger>
+              <TabsTrigger
+                value="security"
+                className="rounded-xl px-8 py-3 data-[state=active]:bg-blue-50 data-[state=active]:text-blue-600"
+              >
+                Безпека
+              </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="general" className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <TabsContent
+              value="general"
+              className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300"
+            >
               <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
                 <h2 className="text-xl font-bold mb-6 flex items-center gap-3">
                   <div className="w-2 h-6 bg-blue-500 rounded-full" />
@@ -326,7 +389,9 @@ function AdminPage() {
                 </h2>
                 <div className="space-y-6">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">Слоган</label>
+                    <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">
+                      Слоган
+                    </label>
                     <Input
                       value={settings.heroSlogan}
                       onChange={(e) => setSettings({ ...settings, heroSlogan: e.target.value })}
@@ -334,10 +399,14 @@ function AdminPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">Опис</label>
+                    <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">
+                      Опис
+                    </label>
                     <Textarea
                       value={settings.heroDescription}
-                      onChange={(e) => setSettings({ ...settings, heroDescription: e.target.value })}
+                      onChange={(e) =>
+                        setSettings({ ...settings, heroDescription: e.target.value })
+                      }
                       className="rounded-xl p-6 min-h-[120px]"
                     />
                   </div>
@@ -351,7 +420,9 @@ function AdminPage() {
                 </h2>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">Email</label>
+                    <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">
+                      Email
+                    </label>
                     <Input
                       value={settings.contactEmail}
                       onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
@@ -360,7 +431,9 @@ function AdminPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">Телефон</label>
+                    <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">
+                      Телефон
+                    </label>
                     <Input
                       value={settings.contactPhone}
                       onChange={(e) => setSettings({ ...settings, contactPhone: e.target.value })}
@@ -369,26 +442,97 @@ function AdminPage() {
                     />
                   </div>
                 </div>
+
+                <div className="mt-8">
+                  <h3 className="font-bold text-slate-900 mb-4">Посилання на месенджери</h3>
+                  <div className="grid md:grid-cols-3 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">
+                        WhatsApp
+                      </label>
+                      <Input
+                        value={settings.messengerLinks?.whatsapp || ""}
+                        onChange={(e) =>
+                          setSettings({
+                            ...settings,
+                            messengerLinks: {
+                              ...settings.messengerLinks,
+                              whatsapp: e.target.value,
+                            },
+                          })
+                        }
+                        className="rounded-xl"
+                        placeholder="https://wa.me/380671234567"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">
+                        Telegram
+                      </label>
+                      <Input
+                        value={settings.messengerLinks?.telegram || ""}
+                        onChange={(e) =>
+                          setSettings({
+                            ...settings,
+                            messengerLinks: {
+                              ...settings.messengerLinks,
+                              telegram: e.target.value,
+                            },
+                          })
+                        }
+                        className="rounded-xl"
+                        placeholder="https://t.me/vivocare"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">
+                        Viber
+                      </label>
+                      <Input
+                        value={settings.messengerLinks?.viber || ""}
+                        onChange={(e) =>
+                          setSettings({
+                            ...settings,
+                            messengerLinks: { ...settings.messengerLinks, viber: e.target.value },
+                          })
+                        }
+                        className="rounded-xl"
+                        placeholder="viber://chat?number=380671234567"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </TabsContent>
 
-            <TabsContent value="diapers" className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <TabsContent
+              value="diapers"
+              className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300"
+            >
               <div className="flex justify-end">
-                <Button onClick={addDiaperSize} className="bg-blue-600 hover:bg-blue-700 rounded-xl">
+                <Button
+                  onClick={addDiaperSize}
+                  className="bg-blue-600 hover:bg-blue-700 rounded-xl"
+                >
                   <Plus className="w-4 h-4 mr-2" /> Додати новий розмір
                 </Button>
               </div>
-              
+
               {settings.diaperSizes.map((size, sizeIndex) => (
-                <div key={sizeIndex} className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+                <div
+                  key={sizeIndex}
+                  className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100"
+                >
                   <div className="flex justify-between items-start mb-6">
                     <h2 className="text-xl font-bold flex items-center gap-3">
-                      <div className="w-8 h-8 bg-blue-600 text-white rounded-xl flex items-center justify-center text-sm">{size.id}</div>
+                      <div className="w-8 h-8 bg-blue-600 text-white rounded-xl flex items-center justify-center text-sm">
+                        {size.id}
+                      </div>
                       Налаштування розміру {size.id}
                     </h2>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
+                    <Button
+                      variant="ghost"
+                      size="icon"
                       onClick={() => removeDiaperSize(sizeIndex)}
                       className="text-slate-300 hover:text-red-500"
                     >
@@ -398,33 +542,41 @@ function AdminPage() {
 
                   <div className="grid md:grid-cols-4 gap-4 mb-8">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ID (напр. S, M)</label>
-                      <Input 
-                        value={size.id} 
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        ID (напр. S, M)
+                      </label>
+                      <Input
+                        value={size.id}
                         onChange={(e) => updateDiaperSize(sizeIndex, "id", e.target.value)}
                         className="bg-slate-50 rounded-lg border-slate-200"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Назва (напр. Small)</label>
-                      <Input 
-                        value={size.name} 
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Назва (напр. Small)
+                      </label>
+                      <Input
+                        value={size.name}
                         onChange={(e) => updateDiaperSize(sizeIndex, "name", e.target.value)}
                         className="bg-slate-50 rounded-lg border-slate-200"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Обхват (напр. 60-90 см)</label>
-                      <Input 
-                        value={size.waist} 
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Обхват (напр. 60-90 см)
+                      </label>
+                      <Input
+                        value={size.waist}
                         onChange={(e) => updateDiaperSize(sizeIndex, "waist", e.target.value)}
                         className="bg-slate-50 rounded-lg border-slate-200"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Поглинання (мл)</label>
-                      <Input 
-                        value={size.absorbency} 
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Поглинання (мл)
+                      </label>
+                      <Input
+                        value={size.absorbency}
                         onChange={(e) => updateDiaperSize(sizeIndex, "absorbency", e.target.value)}
                         className="bg-slate-50 rounded-lg border-slate-200"
                       />
@@ -433,8 +585,8 @@ function AdminPage() {
 
                   <div className="space-y-4 mb-8">
                     <h3 className="font-bold text-slate-900">Фотографії (Drag-n-Drop)</h3>
-                    <ImageUploadZone 
-                      images={size.images || []} 
+                    <ImageUploadZone
+                      images={size.images || []}
                       onUpload={(urls) => handleDiaperUpload(sizeIndex, urls)}
                       onRemove={(idx) => removeDiaperImage(sizeIndex, idx)}
                     />
@@ -443,37 +595,59 @@ function AdminPage() {
                   <div className="border-t border-slate-100 pt-6">
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="font-bold text-slate-900">Магазини для цього розміру</h3>
-                      <Button variant="ghost" size="sm" onClick={() => addDiaperStore(size.id)} className="text-blue-600 hover:bg-blue-50">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => addDiaperStore(size.id)}
+                        className="text-blue-600 hover:bg-blue-50"
+                      >
                         <Plus className="w-4 h-4 mr-1" /> Додати магазин
                       </Button>
                     </div>
                     <div className="grid gap-4">
                       {(settings.diaperStores[size.id] || []).map((store, storeIndex) => (
-                        <div key={storeIndex} className="flex gap-4 items-end p-4 bg-slate-50 rounded-2xl border border-slate-100 relative group">
+                        <div
+                          key={storeIndex}
+                          className="flex gap-4 items-end p-4 bg-slate-50 rounded-2xl border border-slate-100 relative group"
+                        >
                           <div className="flex-1 space-y-2">
-                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Магазин</label>
-                            <Input 
-                              value={store.name} 
-                              onChange={(e) => updateDiaperStore(size.id, storeIndex, "name", e.target.value)}
+                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                              Магазин
+                            </label>
+                            <Input
+                              value={store.name}
+                              onChange={(e) =>
+                                updateDiaperStore(size.id, storeIndex, "name", e.target.value)
+                              }
                               className="bg-white rounded-lg border-slate-200"
                               placeholder="Назва"
                             />
                           </div>
                           <div className="flex-[3] space-y-2">
-                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">URL посилання</label>
+                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                              URL посилання
+                            </label>
                             <div className="relative">
-                              <Input 
-                                value={store.url} 
-                                onChange={(e) => updateDiaperStore(size.id, storeIndex, "url", e.target.value)}
+                              <Input
+                                value={store.url}
+                                onChange={(e) =>
+                                  updateDiaperStore(size.id, storeIndex, "url", e.target.value)
+                                }
                                 className="bg-white rounded-lg border-slate-200 pr-10"
                                 placeholder="https://..."
                               />
-                              <a href={store.url} target="_blank" className="absolute right-3 top-2.5 text-slate-300 hover:text-blue-500"><ExternalLink className="w-4 h-4" /></a>
+                              <a
+                                href={store.url}
+                                target="_blank"
+                                className="absolute right-3 top-2.5 text-slate-300 hover:text-blue-500"
+                              >
+                                <ExternalLink className="w-4 h-4" />
+                              </a>
                             </div>
                           </div>
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
+                          <Button
+                            variant="ghost"
+                            size="icon"
                             onClick={() => removeDiaperStore(size.id, storeIndex)}
                             className="text-slate-300 hover:text-red-500"
                           >
@@ -487,136 +661,170 @@ function AdminPage() {
               ))}
             </TabsContent>
 
-            <TabsContent value="underpads" className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
-               <div className="flex justify-end">
-                  <Button onClick={addUnderpadSize} className="bg-blue-600 hover:bg-blue-700 rounded-xl">
-                    <Plus className="w-4 h-4 mr-2" /> Додати новий розмір
-                  </Button>
-               </div>
+            <TabsContent
+              value="underpads"
+              className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300"
+            >
+              <div className="flex justify-end">
+                <Button
+                  onClick={addUnderpadSize}
+                  className="bg-blue-600 hover:bg-blue-700 rounded-xl"
+                >
+                  <Plus className="w-4 h-4 mr-2" /> Додати новий розмір
+                </Button>
+              </div>
 
-               {settings.underpadSizes.map((size, sizeIndex) => (
-                 <div key={sizeIndex} className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
-                   <div className="flex justify-between items-start mb-6">
-                      <h2 className="text-xl font-bold flex items-center gap-3">
-                        <div className="w-2 h-6 bg-blue-500 rounded-full" />
-                        Розмір: {size.size || "Новий"}
-                      </h2>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={() => removeUnderpadSize(sizeIndex)}
-                        className="text-slate-300 hover:text-red-500"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </Button>
-                   </div>
+              {settings.underpadSizes.map((size, sizeIndex) => (
+                <div
+                  key={sizeIndex}
+                  className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100"
+                >
+                  <div className="flex justify-between items-start mb-6">
+                    <h2 className="text-xl font-bold flex items-center gap-3">
+                      <div className="w-2 h-6 bg-blue-500 rounded-full" />
+                      Розмір: {size.size || "Новий"}
+                    </h2>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeUnderpadSize(sizeIndex)}
+                      className="text-slate-300 hover:text-red-500"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </Button>
+                  </div>
 
-                   <div className="grid md:grid-cols-4 gap-4 mb-8">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Назва</label>
-                        <Input 
-                          value={size.name} 
-                          onChange={(e) => updateUnderpadSize(sizeIndex, "name", e.target.value)}
-                          className="bg-slate-50 rounded-lg border-slate-200"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Розмір (напр. 60x90)</label>
-                        <Input 
-                          value={size.size} 
-                          onChange={(e) => updateUnderpadSize(sizeIndex, "size", e.target.value)}
-                          className="bg-slate-50 rounded-lg border-slate-200"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Поглинання (1-10)</label>
-                        <Input 
-                          type="number"
-                          value={size.absorbLevel} 
-                          onChange={(e) => updateUnderpadSize(sizeIndex, "absorbLevel", parseInt(e.target.value))}
-                          className="bg-slate-50 rounded-lg border-slate-200"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Кількість (шт)</label>
-                        <Input 
-                          value={size.qty} 
-                          onChange={(e) => updateUnderpadSize(sizeIndex, "qty", e.target.value)}
-                          className="bg-slate-50 rounded-lg border-slate-200"
-                        />
-                      </div>
-                   </div>
+                  <div className="grid md:grid-cols-4 gap-4 mb-8">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Назва
+                      </label>
+                      <Input
+                        value={size.name}
+                        onChange={(e) => updateUnderpadSize(sizeIndex, "name", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Розмір (напр. 60x90)
+                      </label>
+                      <Input
+                        value={size.size}
+                        onChange={(e) => updateUnderpadSize(sizeIndex, "size", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Поглинання (1-10)
+                      </label>
+                      <Input
+                        type="number"
+                        value={size.absorbLevel}
+                        onChange={(e) =>
+                          updateUnderpadSize(sizeIndex, "absorbLevel", parseInt(e.target.value))
+                        }
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Кількість (шт)
+                      </label>
+                      <Input
+                        value={size.qty}
+                        onChange={(e) => updateUnderpadSize(sizeIndex, "qty", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                      />
+                    </div>
+                  </div>
 
-                   <div className="space-y-4">
+                  <div className="space-y-4">
                     <h3 className="font-bold text-slate-900">Фотографії (Drag-n-Drop)</h3>
-                    <ImageUploadZone 
-                      images={size.images || []} 
+                    <ImageUploadZone
+                      images={size.images || []}
                       onUpload={(urls) => handleUnderpadUpload(sizeIndex, urls)}
                       onRemove={(idx) => removeUnderpadImage(sizeIndex, idx)}
                     />
                   </div>
-                 </div>
-               ))}
+                </div>
+              ))}
 
-               <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 mt-12">
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl font-bold flex items-center gap-3">
-                      <div className="w-2 h-6 bg-blue-500 rounded-full" />
-                      Магазини для пелюшок
-                    </h2>
-                    <Button variant="ghost" size="sm" onClick={() => {
-                        const newStores = [...settings.underpadStores, { name: "", url: "" }];
-                        setSettings({ ...settings, underpadStores: newStores });
-                    }} className="text-blue-600 hover:bg-blue-50">
-                      <Plus className="w-4 h-4 mr-1" /> Додати магазин
-                    </Button>
-                  </div>
-                  <div className="grid gap-4">
-                    {settings.underpadStores.map((store, index) => (
-                      <div key={index} className="flex gap-4 items-end p-4 bg-slate-50 rounded-2xl border border-slate-100 relative group">
-                        <div className="flex-1 space-y-2">
-                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Магазин</label>
-                          <Input 
-                            value={store.name} 
-                            onChange={(e) => {
-                                const newStores = [...settings.underpadStores];
-                                newStores[index] = { ...newStores[index], name: e.target.value };
-                                setSettings({ ...settings, underpadStores: newStores });
-                            }}
-                            className="bg-white rounded-lg border-slate-200"
-                          />
-                        </div>
-                        <div className="flex-[3] space-y-2">
-                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">URL посилання</label>
-                          <Input 
-                            value={store.url} 
-                            onChange={(e) => {
-                                const newStores = [...settings.underpadStores];
-                                newStores[index] = { ...newStores[index], url: e.target.value };
-                                setSettings({ ...settings, underpadStores: newStores });
-                            }}
-                            className="bg-white rounded-lg border-slate-200"
-                          />
-                        </div>
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={() => {
-                              const newStores = [...settings.underpadStores];
-                              newStores.splice(index, 1);
-                              setSettings({ ...settings, underpadStores: newStores });
+              <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 mt-12">
+                <div className="flex justify-between items-center mb-6">
+                  <h2 className="text-xl font-bold flex items-center gap-3">
+                    <div className="w-2 h-6 bg-blue-500 rounded-full" />
+                    Магазини для пелюшок
+                  </h2>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      const newStores = [...settings.underpadStores, { name: "", url: "" }];
+                      setSettings({ ...settings, underpadStores: newStores });
+                    }}
+                    className="text-blue-600 hover:bg-blue-50"
+                  >
+                    <Plus className="w-4 h-4 mr-1" /> Додати магазин
+                  </Button>
+                </div>
+                <div className="grid gap-4">
+                  {settings.underpadStores.map((store, index) => (
+                    <div
+                      key={index}
+                      className="flex gap-4 items-end p-4 bg-slate-50 rounded-2xl border border-slate-100 relative group"
+                    >
+                      <div className="flex-1 space-y-2">
+                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                          Магазин
+                        </label>
+                        <Input
+                          value={store.name}
+                          onChange={(e) => {
+                            const newStores = [...settings.underpadStores];
+                            newStores[index] = { ...newStores[index], name: e.target.value };
+                            setSettings({ ...settings, underpadStores: newStores });
                           }}
-                          className="text-slate-300 hover:text-red-500"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
+                          className="bg-white rounded-lg border-slate-200"
+                        />
                       </div>
-                    ))}
-                  </div>
-               </div>
+                      <div className="flex-[3] space-y-2">
+                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                          URL посилання
+                        </label>
+                        <Input
+                          value={store.url}
+                          onChange={(e) => {
+                            const newStores = [...settings.underpadStores];
+                            newStores[index] = { ...newStores[index], url: e.target.value };
+                            setSettings({ ...settings, underpadStores: newStores });
+                          }}
+                          className="bg-white rounded-lg border-slate-200"
+                        />
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => {
+                          const newStores = [...settings.underpadStores];
+                          newStores.splice(index, 1);
+                          setSettings({ ...settings, underpadStores: newStores });
+                        }}
+                        className="text-slate-300 hover:text-red-500"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </TabsContent>
 
-            <TabsContent value="security" className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <TabsContent
+              value="security"
+              className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300"
+            >
               <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100 max-w-md">
                 <h2 className="text-xl font-bold mb-6 flex items-center gap-3">
                   <div className="w-2 h-6 bg-red-500 rounded-full" />
@@ -624,7 +832,9 @@ function AdminPage() {
                 </h2>
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">Новий пароль</label>
+                    <label className="text-sm font-bold text-slate-400 uppercase tracking-widest italic">
+                      Новий пароль
+                    </label>
                     <Input
                       type="password"
                       value={newPassword}
@@ -633,7 +843,10 @@ function AdminPage() {
                       placeholder="Введіть новий пароль"
                     />
                   </div>
-                  <Button onClick={handleChangePassword} className="w-full bg-slate-900 hover:bg-slate-800 rounded-xl py-6 font-bold">
+                  <Button
+                    onClick={handleChangePassword}
+                    className="w-full bg-slate-900 hover:bg-slate-800 rounded-xl py-6 font-bold"
+                  >
                     Оновити пароль
                   </Button>
                 </div>

@@ -57,7 +57,7 @@
   --radius: 0.75rem;
   --font-heading: "Inter", system-ui, sans-serif;
 
-  /* VIVO Care brand palette */
+  /* Vivo Care brand palette */
   --navy: oklch(0.25 0.06 280);
   --navy-light: oklch(0.35 0.06 280);
   --violet-accent: oklch(0.65 0.15 280);

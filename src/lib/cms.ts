@@ -28,6 +28,11 @@ export interface CMSSettings {
   stores: { name: string; url: string; description?: string }[];
   contactEmail: string;
   contactPhone: string;
+  messengerLinks: {
+    whatsapp?: string;
+    telegram?: string;
+    viber?: string;
+  };
   adminPassword?: string;
   diaperStores: Record<string, StoreLink[]>;
   underpadStores: StoreLink[];
@@ -63,6 +68,11 @@ const DEFAULT_SETTINGS: CMSSettings = {
   ],
   contactEmail: "info@vivocare.ua",
   contactPhone: "+38 (067) 123-45-67",
+  messengerLinks: {
+    whatsapp: "https://wa.me/380671234567",
+    telegram: "https://t.me/vivocare",
+    viber: "viber://chat?number=380671234567",
+  },
   adminPassword: "vivo2025",
   diaperSizes: [
     { id: "S", name: "Small", waist: "60-90 см", absorbency: "1200 мл", images: [] },
