@@ -2,199 +2,233 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhereToBuy } from "@/components/WhereToBuy";
-import logo from "@/assets/logo.png";
+import { FeatureCard } from "@/components/FeatureCard";
+import { Button } from "@/components/ui/button";
+import { ChevronRight, Droplets, ShieldCheck, Wind, Activity, Timer, Ban } from "lucide-react";
+
+// Імпорт зображень
+import heroBg from "@/assets/hero-bg.jpg";
+import diaperImg from "@/assets/diapers-hero.jpg";
+import underpadImg from "@/assets/underpads-hero.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "VIVO Care — Турбота, яку відчуваєш" },
+      { title: "VIVO Care — Свобода бути собою" },
       {
         name: "description",
-        content:
-          "Якісні гігієнічні засоби для дорослих VIVO Care. Комфорт, захист та впевненість щодня.",
+        content: "Професійні рішення для вашої гідності. Комфорт та впевненість у кожному русі.",
       },
     ],
   }),
   component: HomePage,
 });
 
-const features = [
+const diaperFeatures = [
   {
-    icon: "🔄",
+    icon: <Activity className="w-6 h-6 text-blue-500" />,
     title: "Еластичний пояс 360°",
-    desc: "Комфортна посадка та свобода рухів, як звичайна білизна",
+    desc: "Комфортна посадка та свобода рухів, як звичайна білизна.",
   },
   {
-    icon: <img src="/1.png" alt="water" className="w-8 h-8" />,
+    icon: <Droplets className="w-6 h-6 text-blue-500" />,
     title: "Висока поглинальна здатність",
-    desc: "Сухість і впевненість упродовж дня та ночі",
+    desc: "Сухість і впевненість упродовж дня та ночі.",
   },
   {
-    icon: "🛡️",
+    icon: <ShieldCheck className="w-6 h-6 text-blue-500" />,
     title: "Захист від протікань",
-    desc: "Еластичні бар'єри та гідрофобні манжети з боків",
+    desc: "Еластичні бар'єри та гідрофобні манжети з боків.",
   },
   {
-    icon: "🌬️",
+    icon: <Wind className="w-6 h-6 text-blue-500" />,
     title: "Дихаючий матеріал",
-    desc: "Зменшує ризик подразнень, комфорт для чутливої шкіри",
+    desc: "Зменшує ризик подразнень, комфорт для чутливої шкіри.",
   },
-  { icon: "📊", title: "Індикатор вологості", desc: "Зручний контроль для своєчасної заміни" },
   {
-    icon: "🚫",
+    icon: <Timer className="w-6 h-6 text-blue-500" />,
+    title: "Індикатор вологості",
+    desc: "Зручний контроль для своєчасної заміни.",
+  },
+  {
+    icon: <Ban className="w-6 h-6 text-blue-500" />,
     title: "Нейтралізація запаху",
-    desc: "Система Odour Stop ефективно блокує неприємні запахи",
+    desc: "Система Odour Stop ефективно блокує неприємні запахи.",
   },
 ];
 
-const advantages = [
+const underpadFeatures = [
   {
-    icon: <img src="/1.png" alt="water" className="w-8 h-8" />,
+    icon: <Droplets className="w-6 h-6 text-blue-500" />,
     title: "Висока поглинаюча здатність",
-    desc: "Швидко вбирає рідину та утримує її всередині",
+    desc: "Швидко вбирає рідину та утримує її всередині.",
   },
   {
-    icon: <img src="/2.png" alt="waterproof" className="w-8 h-8" />,
+    icon: <ShieldCheck className="w-6 h-6 text-blue-500" />,
     title: "Вологонепроникний нижній шар",
-    desc: "Зменшує ризик протікання на поверхні",
+    desc: "Зменшує ризик протікання на поверхні.",
   },
   {
-    icon: <img src="/3.png" alt="soft" className="w-8 h-8" />,
-    title: "М'яка поверхня",
-    desc: "Приємна на дотик, комфортна для шкіри",
+    icon: <Activity className="w-6 h-6 text-blue-500" />,
+    title: "М’яка поверхня",
+    desc: "Приємна на дотик, комфортна для шкіри.",
   },
   {
-    icon: <img src="/4.png" alt="distribution" className="w-8 h-8" />,
+    icon: <Wind className="w-6 h-6 text-blue-500" />,
     title: "Рівномірний розподіл рідини",
-    desc: "Антиковзна поверхня для стабільного положення",
+    desc: "Антиковзна поверхня для стабільного положення.",
   },
   {
-    icon: <img src="/5.png" alt="hypoallergenic" className="w-8 h-8" />,
+    icon: <ShieldCheck className="w-6 h-6 text-blue-500" />,
     title: "Гіпоалергенність",
-    desc: "Підходять для чутливої шкіри",
+    desc: "Підходять для чутливої шкіри.",
   },
 ];
 
 function HomePage() {
+  const scrollToProducts = () => {
+    document.getElementById("product-selection")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-white font-sans selection:bg-blue-100 selection:text-blue-900">
       <Header />
 
-      {/* Hero / Brand Presentation - Matches other pages with gradient-hero */}
-      <section className="relative text-white py-24 px-4 overflow-hidden min-h-[500px] flex items-center gradient-hero">
-        <div className="mx-auto max-w-5xl flex flex-col items-center text-center relative z-10">
-          <img
-            src={logo}
-            alt="VIVO Care"
-            className="h-24 md:h-32 mb-10 brightness-0 invert drop-shadow-2xl"
+      {/* 1. HERO SECTION */}
+      <section className="relative h-[90vh] flex items-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={heroBg} 
+            className="w-full h-full object-cover object-center opacity-40 scale-105" 
+            alt="Hero Background" 
           />
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-8 leading-tight drop-shadow-lg">
-            Турбота,
-            <br />
-            <span className="text-white underline decoration-white/20">яку відчуваєш</span>
-          </h1>
-          <p className="text-xl text-white max-w-2xl mb-12 leading-relaxed font-bold drop-shadow-md">
-            VIVO Care створює гігієнічні засоби преміальної якості, щоб ви могли насолоджуватися
-            кожним моментом життя з відчуттям повної впевненості та комфорту.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-6">
-            <a href="/diapers" className="btn-buy">
-              Підгузки-труси
-            </a>
-            <a href="/underpads" className="btn-buy">
-              Пелюшки
-            </a>
-          </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent" />
         </div>
-
-        {/* Decorative elements to add depth while matching the theme */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2"></div>
-      </section>
-
-      {/* Features - Підгузки-труси */}
-      <section className="py-14 md:py-20 px-4">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground text-center mb-8">
-            Переваги підгузків-трусиків
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((f) => (
-              <div key={f.title} className="card-product p-6 text-center">
-                <div className="text-3xl mb-4 flex justify-center">{f.icon}</div>
-                <h3 className="font-semibold text-foreground text-lg mb-2">{f.title}</h3>
-                <p className="text-sm text-muted-foreground">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Advantages - Пелюшки */}
-      <section className="py-14 md:py-20 px-4 bg-muted/30">
-        <div className="mx-auto max-w-5xl">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground text-center mb-8">
-            Переваги пелюшок
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {advantages.map((a) => (
-              <div key={a.title} className="card-product p-6 text-center">
-                <div className="flex justify-center mb-4">{a.icon}</div>
-                <h3 className="font-semibold text-foreground text-lg mb-2">{a.title}</h3>
-                <p className="text-sm text-muted-foreground">{a.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Product Links */}
-      <section className="py-14 md:py-20 px-4">
-        <div className="mx-auto max-w-5xl">
-          <div className="grid sm:grid-cols-2 gap-6">
-            <a
-              href="/diapers"
-              className="card-product p-8 text-center hover:shadow-lg transition-shadow"
+        
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-2xl animate-in fade-in slide-in-from-left duration-1000">
+            <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight tracking-tight">
+              VIVO Care — <br />
+              <span className="text-blue-600">свобода бути собою</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-slate-600 mb-10 font-light leading-relaxed">
+              Комфорт та впевненість у кожному русі. <br />
+              Професійні рішення для вашої гідності.
+            </p>
+            <Button 
+              onClick={scrollToProducts}
+              size="lg" 
+              className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-10 py-7 text-lg shadow-xl shadow-blue-200 transition-all hover:-translate-y-1"
             >
-              <h3 className="font-bold text-2xl text-foreground mb-2">Підгузки-труси</h3>
-              <p className="text-muted-foreground mb-4">Комфортні підгузки для дорослих</p>
-              <span className="btn-buy inline-flex">Переглянути →</span>
-            </a>
-            <a
-              href="/underpads"
-              className="card-product p-8 text-center hover:shadow-lg transition-shadow"
+              Обрати продукт
+              <ChevronRight className="ml-2 w-5 h-5" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. PRODUCT SELECTION */}
+      <section id="product-selection" className="py-24 bg-slate-50/50">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">Оберіть свій рівень комфорту</h2>
+            <div className="h-1 w-20 bg-blue-500 mx-auto rounded-full" />
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-10">
+            {/* Card 1: Diapers */}
+            <Link 
+              to="/diapers" 
+              className="group relative overflow-hidden rounded-[2.5rem] bg-white border border-slate-100 transition-all hover:shadow-2xl hover:border-blue-200 shadow-sm"
             >
-              <h3 className="font-bold text-2xl text-foreground mb-2">Пелюшки</h3>
-              <p className="text-muted-foreground mb-4">Поглинаючі пелюшки 60×90 см</p>
-              <span className="btn-buy inline-flex">Переглянути →</span>
-            </a>
+              <div className="aspect-[4/3] overflow-hidden">
+                <img src={diaperImg} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Підгузки-труси" />
+              </div>
+              <div className="p-10">
+                <h3 className="text-3xl font-bold text-slate-900 mb-3">Підгузки-труси</h3>
+                <p className="text-slate-500 mb-6 font-light italic">Максимальна активність та непомітність</p>
+                <div className="inline-flex items-center text-blue-600 font-bold group-hover:translate-x-2 transition-transform">
+                  Детальніше <ChevronRight className="ml-1 w-5 h-5" />
+                </div>
+              </div>
+            </Link>
+
+            {/* Card 2: Underpads */}
+            <Link 
+              to="/underpads" 
+              className="group relative overflow-hidden rounded-[2.5rem] bg-white border border-slate-100 transition-all hover:shadow-2xl hover:border-blue-200 shadow-sm"
+            >
+              <div className="aspect-[4/3] overflow-hidden">
+                <img src={underpadImg} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Поглинаючі пелюшки" />
+              </div>
+              <div className="p-10">
+                <h3 className="text-3xl font-bold text-slate-900 mb-3">Поглинаючі пелюшки</h3>
+                <p className="text-slate-500 mb-6 font-light italic">Надійний захист та гігієна поверхонь</p>
+                <div className="inline-flex items-center text-blue-600 font-bold group-hover:translate-x-2 transition-transform">
+                  Детальніше <ChevronRight className="ml-1 w-5 h-5" />
+                </div>
+              </div>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Where to Buy */}
-      <WhereToBuy />
-
-      {/* Contacts */}
-      <section className="py-12 px-4 bg-muted/30">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">Контакти</h2>
-          <div className="space-y-4">
-            <p className="text-muted-foreground">
-              <strong>VIVO Care</strong> — український бренд якісних гігієнічних засобів.
-            </p>
-            <p className="text-muted-foreground">
-              Для запитань пишіть:{" "}
-              <a href="mailto:info@vivocare.ua" className="text-violet-accent hover:underline">
-                info@vivocare.ua
-              </a>
-            </p>
-            <p className="text-sm text-muted-foreground mt-4">
-              © {new Date().getFullYear()} VIVO Care. Всі права захищені.
-            </p>
+      {/* 3. BENEFITS: DIAPERS */}
+      <section className="py-24">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col lg:flex-row gap-20 items-center">
+            <div className="lg:w-1/2">
+              <span className="inline-block px-4 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-bold uppercase tracking-widest mb-6 italic">Для активного життя</span>
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-10 leading-tight">Чому обирають підгузки VIVO Care?</h2>
+              <div className="grid sm:grid-cols-2 gap-8">
+                {diaperFeatures.map((f, i) => (
+                  <FeatureCard 
+                    key={i}
+                    icon={f.icon}
+                    title={f.title}
+                    description={f.desc}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="lg:w-1/2 relative">
+               <div className="absolute -inset-10 bg-blue-100/30 rounded-full blur-3xl -z-10 animate-pulse" />
+               <img src={diaperImg} className="rounded-[3rem] shadow-2xl rotate-2 transition-transform hover:rotate-0 duration-500" alt="Diaper Advantage" />
+            </div>
           </div>
         </div>
       </section>
+
+      {/* 4. BENEFITS: UNDERPADS */}
+      <section className="py-24 bg-slate-50/50">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col lg:flex-row-reverse gap-20 items-center">
+            <div className="lg:w-1/2">
+              <span className="inline-block px-4 py-1 bg-slate-200 text-slate-700 rounded-full text-xs font-bold uppercase tracking-widest mb-6 italic">Для надійного захисту</span>
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-10 leading-tight">Пелюшки, що дарують спокій</h2>
+              <div className="grid sm:grid-cols-2 gap-8">
+                {underpadFeatures.map((f, i) => (
+                  <FeatureCard 
+                    key={i}
+                    icon={f.icon}
+                    title={f.title}
+                    description={f.desc}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="lg:w-1/2 relative">
+               <div className="absolute -inset-10 bg-slate-200/50 rounded-full blur-3xl -z-10" />
+               <img src={underpadImg} className="rounded-[3rem] shadow-2xl -rotate-2 transition-transform hover:rotate-0 duration-500" alt="Underpad Advantage" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. WHERE TO BUY */}
+      <div className="bg-slate-900 py-10">
+        <WhereToBuy />
+      </div>
 
       <Footer />
     </div>
