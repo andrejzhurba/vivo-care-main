@@ -540,10 +540,10 @@ function AdminPage() {
                     </Button>
                   </div>
 
-                  <div className="grid md:grid-cols-4 gap-4 mb-8">
+                  <div className="grid md:grid-cols-5 gap-4 mb-6">
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                        ID (напр. S, M)
+                        ID (S, M)
                       </label>
                       <Input
                         value={size.id}
@@ -553,7 +553,7 @@ function AdminPage() {
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                        Назва (напр. Small)
+                        Назва
                       </label>
                       <Input
                         value={size.name}
@@ -563,12 +563,60 @@ function AdminPage() {
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                        Обхват (напр. 60-90 см)
+                        Обхват талії
                       </label>
                       <Input
                         value={size.waist}
                         onChange={(e) => updateDiaperSize(sizeIndex, "waist", e.target.value)}
                         className="bg-slate-50 rounded-lg border-slate-200"
+                        placeholder="60-90 см"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Вага
+                      </label>
+                      <Input
+                        value={size.weight || ""}
+                        onChange={(e) => updateDiaperSize(sizeIndex, "weight", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                        placeholder="40-60 кг"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Поглинання
+                      </label>
+                      <Input
+                        value={size.absorbency}
+                        onChange={(e) => updateDiaperSize(sizeIndex, "absorbency", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200"
+                        placeholder="1200 мл"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4 mb-6">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Опис товару
+                      </label>
+                      <Textarea
+                        value={size.description || ""}
+                        onChange={(e) => updateDiaperSize(sizeIndex, "description", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200 min-h-[80px]"
+                        placeholder="Комфортні підгузки-трусики для дорослих..."
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                        Призначення
+                      </label>
+                      <Textarea
+                        value={size.usage || ""}
+                        onChange={(e) => updateDiaperSize(sizeIndex, "usage", e.target.value)}
+                        className="bg-slate-50 rounded-lg border-slate-200 min-h-[80px]"
+                        placeholder="Для активних людей, щоденного використання..."
                       />
                     </div>
                     <div className="space-y-2">
