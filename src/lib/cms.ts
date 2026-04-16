@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
 export interface StoreLink {
   name: string;
@@ -36,14 +36,15 @@ export interface CMSSettings {
 }
 
 // These should ideally be in .env
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || "";
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const DEFAULT_SETTINGS: CMSSettings = {
   heroSlogan: "Турбота щодня",
-  heroDescription: "Професійні гігієнічні засоби для дорослих. Комфорт, впевненість та гідність у кожному русі.",
+  heroDescription:
+    "Професійні гігієнічні засоби для дорослих. Комфорт, впевненість та гідність у кожному русі.",
   stores: [
     {
       name: "Капітошка",
@@ -69,32 +70,53 @@ const DEFAULT_SETTINGS: CMSSettings = {
     { id: "M", name: "Medium", waist: "80-110 см", absorbency: "1400 мл", images: [] },
     { id: "L", name: "Large", waist: "100-135 см", absorbency: "1600 мл", images: [] },
     { id: "XL", name: "Extra Large", waist: "120-155 см", absorbency: "1800 мл", images: [] },
-    { id: "XXL", name: "Extra Extra Large", waist: "135-170 см", absorbency: "2000 мл", images: [] },
+    {
+      id: "XXL",
+      name: "Extra Extra Large",
+      waist: "135-170 см",
+      absorbency: "2000 мл",
+      images: [],
+    },
   ],
   diaperStores: {
     S: [
       { name: "Igorek", url: "https://igorek.com.ua/ua/p2999239908-podguzniki-trusiki-dlya.html" },
-      { name: "Капітошка", url: "https://kapitoshka.kiev.ua/ua/p2905451595-podguzniki-trusy-dlya.html" },
+      {
+        name: "Капітошка",
+        url: "https://kapitoshka.kiev.ua/ua/p2905451595-podguzniki-trusy-dlya.html",
+      },
       { name: "Prom", url: "https://prom.ua/ua/p2999239908-podguzniki-trusiki-dlya.html" },
     ],
     M: [
       { name: "Igorek", url: "https://igorek.com.ua/ua/p2999256297-podguzniki-trusiki-dlya.html" },
-      { name: "Капітошка", url: "https://kapitoshka.kiev.ua/ua/p2905451614-podguzniki-trusy-dlya.html" },
+      {
+        name: "Капітошка",
+        url: "https://kapitoshka.kiev.ua/ua/p2905451614-podguzniki-trusy-dlya.html",
+      },
       { name: "Prom", url: "https://prom.ua/ua/p2999256297-podguzniki-trusiki-dlya.html" },
     ],
     L: [
       { name: "Igorek", url: "https://igorek.com.ua/ua/p2999223127-podguzniki-trusiki-dlya.html" },
-      { name: "Капітошка", url: "https://kapitoshka.kiev.ua/ua/p2905451581-podguzniki-trusy-dlya.html" },
+      {
+        name: "Капітошка",
+        url: "https://kapitoshka.kiev.ua/ua/p2905451581-podguzniki-trusy-dlya.html",
+      },
       { name: "Prom", url: "https://prom.ua/ua/p2999223127-podguzniki-trusiki-dlya.html" },
     ],
     XL: [
       { name: "Igorek", url: "https://igorek.com.ua/ua/p2999226792-podguzniki-trusiki-dlya.html" },
-      { name: "Капітошка", url: "https://kapitoshka.kiev.ua/ua/p2905451613-podguzniki-trusy-dlya.html" },
+      {
+        name: "Капітошка",
+        url: "https://kapitoshka.kiev.ua/ua/p2905451613-podguzniki-trusy-dlya.html",
+      },
       { name: "Prom", url: "https://prom.ua/ua/p2999226792-podguzniki-trusiki-dlya.html" },
     ],
     XXL: [
       { name: "Igorek", url: "https://igorek.com.ua/ua/p2999318378-podguzniki-trusiki-dlya.html" },
-      { name: "Капітошка", url: "https://kapitoshka.kiev.ua/ua/p2905451660-podguzniki-trusy-dlya.html" },
+      {
+        name: "Капітошка",
+        url: "https://kapitoshka.kiev.ua/ua/p2905451660-podguzniki-trusy-dlya.html",
+      },
       { name: "Prom", url: "https://prom.ua/ua/p2999318378-podguzniki-trusiki-dlya.html" },
     ],
   },
@@ -110,8 +132,14 @@ const DEFAULT_SETTINGS: CMSSettings = {
   ],
   underpadStores: [
     { name: "Igorek", url: "https://igorek.com.ua/ua/p2999318379-pelenki-vivocare.html" },
-    { name: "Капітошка", url: "https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html" },
-    { name: "Prom", url: "https://prom.ua/ua/m-2017105891998858515-pelenki-pogloschayuschie-vivocare.html?p=2905451661" },
+    {
+      name: "Капітошка",
+      url: "https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html",
+    },
+    {
+      name: "Prom",
+      url: "https://prom.ua/ua/m-2017105891998858515-pelenki-pogloschayuschie-vivocare.html?p=2905451661",
+    },
   ],
 };
 
@@ -119,11 +147,8 @@ export async function getSettings(): Promise<CMSSettings> {
   // If Supabase is configured, try to fetch from it
   if (SUPABASE_URL && SUPABASE_KEY) {
     try {
-      const { data, error } = await supabase
-        .from('settings')
-        .select('config')
-        .single();
-      
+      const { data, error } = await supabase.from("settings").select("config").single();
+
       if (data && !error) {
         const config = data.config as CMSSettings;
         // Ensure new fields exist even if DB has old schema
@@ -131,13 +156,13 @@ export async function getSettings(): Promise<CMSSettings> {
           ...DEFAULT_SETTINGS,
           ...config,
           adminPassword: config.adminPassword || DEFAULT_SETTINGS.adminPassword,
-          diaperSizes: (config.diaperSizes || DEFAULT_SETTINGS.diaperSizes).map(s => ({
+          diaperSizes: (config.diaperSizes || DEFAULT_SETTINGS.diaperSizes).map((s) => ({
             ...s,
-            images: Array.isArray(s.images) ? s.images : (s.image ? [s.image] : []),
+            images: Array.isArray(s.images) ? s.images : s.image ? [s.image] : [],
           })),
-          underpadSizes: (config.underpadSizes || DEFAULT_SETTINGS.underpadSizes).map(s => ({
+          underpadSizes: (config.underpadSizes || DEFAULT_SETTINGS.underpadSizes).map((s) => ({
             ...s,
-            images: Array.isArray(s.images) ? s.images : (s.image ? [s.image] : []),
+            images: Array.isArray(s.images) ? s.images : s.image ? [s.image] : [],
           })),
         };
       }
@@ -158,11 +183,11 @@ export async function getSettings(): Promise<CMSSettings> {
           adminPassword: config.adminPassword || DEFAULT_SETTINGS.adminPassword,
           diaperSizes: (config.diaperSizes || DEFAULT_SETTINGS.diaperSizes).map((s: any) => ({
             ...s,
-            images: Array.isArray(s.images) ? s.images : (s.image ? [s.image] : []),
+            images: Array.isArray(s.images) ? s.images : s.image ? [s.image] : [],
           })),
           underpadSizes: (config.underpadSizes || DEFAULT_SETTINGS.underpadSizes).map((s: any) => ({
             ...s,
-            images: Array.isArray(s.images) ? s.images : (s.image ? [s.image] : []),
+            images: Array.isArray(s.images) ? s.images : s.image ? [s.image] : [],
           })),
         };
       } catch {
@@ -170,7 +195,7 @@ export async function getSettings(): Promise<CMSSettings> {
       }
     }
   }
-  
+
   return DEFAULT_SETTINGS;
 }
 
@@ -178,10 +203,8 @@ export async function saveSettings(settings: CMSSettings) {
   // Save to Supabase if configured
   if (SUPABASE_URL && SUPABASE_KEY) {
     try {
-      const { error } = await supabase
-        .from('settings')
-        .upsert({ id: 1, config: settings });
-      
+      const { error } = await supabase.from("settings").upsert({ id: 1, config: settings });
+
       if (error) throw error;
     } catch (e) {
       console.error("Supabase save failed", e);
@@ -195,25 +218,17 @@ export async function saveSettings(settings: CMSSettings) {
 }
 
 export async function uploadFileToStorage(file: File): Promise<string> {
-  if (!SUPABASE_URL || !SUPABASE_KEY) {
-    throw new Error("Supabase is not configured");
-  }
-
-  const fileExt = file.name.split('.').pop();
-  const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
-  const filePath = `${fileName}`;
-
-  const { error } = await supabase.storage
-    .from('product-images')
-    .upload(filePath, file);
-
-  if (error) {
-    throw error;
-  }
-
-  const { data } = supabase.storage
-    .from('product-images')
-    .getPublicUrl(filePath);
-
-  return data.publicUrl;
+  // Convert to Base64 to avoid Supabase storage bucket issues
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.result) {
+        resolve(reader.result as string);
+      } else {
+        reject(new Error("Failed to read file"));
+      }
+    };
+    reader.onerror = () => reject(new Error("Failed to read file"));
+    reader.readAsDataURL(file);
+  });
 }
