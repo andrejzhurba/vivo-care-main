@@ -34,5 +34,5 @@ export const DIAPER_STORES: Record<string, StoreLink[]> = {
 export const UNDERPAD_STORES: StoreLink[] = [
   { name: "Igorek", url: "https://igorek.com.ua/ua/p2999318379-pelenki-vivocare.html" },
   { name: "Капітошка", url: "https://kapitoshka.kiev.ua/ua/p2905451661-pelenki-pogloschayuschie-vivocare.html" },
-  { name: "Prom", url: "https://prom.ua/ua/search?search_term=VIVO+Care+пелюшки" },
+  { name: "Prom", url: "https://prom.ua/ua/m-2017105891998858515-pelenki-pogloschayuschie-vivocare.html?p=2905451661" },
 ];
